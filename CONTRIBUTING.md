@@ -1,6 +1,6 @@
-# Contributing to torganized-play-commons
+# Contributing to torganized-play-storm-knights
 
-You want to contribute to torganized-play-commons? Welcome! Please read this document to understand what you can do:
+You want to contribute to torganized-play-storm-knights? Welcome! Please read this document to understand what you can do:
 
 * [Help Others](#help-others)
 * [Analyze Issues](#analyze-issues)
@@ -9,21 +9,21 @@ You want to contribute to torganized-play-commons? Welcome! Please read this doc
 
 ## Help Others
 
-You can help torganized-play-commons by helping others who use it and need support.
+You can help torganized-play-storm-knights by helping others who use it and need support.
 
 ## Analyze Issues
 
 Analyzing issue reports can be a lot of effort. Any help is welcome!
-Go to [the GitHub issue tracker](https://github.com/Paladins-Inn/torganized-play-commons/issues?state=open) and find an open issue which needs additional work or a bugfix (e.g. issues labeled with "help wanted" or "bug").
+Go to [the GitHub issue tracker](https://github.com/Paladins-Inn/torganized-play-storm-knights/issues?state=open) and find an open issue which needs additional work or a bugfix (e.g. issues labeled with "help wanted" or "bug").
 
 Additional work could include any further information, or a gist, or it might be a hint that helps understanding the issue. Maybe you can even find and [contribute](#contribute-code) a bugfix?
 
 ## Report an Issue
 
-If you find a bug - behavior of torganized-play-commons code contradicting your expectation - you are welcome to report it.
+If you find a bug - behavior of torganized-play-storm-knights code contradicting your expectation - you are welcome to report it.
 We can only handle well-reported, actual bugs, so please follow the guidelines below.
 
-Once you have familiarized with the guidelines, you can go to the [GitHub issue tracker for torganized-play-commons](https://github.com/Paladins-Inn/torganized-play-commons/issues/new) to report the issue.
+Once you have familiarized with the guidelines, you can go to the [GitHub issue tracker for torganized-play-storm-knights](https://github.com/Paladins-Inn/torganized-play-storm-knights/issues/new) to report the issue.
 
 ### Quick Checklist for Bug Reports
 
@@ -70,13 +70,13 @@ The labels can only be set and modified by committers.
 
 ### Issue Reporting Disclaimer
 
-We want to improve the quality of torganized-play-commons and good bug reports are welcome! But our capacity is limited, thus we reserve the right to close or to not process insufficient bug reports in favor of those which are very cleanly documented and easy to reproduce. Even though we would like to solve each well-documented issue, there is always the chance that it will not happen - remember: torganized-play-commons is Open Source and comes without warranty.
+We want to improve the quality of torganized-play-storm-knights and good bug reports are welcome! But our capacity is limited, thus we reserve the right to close or to not process insufficient bug reports in favor of those which are very cleanly documented and easy to reproduce. Even though we would like to solve each well-documented issue, there is always the chance that it will not happen - remember: torganized-play-storm-knights is Open Source and comes without warranty.
 
 Bug report analysis support is very welcome! (e.g. pre-analysis or proposing solutions)
 
 ## Contribute Code
 
-You are welcome to contribute code to torganized-play-commons in order to fix bugs or to implement new features.
+You are welcome to contribute code to torganized-play-storm-knights in order to fix bugs or to implement new features.
 
 There are three important things to know:
 
@@ -87,12 +87,12 @@ There are three important things to know:
    The respective section below gives more details on the coding guidelines.
 3. **Not all proposed contributions can be accepted**.
    Some features may e.g. just fit a third-party add-on better.
-   The code must fit the overall direction of torganized-play-commons and really improve it.
+   The code must fit the overall direction of torganized-play-storm-knights and really improve it.
    The more effort you invest, the better you should clarify in advance whether the contribution fits: the best way would be to just open an issue to discuss the feature you plan to implement (make it clear you intend to contribute).
 
 ### Contributor License Agreement
 
-When you contribute (code, documentation, or anything else), you have to be aware that your contribution is covered by the same [LGPL 3.0](https://www.gnu.org/licenses/lgpl-3.0.txt) that is applied to torganized-play-commons itself.
+When you contribute (code, documentation, or anything else), you have to be aware that your contribution is covered by the same [LGPL 3.0](https://www.gnu.org/licenses/lgpl-3.0.txt) that is applied to torganized-play-storm-knights itself.
 If you want to contribute to parts not licensed on LGPL then you need to agree to the license given for that part of the software. Please contact [Support](support@kaiserpfalz-edv.de) for this.
 In particular you need to agree to the Individual Contributor License Agreement, which can be [found here](https://gist.github.com/Paladins-Inn/b76f623edb7830b4344ef2d5e373075e).
 (This applies to all contributors, including those contributing on behalf of a company).
@@ -102,7 +102,7 @@ If you agree to its content, you simply have to use the sign-off function of git
 
 If employees of a company contribute code, in **addition** to the individual agreement above, there needs to be one company agreement submitted. This is mainly for the protection of the contributing employees.
 
-A company representative authorized to do so needs to download, fill, and print the [Corporate Contributor License Agreement](https://github.com/Paladins-Inn/torganized-play-commons/blob/master/KES%20Corporate%20Contributor%20License%20Agreement%20(2019-12-31).pdf)
+A company representative authorized to do so needs to download, fill, and print the [Corporate Contributor License Agreement](https://github.com/Paladins-Inn/torganized-play-storm-knights/blob/master/KES%20Corporate%20Contributor%20License%20Agreement%20(2019-12-31).pdf)
 form.
 Then either:
 
@@ -137,8 +137,8 @@ These are some of the rules we try to follow:
    * ```Fixes #(issueNumber)```
    * Do NOT add a colon after "Fixes" - this prevents automatic closing.
 6. Create a Pull Request
-7. Follow the link posted by the torganized-play-commons to your pull request and accept it, as described in detail above.
+7. Follow the link posted by the torganized-play-storm-knights to your pull request and accept it, as described in detail above.
 8. Wait for our code review and approval, possibly enhancing your change on request
-   * Note that the torganized-play-commons developers also have their regular duties, so depending on the required effort for reviewing, testing and clarification this may take a while
+   * Note that the torganized-play-storm-knights developers also have their regular duties, so depending on the required effort for reviewing, testing and clarification this may take a while
 9. Once the change has been approved we will inform you in a comment
 10. We will close the pull request, feel free to delete the now obsolete branch
