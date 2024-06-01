@@ -1,4 +1,4 @@
-# PROJECT - slag line
+# torganized-play-storm-knights - slag line
 
 > What man is a man who does not make the world better.
 >
@@ -24,7 +24,7 @@ wrong. But every line that needs not be written is a bug free line without need 
 
 
 ## A note from the author
-I'm working on another project that can be found on github [(PROJECT)](https://github.com/klenkes74/PROJECT). And while
+I'm working on another project that can be found on github [(torganized-play-storm-knights)](https://github.com/klenkes74/PROJECT). And while
 developing that piece of software I ran on the blocker not being able to nicely handle OIDC UMA. I looked around and
 found no library to abstract away UMA from my code. So I decided to write one.
 
