@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>de.paladinsinn.torganized-play</groupId>
+    <groupId>de.paladins-inn.torganized-play</groupId>
     <artifactId>dcis-storm-knights</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
