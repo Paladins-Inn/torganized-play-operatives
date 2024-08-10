@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:with="lang=${#locale.language}" th:lang="${lang}">
+
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Delphi Council IS</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="turbo-root" content="/" />
+    <meta name="turbo-refresh-method" content="morph" />
+
+    <link href="/commons/1.0.0/assets/img/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="/commons/1.0.0/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <link href="/commons/1.0.0/css/styles.css" rel="stylesheet" />
+    <link href="/commons/1.0.0/css/torg.css" rel="stylesheet" />
+</head>
+
+<body class="sb-nav-fixed">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-torg-marble">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="/stormknights/index.html"><span th:text="#{app.title}">Delphi Council IS</span></a>
+
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
+                    aria-describedby="btnNavbarSearch" />
+                <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
+                        class="fas fa-search"></i></button>
+            </div>
+        </form>
+
+        <!-- Navbar-->
+        <div class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            <div class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" id="navbarUserMenu" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span sec:authorize="isAuthenticated()" sec:authentication="name"></span>
+                    <i class="fas fa-user fa-fw"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserMenu">
+                    <div sec:authorize="isAuthenticated()">
+                        <a class="dropdown-item" href="/players/dcis/${#authentication.name}/settings" th:text="#{menu.player.settings}">Settings</a>
+                        <a class="dropdown-item" href="/players/dcis/${#authentication.name}/log" th:text="#{menu.player.log}">Activity Log</a>
+                        <hr class="dropdown-divider" />
+                        <a class="dropdown-item" href="/players/logout" th:text="#{security.log-out-prompt}"></a>
+                    </div>
+                    <a sec:authorize="isAnonymous()" class="dropdown-item" href="/players/dcis/" th:text="#{security.log-in-prompt}"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark bg-torg-thunder" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div sec:authorize="isAnonymous()">
+                            <a class="nav-link" href="/gaming/list"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
+                            <a class="nav-link" href="/stormknights/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
+                        </div>
+
+                        <div sec:authorize="hasRole('PLAYER')">
+                            <div class="sb-sidenav-menu-heading" th:text="#{roles.player}"></div>
+                            <a class="nav-link" href="/players/dcis/${#authentication.name}/dashboard"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div><span th:text="#{menu.player.dashboard}">Dashboard</span></a>
+                            <a class="nav-link" href="/gaming/${#authentication.name}/list"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
+                            <a class="nav-link" href="/stormknights/${#authentication.name}/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
+                        </div>
+
+                        <div sec:authorize="hasRole('GM')">
+                            <div class="sb-sidenav-menu-heading" th:text="#{roles.gm}"></div>
+                            <a class="nav-link" href="/gaming/${#authentication.name}/list?filter=gm"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.gm.games}">My Sessions</span></a>
+                            <a class="nav-link" href="/gaming/missions/${#authentication.name}/create"><div class="sb-nav-link-icon"><i class="fas fa-plus-square-old fa-fw"></i></div><span th:text="#{menu.gm.new-mission}">Add Mission</span></a>
+                            <a class="nav-link" href="/gaming/table/${#authentication.name}/create"><div class="sb-nav-link-icon"><i class="fas fa-plus-square fa-fw"></i></div><span th:text="#{menu.gm.new-table}">Add Private Table</span></a>
+                        </div>
+
+                        <div sec:authorize="hasRole('ORGA')">
+                            <div class="sb-sidenav-menu-heading" th:text="#{roles.orga}"></div>
+                            <a class="nav-link" href="/stormknights/orga/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a>
+                            <a class="nav-link" href="/gaming/orga/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.games}">Sessions</span></a>
+                            <a class="nav-link" href="/gaming/orga/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.games}">Local Tables</span></a>
+                        </div>
+
+                        <div sec:authorize="hasRole('JUDGE')">
+                            <div class="sb-sidenav-menu-heading" th:text="#{roles.judge}"></div>
+                            <a class="nav-link" href="/stormknights/judge/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a>
+                            <a class="nav-link" href="/gaming/judge/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.games}">Sessions</span></a>
+                            <a class="nav-link" href="/gaming/judge/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.games}">Local Tables</span></a>
+                        </div>
+
+                        <div sec:authorize="hasRole('ADMIN')">
+                            <div class="sb-sidenav-menu-heading" th:text="#{roles.admin}"></div>
+                        </div>
+
+
+                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                            data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <!-- START dcis-players part -->
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseAuth" aria-expanded="false"
+                                    aria-controls="pagesCollapseAuth">Authentication<div
+                                        class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div></a>
+                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="login.html">Login</a>
+                                        <a class="nav-link" href="register.html">Register</a>
+                                        <a class="nav-link" href="password.html">Forgot Password</a>
+                                    </nav>
+                                </div>
+                                <!-- END dcis-players part -->
+
+                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
+                                    aria-controls="pagesCollapseError">Error<div class="sb-sidenav-collapse-arrow"><i
+                                            class="fas fa-angle-down"></i></div></a>
+                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordionPages">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="401.html">401 Page</a>
+                                        <a class="nav-link" href="404.html">404 Page</a>
+                                        <a class="nav-link" href="500.html">500 Page</a>
+                                    </nav>
+                                </div>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <a class="nav-link" href="charts.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Charts
+                        </a>
+                        <a class="nav-link" href="tables.html">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Tables
+                        </a>
+                    </div>
+                </div>
+                <!-- START dcis-players part -->
+                <div sec:authorize="isAuthenticated()" class="sb-sidenav-footer">
+                    <div class="small" th:text="#{security.logged-in-as} + ':'"></div>
+                    <span sec:authentication="name"></span><br/>
+                    | <!-- remove blank
+                    --><span sec:authorize="hasRole('PLAYER')" th:text="#{roles.player} + '|'"></span><!-- remove blank
+                    --><span sec:authorize="hasRole('GM')" th:text="#{roles.gm} + '|'"></span><!-- remove blank
+                    --><span sec:authorize="hasRole('JUDGE')" th:text="#{roles.judge} + '|'"></span><!-- remove blank
+                    --><span sec:authorize="hasRole('ORGA')" th:text="#{roles.orga} + '|'"></span><!-- remove blank
+                    --><span sec:authorize="hasRole('ADMIN')" th:text="#{roles.admin} + '|'"></span>
+                </div>
+                <div sec:authorize="isAnonymous()" class="sb-sidenav-footer">
+                    <div><a href="/players/login" th:text="#{security.log-in-prompt}"></a></div>
+                </div>
+                <!-- END dcis-players-part -->
+                </nav>
+        </div>
+
+        <div id="layoutSidenav_content">
+            <main class="bg-torg-paper">
+                <div class="container-fluid px-4">
+                    <section layout:fragment="content">
+                        <div class="torg-header-indent">
+                            <h1 class="mt-4">Dashboard</h1>
+                            <ol class="breadcrumb mb-4">
+                                <li class="breadcrumb-item">DCIS</li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body">Primary Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body">Warning Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body">Success Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body">Danger Card</div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="#">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area me-1"></i>
+                                        Area Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar me-1"></i>
+                                        Bar Chart Example
+                                    </div>
+                                    <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table me-1"></i>
+                                DataTable Example
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Position</th>
+                                            <th>Office</th>
+                                            <th>Age</th>
+                                            <th>Start date</th>
+                                            <th>Salary</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr>
+                                            <td>Tiger Nixon</td>
+                                            <td>System Architect</td>
+                                            <td>Edinburgh</td>
+                                            <td>61</td>
+                                            <td>2011/04/25</td>
+                                            <td>$320,800</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Garrett Winters</td>
+                                            <td>Accountant</td>
+                                            <td>Tokyo</td>
+                                            <td>63</td>
+                                            <td>2011/07/25</td>
+                                            <td>$170,750</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </main>
+
+            <footer class="py-4 bg-light mt-auto bg-dark">
+                <div class="container-fluid px-4">
+                    <div class="d-flex align-items-center justify-content-between small text-white">
+                        <div>Copyright &copy; <span th:text="#{frame.copyright}"></span></div>
+                        <div>
+                            <a href="/players/privacy-policy" th:text="#{frame.privacy_policy}"></a>
+                            &middot;
+                            <a href="/players/terms-and-conditions" th:text="#{frame.t_and_a}"></a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script href="https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.3/dist/turbo.es2017-esm.js" type="module"></script>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" type="text/javascript" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script src="/commons/1.0.0/js/jquery.js" type="text/javascript"></script>
+    <script src="/commons/1.0.0/js/scripts.js"></script>
+    <script src="/commons/1.0.0/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+</body></html>

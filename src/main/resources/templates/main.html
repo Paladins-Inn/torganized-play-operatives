@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <title>Home</title>
+</head>
+<body><section layout:fragment="content">
+
+<h1 class="torg-header"><span th:text="#{app.title}">Delphi Council IS</span></h1>
+
+<p class="torg-header-intend">Willkommen beim Delphi Council Informations System. Sie sind als <bold><em><span th:text="${access_level}">SICHERHEITSSTUFE</span></em></bold> am System angemeldet.</p>
+
+</section></body>
+</html>
