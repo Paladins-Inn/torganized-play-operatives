@@ -77,10 +77,10 @@
                             <a class="nav-link" th:href="@{/gaming/missions/{name}/create(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-plus-square-old fa-fw"></i></div><span th:text="#{menu.gm.new-mission}">Add Mission</span></a>
                             <a class="nav-link" th:href="@{/gaming/table/{name}/create(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-plus-square fa-fw"></i></div><span th:text="#{menu.gm.new-table}">Add Private Table</span></a>
 
-                            <div class="sb-sidenav-menu-heading" th:text="#{menu.threads}"></div>
-                            <a class="nav-link" th:href="@{/threads/{name}/list(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.my-threats}">My Threats</span></a>
-                            <a class="nav-link" href="/threads/list"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.library}">Threat Library</span></a>
-                            <a class="nav-link" th:href="@{/threads/{name}/create(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-plus-square fa-fw"></i></div><span th:text="#{menu.threats.create-new}">New Threat</span></a>
+                            <div class="sb-sidenav-menu-heading" th:text="#{menu.threats}"></div>
+                            <a class="nav-link" th:href="@{/threats/{name}/list(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.my-threats}">My Threats</span></a>
+                            <a class="nav-link" href="/threats/list"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.library}">Threat Library</span></a>
+                            <a class="nav-link" th:href="@{/threats/{name}/create(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-plus-square fa-fw"></i></div><span th:text="#{menu.threats.create-new}">New Threat</span></a>
                         </div>
 
                         <div sec:authorize="hasRole('ORGA')">
