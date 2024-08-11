@@ -79,7 +79,7 @@
 
                             <div class="sb-sidenav-menu-heading" th:text="#{menu.threads}"></div>
                             <a class="nav-link" th:href="@{/threads/{name}/list(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.my-threats}">My Threats</span></a>
-                            <a class="nav-link" th:href="/threads/list"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.library}">Threat Library</span></a>
+                            <a class="nav-link" href="/threads/list"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.library}">Threat Library</span></a>
                             <a class="nav-link" th:href="@{/threads/{name}/create(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-plus-square fa-fw"></i></div><span th:text="#{menu.threats.create-new}">New Threat</span></a>
                         </div>
 
