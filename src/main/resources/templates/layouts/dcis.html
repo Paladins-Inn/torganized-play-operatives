@@ -81,15 +81,15 @@
                         <div sec:authorize="hasRole('ORGA')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.orga}"></div>
                             <a class="nav-link" href="/stormknights/orga/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a>
-                            <a class="nav-link" href="/gaming/orga/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.games}">Sessions</span></a>
-                            <a class="nav-link" href="/gaming/orga/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.games}">Local Tables</span></a>
+                            <a class="nav-link" href="/gaming/orga/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.missions}">Sessions</span></a>
+                            <a class="nav-link" href="/gaming/orga/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.tables}">Local Tables</span></a>
                         </div>
 
                         <div sec:authorize="hasRole('JUDGE')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.judge}"></div>
                             <a class="nav-link" href="/stormknights/judge/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a>
-                            <a class="nav-link" href="/gaming/judge/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.games}">Sessions</span></a>
-                            <a class="nav-link" href="/gaming/judge/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.games}">Local Tables</span></a>
+                            <a class="nav-link" href="/gaming/judge/missions"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.orga.missions}">Sessions</span></a>
+                            <a class="nav-link" href="/gaming/judge/tables"><div class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></div><span th:text="#{menu.orga.tables}">Local Tables</span></a>
                         </div>
 
                         <div sec:authorize="hasRole('ADMIN')">
