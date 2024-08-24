@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <title>Home</title>
+</head>
+<body><section layout:fragment="content">
+    <h1 class="torg-header"><span th:text="#{app.title}">Delphi Council IS</span></h1>
+
+    <div class="container" >
+        <h1>An error has occurred...</h1>
+        <img src="/commons/1.0.0/assets/img/error-404-monochrome.svg" 
+        width="100px" height="100px" />
+        <p>There seems to be a problem with the page you requested 
+        (<span th:text="${path}"></span>).</p>
+        <p th:text="${'The status code is ' + status 
+        + ', which means that the page was ' + error + '.'}"></p>
+        <p th:text="${'Further details: ' + message + '.'}"></p>
+        <a class="btn" href="/home">Back to home</a>
+    </div>
+
+</section></body>
+</html>

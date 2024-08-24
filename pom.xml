@@ -7,7 +7,7 @@
     <parent>
         <artifactId>kp-spring-boot-parent</artifactId>
         <groupId>de.kaiserpfalz-edv.commons</groupId>
-        <version>3.3.2-1</version>
+        <version>3.3.3-1</version>
         <relativePath/>
     </parent>
 
@@ -80,6 +80,12 @@
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>de.kaiserpfalz-edv.rpg</groupId>
+            <artifactId>kp-rpg-torg</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
         <!-- Communication -->
         <dependency>
             <groupId>de.kaiserpfalz-edv.commons.modules</groupId>

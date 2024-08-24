@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
+<head>
+    <title th:text="#{view.list-storm-knights.title}">List of Storm Knights</title>
+</head>
+<body><section layout:fragment="content">
+
+<h1 class="torg-header"  th:text="#{view.list-storm-knights.title}">List of Storm Knights</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th th:text="#{table.storm-knights.header.name}">Name</th>
+            <th th:text="#{table.storm-knights.header.cosm}">Cosm</th>
+            <th th:text="#{table.storm-knights.header.clearance}">Clearance</th>
+            <th th:text="#{table.storm-knights.header.missions}">No. of Missions</th>
+            <th th:text="#{table.storm-knights.header.last-active}">Last Active</th>
+        </tr>
+    </thead>
+    <tbody th:each="stormknight : ${stormknights}">
+        <tr>
+            <td th:text="${stormknight.displayName}">Stormchaser</td>
+            <td th:text="${stormknight.cosm}">Living Land</td>
+            <td th:text="${stormknight.clearance}">Alpha</td>
+            <td th:text="${stormknight.noOfMissions}">2</td>
+            <td th:text="${stormknight.lastMissionDate}">2024-08-14</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" th:text="#{view.list-storm-knights.total-number}">Total number of storm knights</td>
+            <td th:text="${no_of_knights}">1</td>
+        </tr>
+    </tfoot>
+</table>
+
+</section></body>
+</html>

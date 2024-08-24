@@ -74,10 +74,17 @@ databaseChangeLog:
               - column:
                   name: XP
                   type: BIGINT
-                  defaultNumericValue: 0
+                  defaultValueNumeric: 0
                 constraints:
                   - nullable: false
                   - notNullConstraintName: STORMKNIGHTS_XP_NN
+              - column:
+                  name: NO_OF_MISSIONS
+                  type: BIGINT
+                  defaultValueNumeric: 0
+                constraints:
+                  - nullable: false
+                  - notNullConstraintName: STORMKNIGHTS_NO_OF_MISSIONS_NN
         - createTable:
             tableName: SKHISTORY
             remarks: The history of a storm knight
@@ -143,14 +150,14 @@ databaseChangeLog:
               - column:
                   name: XP
                   type: BIGINT
-                  defaultNumericValue: 5
+                  defaultValueNumeric: 5
                 constraints:
                   - nullable: false
                   - notNullConstraintName: SKHISTORY_XP_NN
               - column:
                   name: PAYMENT
                   type: BIGINT
-                  defaultNumericValue: 200
+                  defaultValueNumeric: 200
                 constraints:
                   - nullable: false
                   - notNullConstraintName: SKHISTORY_PAYMENT_NN
@@ -167,4 +174,7 @@ databaseChangeLog:
             constraintName: STORMKNIGHTS_NAME_UK
             tableName: STORMKNIGHTS
             columnNames: 'NAMESPACE,NAME'
-        
+        - addUniqueConstraint:
+            constraintName: SKHISTORY_STORMKNIGHT_MISSION_UK
+            tableName: SKHISTORY
+            columnNames: 'STORMKNIGHT,MISSION_UID'

@@ -1,0 +1,115 @@
+applicationConfig:
+  data:
+    kp:
+      security:
+        keycloak:
+          groupAuthorityMapper:
+            roleAttribute: groups
+    logging:
+      group:
+        rest: de.paladinsinn.tp.dcis.api,org.springframework.web,org.springframework.http
+      level:
+        de:
+          paladinsinn: TRACE
+        liquibase: INFO
+        org:
+          springframework:
+            web:
+              filter:
+                CommonsRequestLoggingFilter: DEBUG
+        rest: TRACE
+        security: TRACE
+        web: WARN
+    management:
+      endpoint:
+        health:
+          probes:
+            enabled: true
+      endpoints:
+        web:
+          exposure:
+            include: health,info,env,prometheus
+      health:
+        livenessState:
+          enabled: true
+        readinessState:
+          enabled: true
+      server:
+        contextPath: /
+        port: 8081
+      ssl:
+        enabled: false
+      tracing:
+        sampling:
+          probability: 1
+    server:
+      error:
+        whitelabel:
+          enabled: false
+      servlet:
+        contextPath: /stormknights
+    spring:
+      application:
+        admin:
+          enabled: true
+        name: dcis-stormknights
+      datasource:
+        hikari:
+          connectionTimeout: 20000
+          maximumPoolSize: 5
+        password: ${PGO_password:postgres}
+        url: ${PGO_jdbc-uri}
+        username: ${PGO_user:postgres}
+      jpa:
+        database: POSTGRESQL
+        hibernate:
+          ddlAuto: validate
+        showSql: true
+      liquibase:
+        enabled: true
+        showSummaryOutput: console
+        uiService: console
+      main:
+        banner-mode: false
+      security:
+        oauth2:
+          client:
+            provider:
+              sso:
+                issuer-uri: ${SSO_ISSUER}
+                user-name-attribute: ${SSO_USERNAME_ATTRIBUTE:preferred_username}
+            registration:
+              sso:
+                authorization-grant-type: client_secret_post
+                client-id: ${SSO_CLIENT_ID}
+                client-secret: ${SSO_CLIENT_SECRET}
+                provider: sso
+                scope: ${SSO_SCOPES}
+        user:
+          name: monitor
+          password: observing
+          roles: ACTUATOR
+  enabled: true
+  type: yaml
+autoscaling:
+  enabled: true
+  maxReplicas: 2
+image:
+  pullPolicy: Always
+  repository: quay.io/paladinsinn/dcis/dcis-stormknights
+  tag: 1.0.0-SNAPSHOT
+nameOverride: dcis-stormknights
+partOf: torganized-play
+postgrescluster:
+  enabled: true
+  users:
+  - databases:
+    - dcis-stormknights
+    name: dcis-stormknights
+    options: SUPERUSER
+sso:
+  clientId: dev-dcis-stormknights
+  clientSecret: QOQOxOZHpNh1rdBwmu1hU3ZPC8CMak8V
+  enabled: true
+  issuerUri: https://sso.kaiserpfalz-edv.de/realms/delphi-council
+version: 1.0.0-SNAPSHOT

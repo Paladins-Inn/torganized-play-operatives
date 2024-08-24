@@ -62,7 +62,7 @@ server:
             enabled: false
     port: ${HTTP_PORT:8080}
     servlet:
-        contextPath: /players
+        contextPath: /stormknights
 
 management:
     server:
@@ -104,9 +104,9 @@ logging:
     group:
         rest: de.paladinsinn.tp.dcis.api,org.springframework.web,org.springframework.http
     level:
-        web: TRACE
-        security: TRACE
-        rest: TRACE
+        web: WARN
+        security: WARN
+        rest: WARN
         liquibase: INFO
         de:
             paladinsinn: TRACE
@@ -114,4 +114,4 @@ logging:
             springframework:
                 web:
                     filter:
-                        CommonsRequestLoggingFilter: TRACE
+                        CommonsRequestLoggingFilter: WARN
