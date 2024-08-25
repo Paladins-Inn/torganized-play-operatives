@@ -60,15 +60,17 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div sec:authorize="isAnonymous()">
-                            <a class="nav-link" href="/gaming/list"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
-                            <a class="nav-link" href="/stormknights/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
+                            <a class="nav-link" href="/players/"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div><span th:text="#{menu.player.dashboard}">Dashboard</span></a>
+                            <a class="nav-link" href="/gaming/public/list"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
+                            <a class="nav-link" href="/stormknights/public/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
+                            <a class="nav-link" href="/threats/public/list"><div class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></div><span th:text="#{menu.threats.library}">Threats</span></a>
                         </div>
 
                         <div sec:authorize="hasRole('PLAYER')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.player}"></div>
-                            <a class="nav-link" th:href="@{/players/dcis/{name}/dashboard(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div><span th:text="#{menu.player.dashboard}">Dashboard</span></a>
-                            <a class="nav-link" th:href="@{/gaming/{name}/list(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
-                            <a class="nav-link" th:href="@{/stormknights/{name}/list(name=${#authentication.name})}"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
+                            <a class="nav-link" th:href="/players/dcis/@{{name}(name=${#authentication.name}/dashboard)}"><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></div><span th:text="#{menu.player.dashboard}">Dashboard</span></a>
+                            <a class="nav-link" th:href="/gaming/@{{name}(name=${#authentication.name})/list}"><div class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></div><span th:text="#{menu.player.games}">Games</span></a>
+                            <a class="nav-link" th:href="/stormknights/@{{name}(name=${#authentication.name})}/list"><div class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></div><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a>
                         </div>
 
                         <div sec:authorize="hasRole('GM')">

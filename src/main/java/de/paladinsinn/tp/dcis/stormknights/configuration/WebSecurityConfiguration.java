@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import de.kaiserpfalzedv.commons.spring.security.EnableKeycloakSecurityIntegration;
@@ -34,16 +31,12 @@ public class WebSecurityConfiguration {
 	public SecurityFilterChain userSecurityFilterChain(
         HttpSecurity http, 
         HandlerMappingIntrospector introspector, 
-        AuthenticationSuccessHandler successHandler,
         KeycloakGroupAuthorityMapper authoritiesMapper,
         KeycloakLogoutHandler keycloakLogoutHandler
         ) throws Exception {
-        MvcRequestMatcher.Builder matcher = new MvcRequestMatcher.Builder(introspector);
-
 		http
             .authorizeHttpRequests(a -> a
-                    .requestMatchers(matcher.pattern("/dcis/**")).authenticated()
-                    .anyRequest().permitAll()
+                    .anyRequest().authenticated()
             )
             .oauth2Login(l -> l
                 .authorizationEndpoint(Customizer.withDefaults())
@@ -60,18 +53,8 @@ public class WebSecurityConfiguration {
             
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
             .rememberMe(Customizer.withDefaults())
-/*
-            
-            */
             ;
 
         return http.build();
 	}
-
-    @Bean
-    public AuthenticationSuccessHandler successHandler() {
-        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
-        handler.setDefaultTargetUrl("/dcis/");
-        return handler;
-    }
 }
