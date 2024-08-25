@@ -31,12 +31,13 @@ public class ActuatorSecurityConfiguration {
     @Bean
     public SecurityFilterChain observabilitySecurity(HttpSecurity http) throws Exception {
         AntPathRequestMatcher matcher = new AntPathRequestMatcher("/actuator/**");
+        AntPathRequestMatcher healthCheck = new AntPathRequestMatcher("/actuator/health/**");
 
         http
             .securityMatcher(matcher)
             .authorizeHttpRequests(r -> r
-                .requestMatchers(matcher)
-                .authenticated()
+                .requestMatchers(healthCheck).anonymous()
+                .requestMatchers(matcher).authenticated()
                 .anyRequest().hasRole("OBSERVER")
                 
             )
@@ -45,10 +46,6 @@ public class ActuatorSecurityConfiguration {
             .csrf(c -> c.disable())
             .sessionManagement(s -> s.disable())
             ;
-
-        http.sessionManagement(s -> s
-            .disable()
-        );
 
         return http.build();
     }
