@@ -43,8 +43,8 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserMenu">
                     <div sec:authorize="isAuthenticated()">
-                        <a class="dropdown-item" th:href="@{/players/dcis/{name}/settings(name=${#authentication.name})}" th:text="#{menu.player.settings}">Settings</a>
-                        <a class="dropdown-item" th:href="@{/players/dcis/{name}/log(name=${#authentication.name})}" th:text="#{menu.player.log}">Activity Log</a>
+                        <a class="dropdown-item" th:href="@{~/players/dcis/{name}/settings(name=${#authentication.name})}" th:text="#{menu.player.settings}">Settings</a>
+                        <a class="dropdown-item" th:href="@{~/players/dcis/{name}/log(name=${#authentication.name})}" th:text="#{menu.player.log}">Activity Log</a>
                         <hr class="dropdown-divider" />
                         <a class="dropdown-item" href="/players/logout" th:text="#{security.log-out-prompt}"></a>
                     </div>
