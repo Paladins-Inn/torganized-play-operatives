@@ -7,14 +7,17 @@
 
 <h1 class="torg-header"  th:text="#{view.list-storm-knights.title}">List of Storm Knights</h1>
 
-<table>
+<a href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</button>
+
+<table id="datatablesSimple">
     <thead>
         <tr>
-            <th th:text="#{table.storm-knights.header.name}">Name</th>
-            <th th:text="#{table.storm-knights.header.cosm}">Cosm</th>
-            <th th:text="#{table.storm-knights.header.clearance}">Clearance</th>
-            <th th:text="#{table.storm-knights.header.missions}">No. of Missions</th>
-            <th th:text="#{table.storm-knights.header.last-active}">Last Active</th>
+            <th th:text="#{storm-knights.table.header.name}">Name</th>
+            <th th:text="#{storm-knights.table.header.cosm}">Cosm</th>
+            <th th:text="#{storm-knights.table.header.clearance}">Clearance</th>
+            <th th:text="#{storm-knights.table.header.missions}">No. of Missions</th>
+            <th th:text="#{storm-knights.table.header.last-active}">Last Active</th>
+            <th th:text="#{storm-knights.table.header.actions}">Actions</th>
         </tr>
     </thead>
     <tbody th:each="stormknight : ${stormknights}">
@@ -24,6 +27,11 @@
             <td th:text="${stormknight.clearance}">Alpha</td>
             <td th:text="${stormknight.noOfMissions}">2</td>
             <td th:text="${stormknight.lastMissionDate}">2024-08-14</td>
+            <td>
+                <a href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="${storm-knights.action.view}">View</a>
+                <a href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="${storm-knights.action.edit}">Change</a>
+                <a href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="${storm-knights.action.delete}">Retire</a>
+            </td>
         </tr>
     </tbody>
     <tfoot>
