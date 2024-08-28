@@ -3,10 +3,13 @@ package de.paladinsinn.tp.dcis.stormknights.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
 import de.paladinsinn.tp.dcis.stormknights.domain.service.StormKnightRepository;
@@ -24,22 +27,38 @@ public class ListStormknights {
 
     @GetMapping("list")
     @PermitAll
-    public String getMethodName(Model model) {
-        List<StormKnight> knights = stormKnightRepository.findAll();
-        log.info("Storm knights list loaded. noOfStormKnights={}", knights.size());
+    public String getMethodName(
+        @RequestParam(defaultValue = "50") final int size,
+        @RequestParam(defaultValue = "1") final int page,
+        Model model
+    ) {
+        Pageable p = Pageable.ofSize(size).withPage(page);
+        Page<StormKnight> knights = stormKnightRepository.findAll(p);
+        log.info("Storm knights list loaded. page={}, size={}, noOfStormKnights={}", page, size, knights.getTotalElements());
 
-        model.addAttribute("stormknights", knights);
-        model.addAttribute("no_of_knights", knights.size());
+        model.addAttribute("url", "list");
+        model.addAttribute("page", knights.getPageable());
+        model.addAttribute("stormknights", knights.getContent());
+        model.addAttribute("no_of_knights", knights.getTotalElements());
 
         return "list-stormknights";
     }
 
     @GetMapping("{name}/list")
-    public String getStormKnights(final String name, Model model) {
-        List<StormKnight> knights = stormKnightRepository.findByNameSpace(name);
+    public String getStormKnights(
+        final String name, 
+        @RequestParam(defaultValue = "50") final int size,
+        @RequestParam(defaultValue = "1") final int page,
+        Model model
+    ) {
+        Pageable p = Pageable.ofSize(size).withPage(page);
+        Page<StormKnight> knights = stormKnightRepository.findByNamespace(name, p);
+        log.info("Storm knights list loaded. page={}, size={}, noOfStormKnights={}", page, size, knights.getTotalElements());
 
-        model.addAttribute("stormknights", knights);
-        model.addAttribute("no_of_knights", knights.size());
+        model.addAttribute("url", "list");
+        model.addAttribute("page", knights.getPageable());
+        model.addAttribute("stormknights", knights.getContent());
+        model.addAttribute("no_of_knights", knights.getTotalElements());
 
         return "list-stormknights";
     }

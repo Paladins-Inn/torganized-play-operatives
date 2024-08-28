@@ -20,7 +20,6 @@ package de.paladinsinn.tp.dcis.stormknights.domain.service;
 
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -28,13 +27,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.extern.jackson.Jacksonized;
-import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -45,6 +37,6 @@ import lombok.extern.slf4j.Slf4j;
  */
 public interface StormKnightRepository extends JpaRepository<StormKnight, Long> {
     StormKnight findByUid(UUID uid);
-    List<StormKnight> findByNameSpace(String owner);
-    Page<StormKnight> findByNameSpace(String owner, Pageable pageable);
+    List<StormKnight> findByNamespace(String owner);
+    Page<StormKnight> findByNamespace(String owner, Pageable pageable);
 }

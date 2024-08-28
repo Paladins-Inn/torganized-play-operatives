@@ -7,22 +7,35 @@
 
 <h1 class="torg-header"  th:text="#{view.list-storm-knights.title}">List of Storm Knights</h1>
 
-<a href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</button>
+<a href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</a>
 
-<table id="datatablesSimple">
+<nav>
+    <ul class="pagination justify-content-end">
+        <li class="page-item disabled">
+            <a class="page-link" th:href="@{/{url}(url=${url},size=${page.size},page=${page.number - 1})}" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${page.size},page=1)}">1</a></li>
+        <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${page.size},page=2)}">2</a></li>
+        <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${page.size},page=3)}">3</a></li>
+        <li class="page-item">
+            <a class="page-link" th:href="@{/{url}(url=${url},size=${page.size},page=${page.number + 1})}">Next</a>
+        </li>
+    </ul>
+</nav>
+<table class="table table-borderless table-striped">
     <thead>
         <tr>
-            <th th:text="#{storm-knights.table.header.name}">Name</th>
-            <th th:text="#{storm-knights.table.header.cosm}">Cosm</th>
-            <th th:text="#{storm-knights.table.header.clearance}">Clearance</th>
-            <th th:text="#{storm-knights.table.header.missions}">No. of Missions</th>
-            <th th:text="#{storm-knights.table.header.last-active}">Last Active</th>
-            <th th:text="#{storm-knights.table.header.actions}">Actions</th>
+            <th scope="col" style="width: 60%;" th:text="#{storm-knights.table.header.name}">Name</th>
+            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.cosm}">Cosm</th>
+            <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.clearance}">Clearance</th>
+            <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.missions}">No. of Missions</th>
+            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.last-active}">Last Active</th>
+            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.actions}">Actions</th>
         </tr>
     </thead>
     <tbody th:each="stormknight : ${stormknights}">
         <tr>
-            <td th:text="${stormknight.displayName}">Stormchaser</td>
+            <th scope="row" th:text="${stormknight.displayName}">Stormchaser</th>
             <td th:text="${stormknight.cosm}">Living Land</td>
             <td th:text="${stormknight.clearance}">Alpha</td>
             <td th:text="${stormknight.noOfMissions}">2</td>
