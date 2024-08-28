@@ -37,6 +37,6 @@ import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
  */
 public interface StormKnightRepository extends JpaRepository<StormKnight, Long> {
     StormKnight findByUid(UUID uid);
-    List<StormKnight> findByNamespace(String owner);
-    Page<StormKnight> findByNamespace(String owner, Pageable pageable);
+    List<StormKnight> findByNameSpace(String owner);
+    Page<StormKnight> findByNameSpace(String owner, Pageable pageable);
 }

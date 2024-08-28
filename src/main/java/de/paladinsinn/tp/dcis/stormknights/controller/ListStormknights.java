@@ -52,7 +52,7 @@ public class ListStormknights {
         Model model
     ) {
         Pageable p = Pageable.ofSize(size).withPage(page);
-        Page<StormKnight> knights = stormKnightRepository.findByNamespace(name, p);
+        Page<StormKnight> knights = stormKnightRepository.findByNameSpace(name, p);
         log.info("Storm knights list loaded. page={}, size={}, noOfStormKnights={}", page, size, knights.getTotalElements());
 
         model.addAttribute("url", "list");
