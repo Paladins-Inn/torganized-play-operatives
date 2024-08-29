@@ -12,13 +12,13 @@
 <nav>
     <ul class="pagination justify-content-end">
         <li class="page-item disabled">
-            <a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.pageable.number - 1})}" tabindex="-1">Previous</a>
+            <a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.pageable.pageNumber - 1})}" tabindex="-1">Previous</a>
         </li>
         <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=1)}">1</a></li>
         <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=2)}">2</a></li>
         <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=3)}">3</a></li>
         <li class="page-item">
-            <a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.pageable.number + 1})}">Next</a>
+            <a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.pageable.pageNumber + 1})}">Next</a>
         </li>
     </ul>
 </nav>
