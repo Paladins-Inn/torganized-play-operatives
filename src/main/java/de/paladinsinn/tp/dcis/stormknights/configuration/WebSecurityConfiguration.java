@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import de.kaiserpfalzedv.commons.spring.security.EnableKeycloakSecurityIntegration;
@@ -34,8 +35,12 @@ public class WebSecurityConfiguration {
         KeycloakGroupAuthorityMapper authoritiesMapper,
         KeycloakLogoutHandler keycloakLogoutHandler
         ) throws Exception {
+
+        MvcRequestMatcher.Builder matcher = new MvcRequestMatcher.Builder(introspector);
+
 		http
             .authorizeHttpRequests(a -> a
+                    .requestMatchers(matcher.pattern("/public/**")).permitAll()
                     .anyRequest().authenticated()
             )
             .oauth2Login(l -> l
