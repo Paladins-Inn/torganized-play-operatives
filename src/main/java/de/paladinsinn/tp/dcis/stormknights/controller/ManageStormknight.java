@@ -59,7 +59,7 @@ public class ManageStormknight {
     }
 
     private boolean hasRole(UserPrincipal user, Set<String> roles) {
-        return roles.stream().anyMatch(r -> { return ((UserDetails) user).getAuthorities().contains(r) ;});
+        return roles.stream().anyMatch(r -> ((UserDetails) user).getAuthorities().contains(r));
     }
 
     private StormKnight protectKnightData(final StormKnight knight, final UserPrincipal user) {

@@ -7,7 +7,7 @@
 
 <h1 class="torg-header"  th:text="#{view.list-storm-knights.title}">List of Storm Knights</h1>
 
-<a href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</a>
+<a th:href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</a>
 
 <nav>
     <ul class="pagination justify-content-end">
@@ -40,9 +40,9 @@
             <td th:text="${stormknight.noOfMissions}">2</td>
             <td th:text="${stormknight.lastMissionDate}">2024-08-14</td>
             <td sec:authorize="hasAnyRole('PLAYER','ORGA','JUDGE','ADMIN')">
-                <a href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="${storm-knights.action.view}">View</a>
-                <a href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="${storm-knights.action.edit}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Change</a>
-                <a href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="${storm-knights.action.delete}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Retire</a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="${storm-knights.action.view}">View</a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="${storm-knights.action.edit}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Change</a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="${storm-knights.action.delete}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Retire</a>
             </td>
         </tr>
     </tbody>
