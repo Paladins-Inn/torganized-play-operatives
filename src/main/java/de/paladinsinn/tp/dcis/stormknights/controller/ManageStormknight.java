@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
 import de.paladinsinn.tp.dcis.stormknights.domain.service.StormKnightRepository;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,41 +26,31 @@ import lombok.extern.slf4j.Slf4j;
 public class ManageStormknight {
     private final StormKnightRepository stormKnightRepository;
 
-    @PostMapping()
-    @RolesAllowed("PLAYER")
-    public String createStormKnight(
-        @AuthenticationPrincipal UserPrincipal user,
-        Model model
-    ) {
-        log.info("Registering a new storm knight. user={}", user);
-        StormKnight knight = StormKnight.builder()
-                .nameSpace(user.getName())
-                .build();
-
-        model.addAttribute("knight", knight);
-
-        return "edit-stormknight";
-    }
-
-    @PostMapping()
+    @PostMapping("/")
     @RolesAllowed("PLAYER")
     public String saveStormKnight(
         @AuthenticationPrincipal UserPrincipal user,
-        @ModelAttribute StormKnight knight,
+        @Nullable @ModelAttribute StormKnight knight,
         Model model
     ) {
         log.info("Saving storm knight data. user={}, knight={}", user, knight);
 
-        if (
-            ! knight.getNameSpace().equals(user.getName())
-            && !hasRole(user, Set.of("ORGA","ADMIN"))
-        ) {
-            log.warn("The storm knight is not owned by the user. user={}, knight={}", user, knight);
-        } else {
-            knight = protectKnightData(knight, user);
-            knight = stormKnightRepository.save(knight);
+        if (knight != null) {
+            if (
+                ! knight.getNameSpace().equals(user.getName())
+                && !hasRole(user, Set.of("ORGA","ADMIN"))
+            ) {
+                log.warn("The storm knight is not owned by the user. user={}, knight={}", user, knight);
+            } else {
+                knight = protectKnightData(knight, user);
+                knight = stormKnightRepository.save(knight);
 
-            log.info("Changed storm knight saved. knight={}", knight);
+                log.info("Changed storm knight saved. knight={}", knight);
+            }
+        } else {
+            knight = StormKnight.builder()
+                    .nameSpace(user.getName())
+                    .build();
         }
 
         model.addAttribute("knight", knight);
