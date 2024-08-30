@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/")
-public class ListStormknights {
+public class ListStormKnights {
     private final StormKnightRepository stormKnightRepository;
 
     @GetMapping("public/list")
@@ -37,6 +37,7 @@ public class ListStormknights {
 
     private void prepareListOfStormKnights(final String url, final int size, final int page, Model model) {
         Pageable p = Pageable.ofSize(size).withPage(page);
+
         Page<StormKnight> knights = stormKnightRepository.findAll(p);
         log.info("Storm knights list loaded. page={}, size={}, noOfStormKnights={}", page, size, knights.getTotalElements());
 
@@ -52,6 +53,18 @@ public class ListStormknights {
         Model model
     ) {
         prepareListOfStormKnights("orga/list", size, page, model);
+
+        return "list-stormknights";
+    }
+
+    @GetMapping("judge/list")
+    @RolesAllowed("ORGA")
+    public String judgeList(
+        @RequestParam(defaultValue = "50") final int size,
+        @RequestParam(defaultValue = "1") final int page,
+        Model model
+    ) {
+        prepareListOfStormKnights("judge/list", size, page, model);
 
         return "list-stormknights";
     }
