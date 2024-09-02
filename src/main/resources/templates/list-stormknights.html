@@ -47,10 +47,10 @@
         </tr>
     </tbody>
     <tfoot>
-        <tr th:if="${stormknight.totalElements == 0}">
+        <tr th:if="${stormknights.totalElements == 0}">
             <td colspan="5" th:text="#{view.list-storm-knights.empty-list}">No storm knights registered.</td>
         </tr>
-        <tr th:if="${stormknight.totalElements > 0}">
+        <tr th:if="${stormknights.totalElements > 0}">
             <td colspan="4" th:text="#{view.list-storm-knights.total-number}">Total number of registered storm knights</td>
             <td th:text="${stormknights.totalElements}">1</td>
         </tr>

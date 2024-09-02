@@ -48,7 +48,7 @@ spring:
                 provider:
                     sso:
                         issuer-uri: ${SSO_ISSUER}
-                        user-name-attribute: ${SSO_USERNAME_ATTRIBUTE}
+                        user-name-attribute: ${SSO_USERNAME_ATTRIBUTE:preferred_username}
 
 kp:
     security:
