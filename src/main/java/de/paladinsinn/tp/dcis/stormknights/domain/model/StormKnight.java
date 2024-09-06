@@ -106,12 +106,16 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     @NotNull
     @Column(name = "COSM", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
     @Enumerated(EnumType.STRING)
-    private Cosm cosm;
+    @ToString.Include
+    @Default
+    private Cosm cosm = Cosm.CORE_EARTH;
 
     /** The XP this storm knight has accumulated. */
     @NotNull
     @Column(name = "XP", columnDefinition = "BIGINT", unique = false, nullable = false, insertable = true, updatable = true)
-    private long xp;
+    @ToString.Include
+    @Default
+    private long xp = 0;
 
     /** The personal file of the storm knight. */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "stormKnight")
