@@ -29,20 +29,20 @@
             <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.clearance}">Clearance</th>
             <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.missions}">No. of Missions</th>
             <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.last-active}">Last Active</th>
-            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.actions}" sec:authorize="hasAnyRole('PLAYER','ORGA','JUDGE','ADMIN')">Actions</th>
+            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.actions}" sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">Actions</th>
         </tr>
     </thead>
     <tbody th:each="stormknight : ${stormknights.content}">
         <tr>
-            <th scope="row" th:text="${stormknight.displayName}">Stormchaser</th>
+            <th scope="row" th:text="${stormknight.name}">Stormchaser</th>
             <td th:text="${stormknight.cosm}">Living Land</td>
             <td th:text="${stormknight.clearance}">Alpha</td>
             <td th:text="${stormknight.noOfMissions}">2</td>
             <td th:text="${stormknight.lastMissionDate}">2024-08-14</td>
-            <td sec:authorize="hasAnyRole('PLAYER','ORGA','JUDGE','ADMIN')">
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="${storm-knights.action.view}">View</a>
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="${storm-knights.action.edit}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Change</a>
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="${storm-knights.action.delete}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Retire</a>
+            <td sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.view}">View</a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.edit}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Change</a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.delete}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Retire</a>
             </td>
         </tr>
     </tbody>

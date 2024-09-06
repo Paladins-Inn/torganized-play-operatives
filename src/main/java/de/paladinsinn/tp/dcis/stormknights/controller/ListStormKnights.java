@@ -27,7 +27,7 @@ public class ListStormKnights {
     @PermitAll
     public String publicList(
         @RequestParam(defaultValue = "50") final int size,
-        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
         prepareListOfStormKnights("public/list", size, page, model);
@@ -43,13 +43,14 @@ public class ListStormKnights {
 
         model.addAttribute("url", url);
         model.addAttribute("stormknights", knights);
+        log.info("Listing stormknights. knights={}", knights.getContent());
     }
 
     @GetMapping("orga/list")
     @RolesAllowed("ORGA")
     public String orgaList(
         @RequestParam(defaultValue = "50") final int size,
-        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
         prepareListOfStormKnights("orga/list", size, page, model);
@@ -61,7 +62,7 @@ public class ListStormKnights {
     @RolesAllowed("ORGA")
     public String judgeList(
         @RequestParam(defaultValue = "50") final int size,
-        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
         prepareListOfStormKnights("judge/list", size, page, model);
@@ -73,7 +74,7 @@ public class ListStormKnights {
     public String playerList(
         final String name, 
         @RequestParam(defaultValue = "50") final int size,
-        @RequestParam(defaultValue = "1") final int page,
+        @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
         prepareListOfStormKnights(name + "/list", size, page, model);

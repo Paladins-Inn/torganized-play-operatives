@@ -3,12 +3,20 @@ package de.paladinsinn.tp.dcis.stormknights.domain.model;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
+import org.apache.commons.lang3.builder.ToStringExclude;
+import org.assertj.core.data.Offset;
 
 import de.kaiserpfalzedv.commons.api.resources.HasId;
 import de.kaiserpfalzedv.commons.api.resources.HasName;
 import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
+import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
+import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -16,10 +24,9 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Builder.Default;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
@@ -95,8 +102,32 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     @ToString.Include
     private String name;
 
+    /** The cosm this storm knight is from. */
+    @NotNull
+    @Column(name = "COSM", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
+    @Enumerated(EnumType.STRING)
+    private Cosm cosm;
+
+    /** The XP this storm knight has accumulated. */
+    @NotNull
+    @Column(name = "XP", columnDefinition = "BIGINT", unique = false, nullable = false, insertable = true, updatable = true)
+    private long xp;
+
     /** The personal file of the storm knight. */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "stormKnight")
     @Default
-    private Set<StormKnightHistoryEntry> history = new LinkedHashSet<>();
+    private List<StormKnightHistoryEntry> history = new LinkedList<>();
+
+    /** The number of missions this storm knight has been on. */
+    public int getNoOfMissions() {
+        return history.size();
+    }
+
+    public Optional<OffsetDateTime> getLastMissionDate() {
+        return Optional.ofNullable(history.size() == 0 ? null : history.get(history.size()-1).getMissionDate());
+    }
+
+    public Clearance getClearance() {
+        return Clearance.valueOf((int)xp);
+    }
 }
