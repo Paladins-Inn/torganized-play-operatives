@@ -84,7 +84,7 @@ public class ManageStormknight {
 
         model.addAttribute("knight", knight);
 
-        return "redirect:/stormknights/";
+        return "redirect:/" + user.getName() + "/list";
     }
 
     private boolean hasRole(Principal user, Set<String> roles) {

@@ -18,21 +18,22 @@
     </ul>
 </p>
 
-<form action="#" th:action="@{/}" th:object="${knight}" method="post">
+<form class="row g-3" action="#" th:action="@{/}" th:object="${knight}" method="post">
     <input type="hidden" th:field="*{nameSpace}"/>
 
-    <div class="form-group" th:if="*{uid} != null">
+
+    <div class="col-12" th:if="*{uid} != null">
         <label class="form-label" for="uid" th:text="#{form.edit-storm-knight.uid.title}" readonly>Registry Number</label>
-        <input type="text" class="form-controll" th:field="*{uid}" class="form-control" aria-describedby="uidHelp" maxlength="36" size="36"><br/>
-        <small id="uidHelp" class="form-text text-muted" th:text="#{form.edit-storm-knight.uid.help}">help</small><br/>
-        <p th:if="${#fields.hasErrors('uid')}" th:text="${#strings.listJoin(#fields.errors('uid'), ', ')}"></p>
+        <input type="text" class="form-control" th:field="*{uid}" aria-describedby="uidHelp" maxlength="36" size="36" disabled readonly
+            data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.uid.help}">
+        <p th:if="${#fields.hasErrors('uid')}" class="alert alert-warning" role="alert" th:text="${#strings.listJoin(#fields.errors('uid'), ', ')}"></p>
     </div>
 
-    <div class="form-group">
-        <label class="form-label" for="name" th:text="#{form.edit-storm-knight.name.title}">Name</label>
-        <input type="text" class="form-controll" th:field="*{name}" class="form-control" aria-describedby="nameHelp" maxlength="100" size="50" placeholder="Sam Stormknight"><br/>
-        <small id="nameHelp" class="form-text text-muted" th:text="#{form.edit-storm-knight.name.help}">help</small><br/>
-        <p th:if="${#fields.hasErrors('name')}" th:text="${#strings.listJoin(#fields.errors('name'), ', ')}"></p>
+    <div class="col-12">
+        <label class="form-label" for="name" th:text="#{form.edit-storm-knight.name.title}">Name <small><span>(*)</span></small></label>
+        <input type="text" class="form-control" th:field="*{name}" aria-describedby="nameHelp" maxlength="100" size="50" placeholder="Sam Stormknight"
+        data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.name.help}">
+        <p th:if="${#fields.hasErrors('name')}" class="alert alert-warning" role="alert" th:text="${#strings.listJoin(#fields.errors('name'), ', ')}"></p>
     </div>
 
     <button type="submit" class="btn btn-primary" th:text="#{form.submit.title}">Submit</button>

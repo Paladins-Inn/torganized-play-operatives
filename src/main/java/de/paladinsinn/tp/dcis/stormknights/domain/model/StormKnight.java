@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,7 +43,7 @@ import lombok.extern.jackson.Jacksonized;
 @Builder(toBuilder = true, setterPrefix = "")
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(of = {"uid"})
 public class StormKnight implements HasId, HasNameSpace, HasName {
