@@ -2,15 +2,10 @@ package de.paladinsinn.tp.dcis.stormknights.domain.model;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.UUID;
-
-import org.apache.commons.lang3.builder.ToStringExclude;
-import org.assertj.core.data.Offset;
 
 import de.kaiserpfalzedv.commons.api.resources.HasId;
 import de.kaiserpfalzedv.commons.api.resources.HasName;
@@ -128,7 +123,7 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     }
 
     public Optional<OffsetDateTime> getLastMissionDate() {
-        return Optional.ofNullable(history.size() == 0 ? null : history.get(history.size()-1).getMissionDate());
+        return Optional.ofNullable(history.isEmpty() ? null : history.get(history.size()-1).getMissionDate());
     }
 
     public Clearance getClearance() {
