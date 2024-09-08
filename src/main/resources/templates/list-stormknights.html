@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
 <head>
-    <title th:text="#{view.list-storm-knights.title}">List of Storm Knights</title>
+    <title th:text="#{view.list-operatives.title}">List of Storm Knights</title>
 </head>
 <body><section layout:fragment="content">
 
-<h1 class="torg-header"  th:text="#{view.list-storm-knights.title}">List of Storm Knights</h1>
+<h1 class="torg-header"  th:text="#{view.list-operatives.title}">List of Storm Knights</h1>
 
-<a th:href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{storm-knights.action.create}">Register new Storm Knight</a>
+<a th:href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{operatives.action.create}">Register new Storm Knight</a>
 
 <nav>
     <ul class="pagination justify-content-end">
@@ -21,15 +21,15 @@
     </ul>
 </nav>
 <table class="table table-responsive-lg table-sm table-borderless table-striped align-top align-left">
-    <caption th:text="#{view.list-storm-knights.title}">List of Storm Knights</caption>
+    <caption th:text="#{view.list-operatives.title}">List of Storm Knights</caption>
     <thead>
         <tr>
-            <th scope="col" style="width: 60%;" th:text="#{storm-knights.table.header.name}">Name</th>
-            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.cosm}">Cosm</th>
-            <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.clearance}">Clearance</th>
-            <th scope="col" style="width: 5%;" th:text="#{storm-knights.table.header.missions}">No. of Missions</th>
-            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.last-active}">Last Active</th>
-            <th scope="col" style="width: 10%;" th:text="#{storm-knights.table.header.actions}" sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">Actions</th>
+            <th scope="col" style="width: 60%;" th:text="#{operatives.table.header.name}">Name</th>
+            <th scope="col" style="width: 10%;" th:text="#{operatives.table.header.cosm}">Cosm</th>
+            <th scope="col" style="width: 5%;" th:text="#{operatives.table.header.clearance}">Clearance</th>
+            <th scope="col" style="width: 5%;" th:text="#{operatives.table.header.missions}">No. of Missions</th>
+            <th scope="col" style="width: 10%;" th:text="#{operatives.table.header.last-active}">Last Active</th>
+            <th scope="col" style="width: 10%;" th:text="#{operatives.table.header.actions}" sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">Actions</th>
         </tr>
     </thead>
     <tbody th:each="stormknight : ${stormknights.content}">
@@ -39,8 +39,8 @@
             <td th:text="#{${'torg.clearance.' + stormknight.clearance}}">Alpha</td>
             <td th:text="${stormknight.noOfMissions}">2</td>
             <td th:if="${stormknight.deleted == null && stormknight.noOfMissions > 0}" th:text="${stormknight.lastMissionDate}">2024-08-14</td>
-            <td th:if="${stormknight.deleted == null && stormknight.noOfMissions == 0}" th:text="#{view.list-storm-knights.empty}">2024-08-14</td>
-            <td th:unless="${stormknight.deleted == null}" th:text="#{view.list-storm-knights.retired}">2024-08-14</td>
+            <td th:if="${stormknight.deleted == null && stormknight.noOfMissions == 0}" th:text="#{view.list-operatives.empty}">2024-08-14</td>
+            <td th:unless="${stormknight.deleted == null}" th:text="#{view.list-operatives.retired}">2024-08-14</td>
             <td sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">
                 <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="get"    class="btn btn-secondary" role="button"                                                    ><i class="fa-solid fa-eye fa-fw"></i><span th:text="#{list.action.view}">View</span></a>
                 <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="put"    class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-pen fa-fw"></i><span th:text="#{list.action.edit}">Edit</span></a>
@@ -50,10 +50,10 @@
     </tbody>
     <tfoot>
         <tr th:if="${stormknights.totalElements == 0}">
-            <td colspan="5" th:text="#{view.list-storm-knights.empty-list}">No storm knights registered.</td>
+            <td colspan="5" th:text="#{view.list-operatives.empty-list}">No storm knights registered.</td>
         </tr>
         <tr th:if="${stormknights.totalElements > 0}">
-            <td colspan="4" th:text="#{view.list-storm-knights.total-number}">Total number of registered storm knights</td>
+            <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered storm knights</td>
             <td th:text="${stormknights.totalElements}">1</td>
         </tr>
     </tfoot>
