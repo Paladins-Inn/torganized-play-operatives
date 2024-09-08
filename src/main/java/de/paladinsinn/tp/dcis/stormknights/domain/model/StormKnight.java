@@ -1,5 +1,6 @@
 package de.paladinsinn.tp.dcis.stormknights.domain.model;
 
+import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.LinkedList;
@@ -12,6 +13,7 @@ import de.kaiserpfalzedv.commons.api.resources.HasName;
 import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
+import jakarta.annotation.Generated;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +27,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * The Storm Knights are the PCs of the Torganized Play.
@@ -48,34 +51,33 @@ import lombok.extern.jackson.Jacksonized;
 @Data
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(of = {"uid"})
+@Slf4j
 public class StormKnight implements HasId, HasNameSpace, HasName {
     /** The Database ID of the players account. */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", columnDefinition = "BIGINT", unique = true, nullable = false, insertable = true, updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stormknights_seq")
+    @SequenceGenerator(name = "stormknights_seq", sequenceName = "STORMKNIGHTS_ID_SEQ", allocationSize = 10)
+    @Column(name = "ID", columnDefinition = "BIGINT", unique = true, insertable = true, updatable = false)
     @ToString.Include
     private Long id;
 
     /** The UID of the player. */
-    @Default
     @NotNull
     @Column(name = "UID", columnDefinition = "UUID", unique = true, nullable = false, insertable = true, updatable = false)
     @ToString.Include
     private UUID uid = UUID.randomUUID();
 
     /** Data set creation timestamp. */
-    @Default
-    @NotNull
+    @Nullable
     @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
     @ToString.Include
-    private OffsetDateTime created = OffsetDateTime.now(ZoneId.of("UTC"));
+    private OffsetDateTime created;
 
     /** Last modification to this data set. */
-    @Default
-    @NotNull
+    @Nullable
     @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
     @ToString.Include
-    private OffsetDateTime modified = OffsetDateTime.now(ZoneId.of("UTC"));
+    private OffsetDateTime modified;
 
     /** Deletion date of this data set. */
     @Nullable
@@ -112,8 +114,28 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     @Default
     private long xp = 0;
 
+    /** The money this storm knight has accumulated. */
+    @NotNull
+    @Column(name = "MONEY", columnDefinition = "BIGINT", unique = false, nullable = false, insertable = true, updatable = true)
+    @ToString.Include
+    @Default
+    private long money = 0;
+
+    @Nullable
+    @Column(name = "DESCRIPTION", columnDefinition = "VARCHAR(5000)", unique = false, nullable = true, insertable = true, updatable = true)
+    private String description;
+
+    @Nullable
+    @Column(name = "NOTES", columnDefinition = "VARCHAR(5000)", unique = false, nullable = true, insertable = true, updatable = true)
+    private String notes;
+
     /** The personal file of the storm knight. */
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "stormKnight")
+    @ElementCollection
+    @CollectionTable(
+        name = "STORMKNIGHTS_HISTORY", 
+        joinColumns = @JoinColumn(name = "STORMKNIGHT", table = "STORMKNIGHTS_HISTORY", referencedColumnName = "ID")
+    )
+    @SuppressWarnings("java:S1948") // my implementations are serializable ...
     @Default
     private List<StormKnightHistoryEntry> history = new LinkedList<>();
 
@@ -128,5 +150,24 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
 
     public Clearance getClearance() {
         return Clearance.valueOf((int)xp);
+    }
+
+    
+    @PrePersist
+    public void prePersist() {
+        created = OffsetDateTime.now(Clock.systemUTC());
+        modified = created;
+
+        if (uid == null) {
+            uid = UUID.randomUUID();
+        }
+
+        log.debug("Creating storm knight. knight={}", this);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        modified = OffsetDateTime.now(Clock.systemUTC());
+        log.debug("Updating storm knight. knight={}", this);
     }
 }

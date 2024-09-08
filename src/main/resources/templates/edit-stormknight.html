@@ -7,38 +7,78 @@
 
 <h1 class="torg-header"  th:text="#{view.edit-storm-knight.title}">Edit Storm Knight</h1>
 
-<p th:if="${errors.hasErrors()}">
-    <ul th:each="error : ${errors.allErrors}">
-        <li>
-            <span th:text="${error.code}">Code</span>
-            <span th:text="${error.objectName}">Object</span>
-            <span th:text="${error.defaultMessage}">Default Message</span>
-            <span th:text="${error.Arguments}">Arguments</span>
-        </li>
-    </ul>
-</p>
-
 <form class="row g-3" action="#" th:action="@{/}" th:object="${knight}" method="post">
+    <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{nameSpace}"/>
 
 
-    <div class="col-12" th:if="*{uid} != null">
+    <div class="col-3" th:if="*{uid} != null">
         <label class="form-label" for="uid" th:text="#{form.edit-storm-knight.uid.title}" readonly>Registry Number</label>
         <input type="text" class="form-control" th:field="*{uid}" aria-describedby="uidHelp" maxlength="36" size="36" disabled readonly
-            data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.uid.help}">
-        <p th:if="${#fields.hasErrors('uid')}" class="alert alert-warning" role="alert" th:text="${#strings.listJoin(#fields.errors('uid'), ', ')}"></p>
+            data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.uid.help}"></input>
+            <ul th:if="${#fields.hasErrors('uid')}" class="alert alert-warning" role="alert" >
+                <li th:each="err : ${#fields.errors('uid')}" th:text="${err}">error</li>
+            </ul>
+        </div>
+
+        
+    <div class="col-3">
+        <label class="form-label" for="cosm" th:text="#{form.edit-storm-knight.cosm.title}">Cosm</label>
+        <select id="cosm" name="cosm" size="20">
+            <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}" th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}" th:selected="${c == knight.cosm}">cosm name</option>
+        </select>
+        <ul th:if="${#fields.hasErrors('cosm')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('cosm')}" th:text="${err}">error</li>
+        </ul>
+    </div>
+
+    <div class="col-3">
+        <label class="form-label" for="xp" th:text="#{form.edit-storm-knight.xp.title}">XP</label>
+        <input type="text" class="form-control" th:field="*{xp}" aria-describedby="xpHelp" maxlength="4" size="4" placeholder="0"
+        data-toggle="tootltip" data-placement="top" th:title="#{form.edit-storm-knight.xp.help}"></input>
+        <ul th:if="${#fields.hasErrors('xp')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('xp')}" th:text="${err}">error</li>
+        </ul>
+    </div>
+
+    <div class="col-3">
+        <label class="form-label" for="money" th:text="#{form.edit-storm-knight.money.title}">Money</label>
+        <input type="text" class="form-control" th:field="*{money}" aria-describedby="moneyHelp" maxlength="10" size="10" placeholder="0"
+        data-toggle="tootltip" data-placement="top" th:title="#{form.edit-storm-knight.money.help}"></input>
+        <ul th:if="${#fields.hasErrors('money')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('money')}" th:text="${err}">error</li>
+        </ul>
     </div>
 
     <div class="col-12">
-        <label class="form-label" for="name" th:text="#{form.edit-storm-knight.name.title}">Name <small><span>(*)</span></small></label>
+        <label class="form-label" for="name" th:text="#{form.edit-storm-knight.name.title}">Name</label>
         <input type="text" class="form-control" th:field="*{name}" aria-describedby="nameHelp" maxlength="100" size="50" placeholder="Sam Stormknight"
-        data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.name.help}">
-        <p th:if="${#fields.hasErrors('name')}" class="alert alert-warning" role="alert" th:text="${#strings.listJoin(#fields.errors('name'), ', ')}"></p>
+        data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.name.help}"></input>
+        <ul th:if="${#fields.hasErrors('name')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('name')}" th:text="${err}">error</li>
+        </ul>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label" for="description" th:text="#{form.edit-storm-knight.description.title}">Beschreibung</label>
+        <textarea class="form-control" th:field="*{description}" aria-describedby="descriptionHelp" rows="5" size="50" placeholder="Öffentliche Beschreibung"
+        data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.description.help}"></textarea>
+        <ul th:if="${#fields.hasErrors('description')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('description')}" th:text="${err}">error</li>
+        </ul>
+    </div>
+
+    <div class="col-12">
+        <label class="form-label" for="notes" th:text="#{form.edit-storm-knight.notes.title}">Notizen</label>
+        <textarea class="form-control" th:field="*{notes}" aria-describedby="notesHelp" rows="5" size="50" placeholder="Nichtöffentliche Beschreibung"
+        data-toggle="tooltip" data-placement="top" th:title="#{form.edit-storm-knight.notes.help}"></textarea>
+        <ul th:if="${#fields.hasErrors('notes')}" class="alert alert-warning" role="alert" >
+            <li th:each="err : ${#fields.errors('notes')}" th:text="${err}">error</li>
+        </ul>
     </div>
 
     <button type="submit" class="btn btn-primary" th:text="#{form.submit.title}">Submit</button>
-    <button type="reset" class="btn btn-primary" th:text="#{form.reset.title}">Reset</button>
-    <button type="submit" class="btn btn-primary" th:text="#{form.cancel.title}">Cancel</button>
+    <a class="btn btn-primary" href="@{${referrer}}" th:text="#{form.cancel.title}">Cancel</button>
 </form>
 
 </section></body>

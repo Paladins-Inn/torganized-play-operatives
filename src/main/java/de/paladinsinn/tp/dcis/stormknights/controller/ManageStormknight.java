@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Set;
 import java.util.UUID;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
@@ -12,10 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
 import de.paladinsinn.tp.dcis.stormknights.domain.service.StormKnightRepository;
+import groovy.lang.Binding;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -28,14 +32,15 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/")
 public class ManageStormknight {
+    private static final String DATAMODEL = "knight";
+
     private final StormKnightRepository stormKnightRepository;
 
     @GetMapping("/")
     @RolesAllowed("PLAYER")
-    public String createStormKnight(
+    public String createNewStormKnight(
         @NotNull Principal principal,
-        @ModelAttribute("knight") StormKnight knight,
-        BindingResult binding,
+        @RequestHeader(value = HttpHeaders.REFERER, required = false) String referrer,
         @NotNull Model model
     ) {
 
@@ -43,48 +48,57 @@ public class ManageStormknight {
             principal.getName()
         );
 
-        knight = StormKnight.builder()
+        if (referrer == null) {
+            referrer = "/" + principal.getName() + "/list";
+        }
+
+        StormKnight knight = StormKnight.builder()
             .uid(UUID.randomUUID())
             .nameSpace(principal.getName())
             .build();
 
-        model.addAttribute("errors", binding);
-        model.addAttribute("knight", knight);
+        model.addAttribute("cosms", Cosm.values());
+        model.addAttribute("errors", new Binding());
+        model.addAttribute("referrer", referrer);
+        model.addAttribute(DATAMODEL, knight);
         return "edit-stormknight";
     }
-
 
     @PostMapping("/")
     @RolesAllowed("PLAYER")
     public String saveStormKnight(
-        @NotNull Principal user,
-        @Valid @NotNull @ModelAttribute("knight") StormKnight knight,
+        @NotNull Principal principal,
+        @Valid @NotNull @ModelAttribute(DATAMODEL) StormKnight knight,
         BindingResult binding,
         @NotNull Model model
     ) {
-        log.info("Saving storm knight data. user={}, knight={}", user.getName(), knight);
+        log.info("Saving storm knight data. user={}, knight={}", principal.getName(), knight);
 
         model.addAttribute("errors", binding);
-        if (binding.hasErrors()) {
-            model.addAttribute("knight", knight);
+        if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
+            log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
+
+            model.addAttribute("cosms", Cosm.values());
+            model.addAttribute("referrer", "/" + principal.getName() + "/list");
+            model.addAttribute(DATAMODEL, knight);
             return "edit-stormknight";
         }
 
         if (
-            ! user.getName().equals(knight.getNameSpace())
-            && !hasRole(user, Set.of("ROLE_ORGA","ROLE_ADMIN"))
+            ! principal.getName().equals(knight.getNameSpace())
+            && !hasRole(principal, Set.of("ROLE_ORGA","ROLE_ADMIN"))
         ) {
-            log.warn("The storm knight is not owned by the user. user={}, knight={}", user, knight);
+            log.warn("The storm knight is not owned by the user. user={}, knight={}", principal, knight);
         } else {
-            knight = protectKnightData(knight, user);
+            knight = protectKnightData(knight, principal);
             knight = stormKnightRepository.save(knight);
 
             log.info("Changed storm knight saved. knight={}", knight);
         }
 
-        model.addAttribute("knight", knight);
+        model.addAttribute(DATAMODEL, knight);
 
-        return "redirect:/" + user.getName() + "/list";
+        return "redirect:/" + principal.getName() + "/list";
     }
 
     private boolean hasRole(Principal user, Set<String> roles) {

@@ -14,22 +14,21 @@ spring:
         url: ${PGO_pgbouncer-jdbc-uri}
         username: ${PGO_user:postgres}
         password: ${PGO_password:postgres}
-        driverClassName: org.postgresql.Driver
+        driver-class-name: org.postgresql.Driver
 
         hikari:
-            connectionTimeout: 20000
-            maximumPoolSize: 5
+            connection-timeout: 20000
+            maximum-pool-size: 5
 
     jpa:
-        database: POSTGRESQL
-        showSql: true
+        show-sql: true
         hibernate:
-            ddlAuto: validate
+            ddl-auto: none
     
     liquibase:
         enabled: true
-        showSummaryOutput: console
-        uiService: console
+        show-summary-output: console
+        ui-service: console
 
     security:
         user:
@@ -96,8 +95,6 @@ management:
             enabled: true
         readinessState:
             enabled: true
-
-
 
 
 logging:

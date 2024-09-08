@@ -18,8 +18,12 @@
 package de.paladinsinn.tp.dcis.stormknights.domain.model;
 
 
+import java.time.Clock;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.UUID;
+
+import org.assertj.core.data.Offset;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import jakarta.annotation.Nullable;
@@ -27,9 +31,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Builder.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
 import lombok.extern.slf4j.Slf4j;
@@ -42,53 +48,43 @@ import lombok.extern.slf4j.Slf4j;
  * @version 1.0.0
  * @since 2024-08-24
  */
-@Entity
-@Table(
-    name = "SKHISTORY",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"ID"}),
-        @UniqueConstraint(columnNames = {"STORMKNIGHT", "MISSION_UID"})
-    }
-)
+@Embeddable
 @Jacksonized
 @AllArgsConstructor
-@Builder(toBuilder = true)
-@Getter
+@NoArgsConstructor
+@Builder(toBuilder = true, setterPrefix = "")
+@Data
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = {"missionUid"})
 @Slf4j
 public class StormKnightHistoryEntry {
-        /** The Database ID history entry. */
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(name = "ID", columnDefinition = "BIGINT", unique = true, nullable = false, insertable = true, updatable = false)
-        @ToString.Include
-        private Long id;
-    
         /** Data set creation timestamp. */
-        @Default
-        @NotNull
+        @Nullable
         @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
         @ToString.Include
-        private OffsetDateTime created = OffsetDateTime.now(ZoneId.of("UTC"));
+        private OffsetDateTime created;
+
+        @PrePersist
+        public void createCreated() {
+            created = OffsetDateTime.now(Clock.systemUTC());
+            modified = created;
+        }
     
         /** Last modification to this data set. */
-        @Default
-        @NotNull
+        @Nullable
         @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
-        @ToString.Include
-        private OffsetDateTime modified = OffsetDateTime.now(ZoneId.of("UTC"));
+        private OffsetDateTime modified;
+
+        @PreUpdate
+        public void updateModified() {
+            modified = OffsetDateTime.now(Clock.systemUTC());
+        }
     
         /** Deletion date of this data set. */
         @Nullable
         @Column(name = "DELETED", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
         @ToString.Include
         private OffsetDateTime deleted;
-
-        @NotNull
-        @ManyToOne(optional = false, fetch = FetchType .EAGER)
-        @JoinColumn(name = "STORMKNIGHT", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = false)
-        private StormKnight stormKnight;
 
         @NotNull
         @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
@@ -100,22 +96,26 @@ public class StormKnightHistoryEntry {
 
         @NotNull
         @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false, insertable = true, updatable = true)
-        private String missionUid;
+        @Default
+        private UUID missionUid = UUID.randomUUID();
 
         @NotNull
         @Column(name = "XP", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
-        private long xp;
+        @Default
+        private long xp = 5;
 
         @NotNull
         @Column(name = "PAYMENT", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
-        private long payment;
+        @Default
+        private long payment = 200;
 
         @NotNull
         @Column(name = "REPORT", columnDefinition = "VARCHAR(5000)", nullable = false, insertable = true, updatable = true)
         private String report;
 
         @NotNull
-        @Default
+        @Enumerated(EnumType.STRING)
         @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
+        @Default
         private SuccessState success = SuccessState.NONE;
     }
