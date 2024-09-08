@@ -2,7 +2,6 @@ package de.paladinsinn.tp.dcis.stormknights.domain.model;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +12,6 @@ import de.kaiserpfalzedv.commons.api.resources.HasName;
 import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
-import jakarta.annotation.Generated;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -64,6 +62,7 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     /** The UID of the player. */
     @NotNull
     @Column(name = "UID", columnDefinition = "UUID", unique = true, nullable = false, insertable = true, updatable = false)
+    @Default
     @ToString.Include
     private UUID uid = UUID.randomUUID();
 

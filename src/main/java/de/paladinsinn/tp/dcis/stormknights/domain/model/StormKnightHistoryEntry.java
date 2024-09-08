@@ -18,23 +18,24 @@
 package de.paladinsinn.tp.dcis.stormknights.domain.model;
 
 
-import java.time.Clock;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.UUID;
-
-import org.assertj.core.data.Offset;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Builder.Default;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
@@ -63,22 +64,11 @@ public class StormKnightHistoryEntry {
         @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
         @ToString.Include
         private OffsetDateTime created;
-
-        @PrePersist
-        public void createCreated() {
-            created = OffsetDateTime.now(Clock.systemUTC());
-            modified = created;
-        }
     
         /** Last modification to this data set. */
         @Nullable
         @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
         private OffsetDateTime modified;
-
-        @PreUpdate
-        public void updateModified() {
-            modified = OffsetDateTime.now(Clock.systemUTC());
-        }
     
         /** Deletion date of this data set. */
         @Nullable
@@ -118,4 +108,15 @@ public class StormKnightHistoryEntry {
         @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
         @Default
         private SuccessState success = SuccessState.NONE;
+
+        @PrePersist
+        public void prePersist() {
+            created = OffsetDateTime.now(ZoneOffset.UTC);
+            modified = created;
+        }
+
+        @PreUpdate
+        public void preUpdate() {
+            modified = OffsetDateTime.now(ZoneOffset.UTC);
+        }
     }

@@ -11,16 +11,16 @@
 
 <nav>
     <ul class="pagination justify-content-end">
-        <li class="page-item"><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=1)}" tabindex="-1" th.text="#{paging.first}">First</a></li>
-        <li class="page-item"><a class="page-link" th:if="${stormknights.pageable.pageNumber > 2}" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 2)}" th:text="${stormknights.pageable.pageNumber - 2}">1</a></li>
-        <li class="page-item"><a class="page-link" th:if="${stormknights.pageable.pageNumber > 1}" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 1)}" th:text="${stormknights.pageable.pageNumber - 1}">2</a></li>
-        <li class="page-item" th:text="${stormknights.pageable.pageNumber}">3</li>
-        <li class="page-item"><a class="page-link" th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 1}" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 1)}" th:text="${stormknights.pageable.pageNumber + 1}">4</a></li>
-        <li class="page-item"><a class="page-link" th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 2}" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 2)}" th:text="${stormknights.pageable.pageNumber + 2}">5</a></li>
-        <li class="page-item"><a class="page-link" th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 1}" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.totalPages})}" th:text="#{paging.last}">Last</a></li>
+        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=0)}"                                    th:text="#{paging.first}">First</a></li>
+        <li class="page-item" th:if="${stormknights.pageable.pageNumber > 2}"                          ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 2)}" th:text="${stormknights.pageable.pageNumber - 2}">1</a></li>
+        <li class="page-item"th:if="${stormknights.pageable.pageNumber > 1}"                           ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 1)}" th:text="${stormknights.pageable.pageNumber - 1}">2</a></li>
+        <li class="page-item page-link"                                                                                                                                                                                                       th:text="${stormknights.pageable.pageNumber}">3</li>
+        <li class="page-item"th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 1}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 1)}" th:text="${stormknights.pageable.pageNumber + 1}">4</a></li>
+        <li class="page-item"th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 2}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 2)}" th:text="${stormknights.pageable.pageNumber + 2}">5</a></li>
+        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.totalPages - 1})}"       th:text="#{paging.last}">Last</a></li>
     </ul>
 </nav>
-<table class="table table-borderless table-striped">
+<table class="table table-responsive-lg table-sm table-borderless table-striped align-top align-left">
     <caption th:text="#{view.list-storm-knights.title}">List of Storm Knights</caption>
     <thead>
         <tr>
@@ -35,14 +35,16 @@
     <tbody th:each="stormknight : ${stormknights.content}">
         <tr>
             <th scope="row" th:text="${stormknight.name}">Stormchaser</th>
-            <td th:text="${stormknight.cosm}">Living Land</td>
-            <td th:text="${stormknight.clearance}">Alpha</td>
+            <td th:text="#{${'torg.cosm.' + stormknight.cosm.name}}">Living Land</td>
+            <td th:text="#{${'torg.clearance.' + stormknight.clearance}}">Alpha</td>
             <td th:text="${stormknight.noOfMissions}">2</td>
-            <td th:text="${stormknight.lastMissionDate}">2024-08-14</td>
+            <td th:if="${stormknight.deleted == null && stormknight.noOfMissions > 0}" th:text="${stormknight.lastMissionDate}">2024-08-14</td>
+            <td th:if="${stormknight.deleted == null && stormknight.noOfMissions == 0}" th:text="#{view.list-storm-knights.empty}">2024-08-14</td>
+            <td th:unless="${stormknight.deleted == null}" th:text="#{view.list-storm-knights.retired}">2024-08-14</td>
             <td sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="get" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.view}">View</a>
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="put" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.edit}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Change</a>
-                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" th:text="#{storm-knights.action.delete}" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')">Retire</a>
+                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="get"    class="btn btn-secondary" role="button"                                                    ><i class="fa-solid fa-eye fa-fw"></i><span th:text="#{list.action.view}">View</span></a>
+                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="put"    class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-pen fa-fw"></i><span th:text="#{list.action.edit}">Edit</span></a>
+                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="delete" class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-trash fa-fw"></i><span th:text="#{list.action.delete}">Retire</span></a>
             </td>
         </tr>
     </tbody>
