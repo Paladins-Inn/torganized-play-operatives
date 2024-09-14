@@ -4,7 +4,7 @@ spring:
         active: LOCAL
         
     application:
-        name: dcis-stormknights
+        name: dcis-operatives
         admin:
             enabled: true
     main:
@@ -61,7 +61,7 @@ server:
             enabled: false
     port: ${HTTP_PORT:8080}
     servlet:
-        contextPath: /stormknights
+        contextPath: /operatives
 
 management:
     server:

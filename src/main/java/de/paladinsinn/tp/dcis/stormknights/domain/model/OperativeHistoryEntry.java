@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.paladinsinn.tp.dcis.stormknights.domain.model;
+package de.paladinsinn.tp.dcis.operatives.domain.model;
 
 
 import java.time.OffsetDateTime;
@@ -58,7 +58,7 @@ import lombok.extern.slf4j.Slf4j;
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @EqualsAndHashCode(of = {"missionUid"})
 @Slf4j
-public class StormKnightHistoryEntry {
+public class OperativeHistoryEntry {
         /** Data set creation timestamp. */
         @Nullable
         @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)

@@ -1,4 +1,4 @@
-# torganized-play-storm-knights
+# torganized-play-operatives
 
 > What man is a man who does not make the world better.
 >

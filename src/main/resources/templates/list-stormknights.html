@@ -11,13 +11,13 @@
 
 <nav>
     <ul class="pagination justify-content-end">
-        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=0)}"                                    th:text="#{paging.first}">First</a></li>
-        <li class="page-item" th:if="${stormknights.pageable.pageNumber > 2}"                          ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 2)}" th:text="${stormknights.pageable.pageNumber - 2}">1</a></li>
-        <li class="page-item"th:if="${stormknights.pageable.pageNumber > 1}"                           ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber - 1)}" th:text="${stormknights.pageable.pageNumber - 1}">2</a></li>
-        <li class="page-item page-link"                                                                                                                                                                                                       th:text="${stormknights.pageable.pageNumber}">3</li>
-        <li class="page-item"th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 1}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 1)}" th:text="${stormknights.pageable.pageNumber + 1}">4</a></li>
-        <li class="page-item"th:if="${stormknights.pageable.pageNumber < stormknights.totalPages - 2}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=stormknights.pageable.pageNumber + 2)}" th:text="${stormknights.pageable.pageNumber + 2}">5</a></li>
-        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${stormknights.pageable.pageSize},page=${stormknights.totalPages - 1})}"       th:text="#{paging.last}">Last</a></li>
+        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=0)}"                                    th:text="#{paging.first}">First</a></li>
+        <li class="page-item" th:if="${operatives.pageable.pageNumber > 2}"                          ><a class="page-link" th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=operatives.pageable.pageNumber - 2)}" th:text="${operatives.pageable.pageNumber - 2}">1</a></li>
+        <li class="page-item"th:if="${operatives.pageable.pageNumber > 1}"                           ><a class="page-link" th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=operatives.pageable.pageNumber - 1)}" th:text="${operatives.pageable.pageNumber - 1}">2</a></li>
+        <li class="page-item page-link"                                                                                                                                                                                                       th:text="${operatives.pageable.pageNumber}">3</li>
+        <li class="page-item"th:if="${operatives.pageable.pageNumber < operatives.totalPages - 1}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=operatives.pageable.pageNumber + 1)}" th:text="${operatives.pageable.pageNumber + 1}">4</a></li>
+        <li class="page-item"th:if="${operatives.pageable.pageNumber < operatives.totalPages - 2}" ><a class="page-link" th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=operatives.pageable.pageNumber + 2)}" th:text="${operatives.pageable.pageNumber + 2}">5</a></li>
+        <li class="page-item"><a class="page-link"                                                                           th:href="@{/{url}(url=${url},size=${operatives.pageable.pageSize},page=${operatives.totalPages - 1})}"       th:text="#{paging.last}">Last</a></li>
     </ul>
 </nav>
 <table class="table table-responsive-lg table-sm table-borderless table-striped align-top align-left">
@@ -32,7 +32,7 @@
             <th scope="col" style="width: 10%;" th:text="#{operatives.table.header.actions}" sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">Actions</th>
         </tr>
     </thead>
-    <tbody th:each="stormknight : ${stormknights.content}">
+    <tbody th:each="stormknight : ${operatives.content}">
         <tr>
             <th scope="row" th:text="${stormknight.name}">Stormchaser</th>
             <td th:text="#{${'torg.cosm.' + stormknight.cosm.name}}">Living Land</td>
@@ -49,12 +49,12 @@
         </tr>
     </tbody>
     <tfoot>
-        <tr th:if="${stormknights.totalElements == 0}">
+        <tr th:if="${operatives.totalElements == 0}">
             <td colspan="5" th:text="#{view.list-operatives.empty-list}">No storm knights registered.</td>
         </tr>
-        <tr th:if="${stormknights.totalElements > 0}">
+        <tr th:if="${operatives.totalElements > 0}">
             <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered storm knights</td>
-            <td th:text="${stormknights.totalElements}">1</td>
+            <td th:text="${operatives.totalElements}">1</td>
         </tr>
     </tfoot>
 </table>

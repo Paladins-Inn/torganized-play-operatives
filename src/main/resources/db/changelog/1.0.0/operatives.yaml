@@ -1,15 +1,15 @@
 ---
 databaseChangeLog:
   - changeSet:
-      id: STORMKNIGHTS-init
+      id: OPERATIVES-init
       author: rlichti
       context: init
-      labels: 'v1.0.0,stormknights'
+      labels: 'v1.0.0,operatives'
       dbms: postgresql
       created: '1.0.0'
       changes:
         - createTable:
-            tableName: STORMKNIGHTS
+            tableName: OPERATIVES
             remarks: The player connected to the torganized play
             columns:
               - column:
@@ -20,34 +20,34 @@ databaseChangeLog:
                   remarks: The Database internal ID
                 constraints:
                   - primaryKey: true
-                  - primaryKeyName: STORMKNIGHTS_PK
+                  - primaryKeyName: OPERATIVES_PK
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_ID_NN
+                  - notNullConstraintName: OPERATIVES_ID_NN
                   - unique: true
-                  - uniqueConstraintName: STORMKNIGHTS_ID_UK
+                  - uniqueConstraintName: OPERATIVES_ID_UK
               - column:
                   name: UID
                   type: UUID
                   valueComputed: uuid_generate_v4()
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_UID_NN
+                  - notNullConstraintName: OPERATIVES_UID_NN
                   - unique: true
-                  - uniqueConstraintName: STORMKNIGHTS_UID_UK
+                  - uniqueConstraintName: OPERATIVES_UID_UK
               - column:
                   name: CREATED
                   type: TIMESTAMP WITH TIME ZONE
                   valueComputed: now()
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_CREATED_NN
+                  - notNullConstraintName: OPERATIVES_CREATED_NN
               - column:
                   name: MODIFIED
                   type: TIMESTAMP WITH TIME ZONE
                   valueComputed: now()
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_MODIFIED_NN
+                  - notNullConstraintName: OPERATIVES_MODIFIED_NN
               - column:
                   name: DELETED
                   type: TIMESTAMP WITH TIME ZONE
@@ -57,110 +57,110 @@ databaseChangeLog:
                   defaultValue: './.'
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_NAMESPACE_NN
+                  - notNullConstraintName: OPERATIVES_NAMESPACE_NN
               - column:
                   name: NAME
                   type: VARCHAR(100)
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_NAME_NN
+                  - notNullConstraintName: OPERATIVES_NAME_NN
               - column:
                   name: COSM
                   type: VARCHAR(100)
                   defaultValue: CORE_EARTH
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_COSM_NN
+                  - notNullConstraintName: OPERATIVES_COSM_NN
               - column:
                   name: XP
                   type: BIGINT
                   defaultValueNumeric: 0
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_XP_NN
+                  - notNullConstraintName: OPERATIVES_XP_NN
               - column:
                   name: NO_OF_MISSIONS
                   type: BIGINT
                   defaultValueNumeric: 0
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: STORMKNIGHTS_NO_OF_MISSIONS_NN
+                  - notNullConstraintName: OPERATIVES_NO_OF_MISSIONS_NN
+              - column:
+                  name: MONEY
+                  type: BIGINT
+                  defaultValueNumeric: 0
+                constraints:
+                  - nullable: false
+                  - notNullConstraintName: OPERATIVES_MONEY_NN
+              - column:
+                  name: DESCRIPTION
+                  type: VARCHAR(5000)
+              - column:
+                  name: NOTES
+                  type: VARCHAR(5000)
         - createTable:
-            tableName: SKHISTORY
+            tableName: OPERATIVES_HISTORY
             remarks: The history of a storm knight
             columns:
               - column:
-                  name: ID
+                  name: OPERATIVE
                   type: BIGINT
-                  autoIncrement: true
-                  startWith: 10000
-                  remarks: The Database internal ID
+                  remarks: The Storm Knight for this entry
                 constraints:
-                  - primaryKey: true
-                  - primaryKeyName: SKHISTORY_PK
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_ID_NN
-                  - unique: true
-                  - uniqueConstraintName: SKHISTORY_ID_UK
+                  - notNullConstraintName: OPERATIVES_HISTORY_OPERATIVE_NN
+                  - foreignKeyName: OPERATIVES_HISTORY_OPERATIVE_FK
+                  - referencedTableName: OPERATIVES
+                  - referencedColumnName: ID
               - column:
                   name: CREATED
                   type: TIMESTAMP WITH TIME ZONE
                   valueComputed: now()
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_CREATED_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_CREATED_NN
               - column:
                   name: MODIFIED
                   type: TIMESTAMP WITH TIME ZONE
                   valueComputed: now()
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_MODIFIED_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_MODIFIED_NN
               - column:
                   name: DELETED
                   type: TIMESTAMP WITH TIME ZONE
-              - column:
-                  name: STORMKNIGHT
-                  type: BIGINT
-                  remarks: The Storm Knight for this entry
-                constraints:
-                  - nullable: false
-                  - notNullConstraintName: SKHISTORY_STORMKNIGHT_NN
-                  - foreignKeyName: SKHISTORY_STORMKNIGHT_FK
-                  - referencedTableName: STORMKNIGHTS
-                  - referencedColumnName: ID
               - column:
                   name: MISSION_NAME
                   type: VARCHAR(100)
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_MISSION_NAME_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_MISSION_NAME_NN
               - column:
                   name: MISSION_DATE
                   type: TIMESTAMP WITH TIME ZONE
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_MISSION_DATE_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_MISSION_DATE_NN
               - column:
                   name: MISSION_UID
                   type: UUID
                 constraints:
                   - nullable: false 
-                  - notNullConstraintName: SKHISTORY_MISSION_UID_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_MISSION_UID_NN
               - column:
                   name: XP
                   type: BIGINT
                   defaultValueNumeric: 5
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_XP_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_XP_NN
               - column:
                   name: PAYMENT
                   type: BIGINT
                   defaultValueNumeric: 200
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_PAYMENT_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_PAYMENT_NN
               - column:
                   name: REPORT
                   type: VARCHAR(5000)
@@ -169,12 +169,24 @@ databaseChangeLog:
                   type: VARCHAR(100)
                 constraints:
                   - nullable: false
-                  - notNullConstraintName: SKHISTORY_SUCCESS_NN
+                  - notNullConstraintName: OPERATIVES_HISTORY_SUCCESS_NN
         - addUniqueConstraint:
-            constraintName: STORMKNIGHTS_NAME_UK
-            tableName: STORMKNIGHTS
+            constraintName: OPERATIVES_HISTORY_OPERATIVE_MISSION_UK
+            tableName: OPERATIVES_HISTORY
+            columnNames: 'OPERATIVE,MISSION_UID'
+        - addUniqueConstraint:
+            constraintName: OPERATIVES_NAME_UK
+            tableName: OPERATIVES
             columnNames: 'NAMESPACE,NAME'
         - addUniqueConstraint:
-            constraintName: SKHISTORY_STORMKNIGHT_MISSION_UK
+            constraintName: SKHISTORY_OPERATIVE_MISSION_UK
             tableName: SKHISTORY
-            columnNames: 'STORMKNIGHT,MISSION_UID'
+            columnNames: 'OPERATIVE,MISSION_UID'
+        - createSequence:
+            sequenceName: STROMKNIGHTS_SEQ
+            startValue: 100000
+            incrementBy: 1
+            maxValue: 999999
+            minValue: 100000
+            cacheSize: 10
+            dataType: BIGINT

@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>de.paladins-inn.torganized-play</groupId>
-    <artifactId>dcis-storm-knights</artifactId>
+    <artifactId>dcis-operatives</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <description>
@@ -24,17 +24,17 @@
     </properties>
 
     <scm>
-        <url>https://github.com/Paladins-Inn/torganized-play-storm-knights</url>
-        <connection>scm:git:git://github.com/Paladins-Inn/torganized-play-storm-knights.git</connection>
-        <developerConnection>scm:git:git@github.com:Paladins-Inn/torganized-play-storm-knights.git</developerConnection>
+        <url>https://github.com/Paladins-Inn/torganized-play-operatives</url>
+        <connection>scm:git:git://github.com/Paladins-Inn/torganized-play-operatives.git</connection>
+        <developerConnection>scm:git:git@github.com:Paladins-Inn/torganized-play-operatives.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
         <repository>
-            <id>torganized-play-storm-knights</id>
-            <name>GitHub Packages for torganized-play-storm-knights</name>
-            <url>https://maven.pkg.github.com/Paladins-Inn/torganized-play-storm-knights</url>
+            <id>torganized-play-operatives</id>
+            <name>GitHub Packages for torganized-play-operatives</name>
+            <url>https://maven.pkg.github.com/Paladins-Inn/torganized-play-operatives</url>
         </repository>
     </distributionManagement>
 

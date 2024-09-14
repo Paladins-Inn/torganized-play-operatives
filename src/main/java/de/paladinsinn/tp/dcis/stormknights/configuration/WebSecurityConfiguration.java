@@ -1,4 +1,4 @@
-package de.paladinsinn.tp.dcis.stormknights.configuration;
+package de.paladinsinn.tp.dcis.operatives.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

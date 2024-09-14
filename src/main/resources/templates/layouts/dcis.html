@@ -10,7 +10,7 @@
     <meta name="turbo-refresh-method" content="morph" />
 
     <link href="/commons/1.0.0/assets/img/favicon.ico" rel="icon" type="image/x-icon" />
-    <link href="/commons/1.0.0/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <link href="/commons/1.0.0/css/styles.css" rel="stylesheet" />
     <link href="/commons/1.0.0/css/torg.css" rel="stylesheet" />
@@ -22,7 +22,7 @@
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
 
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/stormknights/index.html"><span th:text="#{app.title}">Delphi Council IS</span></a>
+        <a class="navbar-brand ps-3" href="/operatives/index.html"><span th:text="#{app.title}">Delphi Council IS</span></a>
 
         <!-- Navbar Search-->
         <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
@@ -62,7 +62,7 @@
                         <div sec:authorize="isAnonymous()">
                             <div><a class="nav-link" href="/players/"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" href="/gaming/public/list"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
-                            <div><a class="nav-link" href="/stormknights/public/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/public/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Storm Knights</span></a></div>
                             <div><a class="nav-link" href="/threats/public/list"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.threats.library}">Threats</span></a></div>
                         </div>
 
@@ -70,7 +70,7 @@
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.player}"></div>
                             <div><a class="nav-link" th:href="@{~/players/dcis/{name}/dashboard(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" th:href="@{~/gaming/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
-                            <div><a class="nav-link" th:href="@{~/stormknights/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.storm-knights}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" th:href="@{~/operatives/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Storm Knights</span></a></div>
                             <div><a class="nav-link" th:href="@{~/codex/}"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.player.codex}">Storm Knights</span></a></div>
                         </div>
 
@@ -88,14 +88,14 @@
 
                         <div sec:authorize="hasRole('ORGA')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.orga}"></div>
-                            <div><a class="nav-link" href="/stormknights/orga/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/orga/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Storm Knights</span></a></div>
                             <div><a class="nav-link" href="/gaming/orga/missions"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.orga.missions}">Sessions</span></a></div>
                             <div><a class="nav-link" href="/gaming/orga/tables"><span class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></span><span th:text="#{menu.orga.tables}">Local Tables</span></a></div>
                         </div>
 
                         <div sec:authorize="hasRole('JUDGE')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.judge}"></div>
-                            <div><a class="nav-link" href="/stormknights/judge/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.storm-knights}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/judge/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Storm Knights</span></a></div>
                             <div><a class="nav-link" href="/gaming/judge/missions"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.orga.missions}">Sessions</span></a></div>
                             <div><a class="nav-link" href="/gaming/judge/tables"><span class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></span><span th:text="#{menu.orga.tables}">Local Tables</span></a></div>
                         </div>
@@ -309,7 +309,7 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" type="text/javascript" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="/commons/1.0.0/js/jquery.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.jss" type="text/javascript"></script>
     <script src="/commons/1.0.0/js/scripts.js"></script>
-    <script src="/commons/1.0.0/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 </body></html>

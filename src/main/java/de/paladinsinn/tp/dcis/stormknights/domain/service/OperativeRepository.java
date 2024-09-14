@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.paladinsinn.tp.dcis.stormknights.domain.service;
+package de.paladinsinn.tp.dcis.operatives.domain.service;
 
 
 
@@ -26,7 +26,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
+import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
 
 
 /**
@@ -35,8 +35,15 @@ import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
  * @version 1.0.0
  * @since 2024-08-24
  */
-public interface StormKnightRepository extends JpaRepository<StormKnight, Long> {
-    StormKnight findByUid(UUID uid);
-    List<StormKnight> findByNameSpace(String owner);
-    Page<StormKnight> findByNameSpace(String owner, Pageable pageable);
+public interface OperativeRepository extends JpaRepository<Operative, Long> {
+    Operative findByUid(UUID uid);
+    List<Operative> findByNameSpace(String owner);
+    default List<Operative> findByOwner(String owner) {
+        return findByNameSpace(owner);
+    }
+
+    Page<Operative> findByNameSpace(String owner, Pageable pageable);
+    default Page<Operative> findByOwner(String owner, Pageable pageable) {
+        return findByNameSpace(owner, pageable);
+    }
 }

@@ -1,4 +1,4 @@
-package de.paladinsinn.tp.dcis.stormknights.domain.model;
+package de.paladinsinn.tp.dcis.operatives.domain.model;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Entity
 @Table(
-    name = "STORMKNIGHTS",
+    name = "OPERATIVES",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ID"}),
         @UniqueConstraint(columnNames = {"UID"}),
@@ -50,11 +50,11 @@ import lombok.extern.slf4j.Slf4j;
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(of = {"uid"})
 @Slf4j
-public class StormKnight implements HasId, HasNameSpace, HasName {
+public class Operative implements HasId, HasNameSpace, HasName {
     /** The Database ID of the players account. */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "stormknights_seq")
-    @SequenceGenerator(name = "stormknights_seq", sequenceName = "STORMKNIGHTS_ID_SEQ", allocationSize = 10)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operatives_seq")
+    @SequenceGenerator(name = "operatives_seq", sequenceName = "OPERATIVES_ID_SEQ", allocationSize = 10)
     @Column(name = "ID", columnDefinition = "BIGINT", unique = true, insertable = true, updatable = false)
     @ToString.Include
     private Long id;
@@ -120,10 +120,12 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     @Default
     private long money = 0;
 
+    /** Public description of this storm knight (accessable to everyone). */
     @Nullable
     @Column(name = "DESCRIPTION", columnDefinition = "VARCHAR(5000)", unique = false, nullable = true, insertable = true, updatable = true)
     private String description;
 
+    /** Delphi Council internal notes relating to the storm knight (accessable by the player, GMs he plays with, orga, judges and admins). */
     @Nullable
     @Column(name = "NOTES", columnDefinition = "VARCHAR(5000)", unique = false, nullable = true, insertable = true, updatable = true)
     private String notes;
@@ -131,12 +133,12 @@ public class StormKnight implements HasId, HasNameSpace, HasName {
     /** The personal file of the storm knight. */
     @ElementCollection
     @CollectionTable(
-        name = "STORMKNIGHTS_HISTORY", 
-        joinColumns = @JoinColumn(name = "STORMKNIGHT", table = "STORMKNIGHTS_HISTORY", referencedColumnName = "ID")
+        name = "OPERATIVES_HISTORY", 
+        joinColumns = @JoinColumn(name = "OPERATIVE", table = "OPERATIVES_HISTORY", referencedColumnName = "ID")
     )
     @SuppressWarnings("java:S1948") // my implementations are serializable ...
     @Default
-    private List<StormKnightHistoryEntry> history = new LinkedList<>();
+    private List<OperativeHistoryEntry> history = new LinkedList<>();
 
     /** The number of missions this storm knight has been on. */
     public int getNoOfMissions() {

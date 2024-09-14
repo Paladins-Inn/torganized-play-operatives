@@ -1,4 +1,4 @@
-package de.paladinsinn.tp.dcis.stormknights.controller;
+package de.paladinsinn.tp.dcis.operatives.controller;
 
 import java.security.Principal;
 import java.util.Set;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
-import de.paladinsinn.tp.dcis.stormknights.domain.model.StormKnight;
-import de.paladinsinn.tp.dcis.stormknights.domain.service.StormKnightRepository;
+import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
+import de.paladinsinn.tp.dcis.operatives.domain.service.OperativeRepository;
 import groovy.lang.Binding;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -31,14 +31,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 @RequestMapping("/")
-public class ManageStormknight {
+public class ManageOperative {
     private static final String DATAMODEL = "knight";
 
-    private final StormKnightRepository stormKnightRepository;
+    private final OperativeRepository stormKnightRepository;
 
     @GetMapping("/")
     @RolesAllowed("PLAYER")
-    public String createNewStormKnight(
+    public String createNewOperative(
         @NotNull Principal principal,
         @RequestHeader(value = HttpHeaders.REFERER, required = false) String referrer,
         @NotNull Model model
@@ -52,7 +52,7 @@ public class ManageStormknight {
             referrer = "/" + principal.getName() + "/list";
         }
 
-        StormKnight knight = StormKnight.builder()
+        Operative knight = Operative.builder()
             .uid(UUID.randomUUID())
             .nameSpace(principal.getName())
             .build();
@@ -66,9 +66,9 @@ public class ManageStormknight {
 
     @PostMapping("/")
     @RolesAllowed("PLAYER")
-    public String saveStormKnight(
+    public String saveOperative(
         @NotNull Principal principal,
-        @Valid @NotNull @ModelAttribute(DATAMODEL) StormKnight knight,
+        @Valid @NotNull @ModelAttribute(DATAMODEL) Operative knight,
         BindingResult binding,
         @NotNull Model model
     ) {
@@ -107,14 +107,14 @@ public class ManageStormknight {
         return roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r)));
     }
 
-    private StormKnight protectKnightData(final StormKnight knight, final Principal user) {
+    private Operative protectKnightData(final Operative knight, final Principal user) {
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
             return knight;
         }
 
-        StormKnight orig = stormKnightRepository.findByUid(knight.getUid());
+        Operative orig = stormKnightRepository.findByUid(knight.getUid());
         if (orig == null) return knight;
 
         return orig.toBuilder()

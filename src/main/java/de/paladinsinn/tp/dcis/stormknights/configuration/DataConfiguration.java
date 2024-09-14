@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package de.paladinsinn.tp.dcis.stormknights.configuration;
+package de.paladinsinn.tp.dcis.operatives.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2024-08-09
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "de.paladinsinn.tp.dcis.stormknights.domain.service")
+@EnableJpaRepositories(basePackages = "de.paladinsinn.tp.dcis.operatives.domain.service")
 @EnableJpaAuditing
 @EnableEnversRepositories
 @EnableTransactionManagement

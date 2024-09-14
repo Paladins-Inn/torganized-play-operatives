@@ -1,17 +1,7 @@
 ---
 databaseChangeLog:
   - include:
-      file: storm_knights.yaml
-      relativeToChangelogFile: true
-      context: init
-      labels: 'v1.0.0'
-  - include:
-      file: stormknights_history.yaml
-      relativeToChangelogFile: true
-      context: init
-      labels: 'v1.0.0'
-  - include:
-      file: stormknights_additions.yaml
+      file: operatives.yaml
       relativeToChangelogFile: true
       context: init
       labels: 'v1.0.0'
