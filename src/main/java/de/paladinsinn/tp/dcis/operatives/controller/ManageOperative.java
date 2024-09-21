@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
-import de.paladinsinn.tp.dcis.operatives.domain.service.OperativeRepository;
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
 import groovy.lang.Binding;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -52,7 +53,7 @@ public class ManageOperative {
             referrer = "/" + principal.getName() + "/list";
         }
 
-        Operative knight = Operative.builder()
+        Operative knight = OperativeJPA.builder()
             .uid(UUID.randomUUID())
             .nameSpace(principal.getName())
             .build();
@@ -68,7 +69,7 @@ public class ManageOperative {
     @RolesAllowed("PLAYER")
     public String saveOperative(
         @NotNull Principal principal,
-        @Valid @NotNull @ModelAttribute(DATAMODEL) Operative knight,
+        @Valid @NotNull @ModelAttribute(DATAMODEL) OperativeJPA knight,
         BindingResult binding,
         @NotNull Model model
     ) {
@@ -107,14 +108,14 @@ public class ManageOperative {
         return roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r)));
     }
 
-    private Operative protectKnightData(final Operative knight, final Principal user) {
+    private OperativeJPA protectKnightData(final OperativeJPA knight, final Principal user) {
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
             return knight;
         }
 
-        Operative orig = stormKnightRepository.findByUid(knight.getUid());
+        OperativeJPA orig = stormKnightRepository.findByUid(knight.getUid());
         if (orig == null) return knight;
 
         return orig.toBuilder()

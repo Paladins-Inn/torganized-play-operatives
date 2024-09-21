@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
-import de.paladinsinn.tp.dcis.operatives.domain.service.OperativeRepository;
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class ListOperatives {
     private void prepareListOfOperatives(final String url, final int size, final int page, Model model) {
         Pageable p = Pageable.ofSize(size).withPage(page);
 
-        Page<Operative> knights = stormKnightRepository.findAll(p);
+        Page<OperativeJPA> knights = stormKnightRepository.findAll(p);
         log.info("Storm knights list loaded. page={}, size={}, noOfOperatives={}", page, size, knights.getTotalElements());
 
         model.addAttribute("url", url);
