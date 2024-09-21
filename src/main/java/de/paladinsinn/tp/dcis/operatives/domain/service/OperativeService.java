@@ -9,12 +9,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
-import de.paladinsinn.tp.dcis.operatives.domain.converter.OperativeToImpl;
-import de.paladinsinn.tp.dcis.operatives.domain.converter.OperativeToJpa;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
+import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeToImpl;
 import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
 import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeToJpa;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

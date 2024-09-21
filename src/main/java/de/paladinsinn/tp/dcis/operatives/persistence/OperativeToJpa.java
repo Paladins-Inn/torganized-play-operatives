@@ -1,4 +1,4 @@
-package de.paladinsinn.tp.dcis.operatives.domain.converter;
+package de.paladinsinn.tp.dcis.operatives.persistence;
 
 import java.util.List;
 import java.util.function.Function;
@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
 import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeImpl;
-import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
 
 @Mapper
 public interface OperativeToJpa extends Function<OperativeImpl, OperativeJPA> {
