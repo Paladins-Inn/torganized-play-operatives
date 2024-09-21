@@ -178,10 +178,6 @@ databaseChangeLog:
             constraintName: OPERATIVES_NAME_UK
             tableName: OPERATIVES
             columnNames: 'NAMESPACE,NAME'
-        - addUniqueConstraint:
-            constraintName: SKHISTORY_OPERATIVE_MISSION_UK
-            tableName: SKHISTORY
-            columnNames: 'OPERATIVE,MISSION_UID'
         - createSequence:
             sequenceName: STROMKNIGHTS_SEQ
             startValue: 100000
