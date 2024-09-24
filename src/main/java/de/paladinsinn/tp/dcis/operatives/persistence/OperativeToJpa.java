@@ -7,10 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
-import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeImpl;
 
 @Mapper
-public interface OperativeToJpa extends Function<OperativeImpl, OperativeJPA> {
+public interface OperativeToJpa extends Function<Operative, OperativeJPA> {
     @Mapping(target = "version", ignore = true)
     @Mapping(target = "revId", ignore = true)
     @Mapping(target = "revisioned", ignore = true)
