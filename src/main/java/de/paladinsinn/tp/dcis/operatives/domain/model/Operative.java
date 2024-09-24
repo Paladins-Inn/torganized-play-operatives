@@ -7,28 +7,16 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import de.kaiserpfalzedv.commons.api.resources.HasId;
 import de.kaiserpfalzedv.commons.api.resources.HasName;
+import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
+import de.kaiserpfalzedv.commons.api.resources.HasTimestamps;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import jakarta.annotation.Nullable;
 
 @JsonDeserialize(as = OperativeImpl.class)
-public interface Operative extends HasName {
-    UUID getUid();
-
-    @Nullable
-    OffsetDateTime getCreated();
-
-    @Nullable
-    OffsetDateTime getModified();
-
-    @Nullable
-    OffsetDateTime getDeleted();
-
-    String getNameSpace();
-
-    String getName();
-
+public interface Operative extends HasId<UUID>, HasName, HasNameSpace, HasTimestamps {
     Cosm getCosm();
 
     long getXp();

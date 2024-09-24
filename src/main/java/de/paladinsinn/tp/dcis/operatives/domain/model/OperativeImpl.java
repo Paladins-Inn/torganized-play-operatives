@@ -1,5 +1,6 @@
 package de.paladinsinn.tp.dcis.operatives.domain.model;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
-import lombok.extern.slf4j.Slf4j;
 
 
 @Jacksonized
@@ -24,10 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Data
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
-@EqualsAndHashCode(of = {"uid"})
-@Slf4j
-public class OperativeImpl implements Operative {
-    private UUID uid;
+@EqualsAndHashCode(of = {"id"})
+public class OperativeImpl implements Operative, Serializable {
+    private UUID id;
     private OffsetDateTime created;
     private OffsetDateTime modified;
     private OffsetDateTime deleted;

@@ -33,9 +33,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/")
 public class ManageOperative {
-    private static final String DATAMODEL = "knight";
+    private static final String DATA_MODEL = "operative";
 
-    private final OperativeRepository stormKnightRepository;
+    private final OperativeRepository operativeRepository;
 
     @GetMapping("/")
     @RolesAllowed("PLAYER")
@@ -45,7 +45,7 @@ public class ManageOperative {
         @NotNull Model model
     ) {
 
-        log.info("Showing input form for new storm knights. user={}", 
+        log.info("Showing input form for new storm operatives. user={}", 
             principal.getName()
         );
 
@@ -53,51 +53,51 @@ public class ManageOperative {
             referrer = "/" + principal.getName() + "/list";
         }
 
-        Operative knight = OperativeJPA.builder()
-            .uid(UUID.randomUUID())
+        Operative operative = OperativeJPA.builder()
+            .id(UUID.randomUUID())
             .nameSpace(principal.getName())
             .build();
 
         model.addAttribute("cosms", Cosm.values());
         model.addAttribute("errors", new Binding());
         model.addAttribute("referrer", referrer);
-        model.addAttribute(DATAMODEL, knight);
-        return "edit-stormknight";
+        model.addAttribute(DATA_MODEL, operative);
+        return "edit-operative";
     }
 
     @PostMapping("/")
     @RolesAllowed("PLAYER")
     public String saveOperative(
         @NotNull Principal principal,
-        @Valid @NotNull @ModelAttribute(DATAMODEL) OperativeJPA knight,
+        @Valid @NotNull @ModelAttribute(DATA_MODEL) OperativeJPA operative,
         BindingResult binding,
         @NotNull Model model
     ) {
-        log.info("Saving storm knight data. user={}, knight={}", principal.getName(), knight);
+        log.info("Saving storm operative data. user={}, operative={}", principal.getName(), operative);
 
         model.addAttribute("errors", binding);
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
-            log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
+            log.warn("Data is invalid. operative={}, errors={}", operative, binding.getAllErrors());
 
             model.addAttribute("cosms", Cosm.values());
             model.addAttribute("referrer", "/" + principal.getName() + "/list");
-            model.addAttribute(DATAMODEL, knight);
-            return "edit-stormknight";
+            model.addAttribute(DATA_MODEL, operative);
+            return "edit-operative";
         }
 
         if (
-            ! principal.getName().equals(knight.getNameSpace())
+            ! principal.getName().equals(operative.getNameSpace())
             && !hasRole(principal, Set.of("ROLE_ORGA","ROLE_ADMIN"))
         ) {
-            log.warn("The storm knight is not owned by the user. user={}, knight={}", principal, knight);
+            log.warn("The storm operative is not owned by the user. user={}, operative={}", principal, operative);
         } else {
-            knight = protectKnightData(knight, principal);
-            knight = stormKnightRepository.save(knight);
+            operative = protectOperativeData(operative, principal);
+            operative = operativeRepository.save(operative);
 
-            log.info("Changed storm knight saved. knight={}", knight);
+            log.info("Changed storm operative saved. operative={}", operative);
         }
 
-        model.addAttribute(DATAMODEL, knight);
+        model.addAttribute(DATA_MODEL, operative);
 
         return "redirect:/" + principal.getName() + "/list";
     }
@@ -108,18 +108,18 @@ public class ManageOperative {
         return roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r)));
     }
 
-    private OperativeJPA protectKnightData(final OperativeJPA knight, final Principal user) {
+    private OperativeJPA protectOperativeData(final OperativeJPA operative, final Principal user) {
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
-            return knight;
+            return operative;
         }
 
-        OperativeJPA orig = stormKnightRepository.findByUid(knight.getUid());
-        if (orig == null) return knight;
+        OperativeJPA orig = operativeRepository.findByUid(operative.getId());
+        if (orig == null) return operative;
 
         return orig.toBuilder()
-                .name(knight.getName())
+                .name(operative.getName())
                 .build();
     }
 }

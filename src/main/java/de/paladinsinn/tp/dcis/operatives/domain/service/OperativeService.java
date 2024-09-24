@@ -56,7 +56,7 @@ public class OperativeService {
 
     public Operative update(Operative operative) {
         final OperativeJPA toSave = toJPA.apply(operative);
-        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getUid());
+        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getId());
         orig.ifPresent(o -> transferPersistenceId(toSave, o));
 
         Operative result = toModel.apply(jpaRepository.saveAndFlush(toSave));
@@ -77,7 +77,7 @@ public class OperativeService {
 
     public void retire(Operative operative) {
         OperativeJPA toSave = toJPA.apply(operative);
-        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getUid());
+        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getId());
         orig.ifPresent(o -> transferPersistenceId(toSave, o));
 
         toSave.retire();
@@ -87,10 +87,7 @@ public class OperativeService {
     }
 
     public void delete(Operative operative) {
-        OperativeJPA toDelete = jpaRepository.findByUid(operative.getUid());
-        if (toDelete != null) {
-            jpaRepository.delete(toDelete);
-        }
+        jpaRepository.deleteById(operative.getId());;
 
         log.debug("Deleted operative. operative={}", operative);
     }
