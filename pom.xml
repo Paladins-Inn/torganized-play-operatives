@@ -113,6 +113,12 @@
             <version>1.2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>de.paladins-inn.torganized-play</groupId>
+            <artifactId>torganized-play-commons</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- Communication -->
         <dependency>
             <groupId>de.kaiserpfalz-edv.commons</groupId>
