@@ -32,6 +32,7 @@ public class OperativeImpl implements Operative, Serializable {
     private OffsetDateTime deleted;
 
     private String nameSpace;
+    private String owner;
     private String name;
 
     private Cosm cosm;

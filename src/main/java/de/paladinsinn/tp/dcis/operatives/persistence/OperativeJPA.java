@@ -6,7 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.commons.jpa.AbstractRevisionedJPAEntity;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
+import de.kaiserpfalzedv.commons.jpa.AbstractJPAEntity;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
@@ -22,22 +25,25 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.ToString.Include;
+import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * The Storm Knights are the PCs of the Torganized Play.
+ * The Operatives are the PCs of the Torganized Play.
  * 
  * @author klenkes74 {@literal <rlichti@kaiserpfalz-edv.de>}
  * @since 1.0.0
  */
 @Entity
+@Audited
+@AuditTable("OPERATIVES_AUD")
 @Table(
     name = "OPERATIVES",
     uniqueConstraints = {
         @UniqueConstraint(columnNames = {"ID"}),
-        @UniqueConstraint(columnNames = {"UID"}),
         @UniqueConstraint(columnNames = {"NAMESPACE", "NAME"})
     }
 )
@@ -46,43 +52,50 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Accessors(chain = true)
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @Slf4j
-public class OperativeJPA extends AbstractRevisionedJPAEntity<UUID> implements Operative {
+public class OperativeJPA extends AbstractJPAEntity<UUID> implements Operative {
     /** The namespace this storm knight belongs to. */
     @NotNull
     @Column(name = "NAMESPACE", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
     @Size(min = 3, max = 100, message = "The length of the string must be between 3 and 100 characters long.") @Pattern(regexp = "^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$", message = "The string must match the pattern '^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$'")
-    @ToString.Include
+    @Include
     private String nameSpace;
 
-    /** The name of the storm knights. Needs to be unique within the namespace. */
+    /** The name of the Operatives. Needs to be unique within the namespace. */
     @NotNull
     @Column(name = "NAME", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
     @Size(min = 3, max = 100, message = "The length of the string must be between 3 and 100 characters long.") @Pattern(regexp = "^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$", message = "The string must match the pattern '^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$'")
-    @ToString.Include
+    @Include
     private String name;
+
+    @NotNull
+    @Column(name = "OWNER", unique = false, nullable = false, insertable = true, updatable = true)
+    @Size(min = 3, max = 100, message = "The length of the string must be between 3 and 100 characters long.")
+    @Include
+    private String owner;
 
     /** The cosm this storm knight is from. */
     @NotNull
     @Column(name = "COSM", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
     @Enumerated(EnumType.STRING)
-    @ToString.Include
+    @Include
     @Default
     private Cosm cosm = Cosm.CORE_EARTH;
 
     /** The XP this storm knight has accumulated. */
     @NotNull
     @Column(name = "XP", columnDefinition = "BIGINT", unique = false, nullable = false, insertable = true, updatable = true)
-    @ToString.Include
+    @Include
     @Default
     private long xp = 0;
 
     /** The money this storm knight has accumulated. */
     @NotNull
     @Column(name = "MONEY", columnDefinition = "BIGINT", unique = false, nullable = false, insertable = true, updatable = true)
-    @ToString.Include
+    @Include
     @Default
     private long money = 0;
 
@@ -119,9 +132,6 @@ public class OperativeJPA extends AbstractRevisionedJPAEntity<UUID> implements O
     
     @PrePersist
     public void prePersist() {
-        created = OffsetDateTime.now(Clock.systemUTC());
-        modified = created;
-
         if (id == null) {
             id = UUID.randomUUID();
         }

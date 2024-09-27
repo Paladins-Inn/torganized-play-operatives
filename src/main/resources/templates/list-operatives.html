@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
 <head>
-    <title th:text="#{view.list-operatives.title}">List of Storm Knights</title>
+    <title th:text="#{view.list-operatives.title}">List of Operatives</title>
 </head>
 <body><section layout:fragment="content">
 
-<h1 class="torg-header"  th:text="#{view.list-operatives.title}">List of Storm Knights</h1>
+<h1 class="torg-header"  th:text="#{view.list-operatives.title}">List of Operatives</h1>
 
 <a th:href="@{/}" data-method="post" class="btn btn-primary" role="button" th:text="#{operatives.action.create}">Register new Storm Knight</a>
 
@@ -21,7 +21,7 @@
     </ul>
 </nav>
 <table class="table table-responsive-lg table-sm table-borderless table-striped align-top align-left">
-    <caption th:text="#{view.list-operatives.title}">List of Storm Knights</caption>
+    <caption th:text="#{view.list-operatives.title}">List of Operatives</caption>
     <thead>
         <tr>
             <th scope="col" style="width: 60%;" th:text="#{operatives.table.header.name}">Name</th>
@@ -50,10 +50,10 @@
     </tbody>
     <tfoot>
         <tr th:if="${operatives.totalElements == 0}">
-            <td colspan="5" th:text="#{view.list-operatives.empty-list}">No storm knights registered.</td>
+            <td colspan="5" th:text="#{view.list-operatives.empty-list}">No Operatives registered.</td>
         </tr>
         <tr th:if="${operatives.totalElements > 0}">
-            <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered storm knights</td>
+            <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered Operatives</td>
             <td th:text="${operatives.totalElements}">1</td>
         </tr>
     </tfoot>

@@ -62,7 +62,7 @@
                         <div sec:authorize="isAnonymous()">
                             <div><a class="nav-link" href="/players/"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" href="/gaming/public/list"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
-                            <div><a class="nav-link" href="/operatives/public/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/public/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Operatives</span></a></div>
                             <div><a class="nav-link" href="/threats/public/list"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.threats.library}">Threats</span></a></div>
                         </div>
 
@@ -70,8 +70,8 @@
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.player}"></div>
                             <div><a class="nav-link" th:href="@{~/players/dcis/{name}/dashboard(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" th:href="@{~/gaming/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
-                            <div><a class="nav-link" th:href="@{~/operatives/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Storm Knights</span></a></div>
-                            <div><a class="nav-link" th:href="@{~/codex/}"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.player.codex}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" th:href="@{~/operatives/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Operatives</span></a></div>
+                            <div><a class="nav-link" th:href="@{~/codex/}"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.player.codex}">Operatives</span></a></div>
                         </div>
 
                         <div sec:authorize="hasRole('GM')">
@@ -88,14 +88,14 @@
 
                         <div sec:authorize="hasRole('ORGA')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.orga}"></div>
-                            <div><a class="nav-link" href="/operatives/orga/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/orga/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Operatives</span></a></div>
                             <div><a class="nav-link" href="/gaming/orga/missions"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.orga.missions}">Sessions</span></a></div>
                             <div><a class="nav-link" href="/gaming/orga/tables"><span class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></span><span th:text="#{menu.orga.tables}">Local Tables</span></a></div>
                         </div>
 
                         <div sec:authorize="hasRole('JUDGE')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.judge}"></div>
-                            <div><a class="nav-link" href="/operatives/judge/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Storm Knights</span></a></div>
+                            <div><a class="nav-link" href="/operatives/judge/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.orga.operatives}">Operatives</span></a></div>
                             <div><a class="nav-link" href="/gaming/judge/missions"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.orga.missions}">Sessions</span></a></div>
                             <div><a class="nav-link" href="/gaming/judge/tables"><span class="sb-nav-link-icon"><i class="fas fa-ticket fa-fw"></i></span><span th:text="#{menu.orga.tables}">Local Tables</span></a></div>
                         </div>

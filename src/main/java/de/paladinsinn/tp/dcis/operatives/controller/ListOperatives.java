@@ -39,11 +39,11 @@ public class ListOperatives {
         Pageable p = Pageable.ofSize(size).withPage(page);
 
         Page<OperativeJPA> knights = stormKnightRepository.findAll(p);
-        log.info("Storm knights list loaded. page={}, size={}, noOfOperatives={}", page, size, knights.getTotalElements());
+        log.info("Operatives list loaded. page={}, size={}, noOfOperatives={}", page, size, knights.getTotalElements());
 
         model.addAttribute("url", url);
         model.addAttribute("operatives", knights);
-        log.info("Listing operatives. knights={}", knights.getContent());
+        log.info("Listing operatives. operatives={}", knights.getContent());
     }
 
     @GetMapping("orga/list")

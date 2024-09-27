@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
-import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
-import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
+import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeImpl;
+import de.paladinsinn.tp.dcis.operatives.domain.service.OperativeService;
 import groovy.lang.Binding;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ManageOperative {
     private static final String DATA_MODEL = "operative";
 
-    private final OperativeRepository operativeRepository;
+    private final OperativeService operativeService;
 
     @GetMapping("/")
     @RolesAllowed("PLAYER")
@@ -45,7 +45,7 @@ public class ManageOperative {
         @NotNull Model model
     ) {
 
-        log.info("Showing input form for new storm operatives. user={}", 
+        log.info("Showing input form for new operatives. user={}", 
             principal.getName()
         );
 
@@ -53,9 +53,9 @@ public class ManageOperative {
             referrer = "/" + principal.getName() + "/list";
         }
 
-        Operative operative = OperativeJPA.builder()
+        Operative operative = OperativeImpl.builder()
             .id(UUID.randomUUID())
-            .nameSpace(principal.getName())
+            .owner(principal.getName())
             .build();
 
         model.addAttribute("cosms", Cosm.values());
@@ -69,7 +69,7 @@ public class ManageOperative {
     @RolesAllowed("PLAYER")
     public String saveOperative(
         @NotNull Principal principal,
-        @Valid @NotNull @ModelAttribute(DATA_MODEL) OperativeJPA operative,
+        @Valid @NotNull @ModelAttribute(DATA_MODEL) Operative operative,
         BindingResult binding,
         @NotNull Model model
     ) {
@@ -86,13 +86,13 @@ public class ManageOperative {
         }
 
         if (
-            ! principal.getName().equals(operative.getNameSpace())
+            ! principal.getName().equals(operative.getOwner())
             && !hasRole(principal, Set.of("ROLE_ORGA","ROLE_ADMIN"))
         ) {
-            log.warn("The storm operative is not owned by the user. user={}, operative={}", principal, operative);
+            log.warn("The storm operative is not owned by the user. No data will be changed. user={}, operative={}", principal, operative);
         } else {
-            operative = protectOperativeData(operative, principal);
-            operative = operativeRepository.save(operative);
+            operative = operativeService.protectOperativeData(operative, principal);
+            operative = operativeService.update(operative);
 
             log.info("Changed storm operative saved. operative={}", operative);
         }
@@ -106,20 +106,5 @@ public class ManageOperative {
         log.info("Checking roles. principal={}", user);
 
         return roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r)));
-    }
-
-    private OperativeJPA protectOperativeData(final OperativeJPA operative, final Principal user) {
-        if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
-            log.debug("Admins and orga may change anything.");
-
-            return operative;
-        }
-
-        OperativeJPA orig = operativeRepository.findByUid(operative.getId());
-        if (orig == null) return operative;
-
-        return orig.toBuilder()
-                .name(operative.getName())
-                .build();
     }
 }

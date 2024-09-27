@@ -14,9 +14,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: ID
-                  type: BIGINT
-                  autoIncrement: true
-                  startWith: 10000
+                  type: UUID
                   remarks: The Database internal ID
                 constraints:
                   - primaryKey: true
@@ -26,14 +24,10 @@ databaseChangeLog:
                   - unique: true
                   - uniqueConstraintName: OPERATIVES_ID_UK
               - column:
-                  name: UID
-                  type: UUID
-                  valueComputed: uuid_generate_v4()
-                constraints:
-                  - nullable: false
-                  - notNullConstraintName: OPERATIVES_UID_NN
-                  - unique: true
-                  - uniqueConstraintName: OPERATIVES_UID_UK
+                  name: VERSION
+                  type: INTEGER
+                  defaultValueNumeric: 0
+                  remarks: The JPA optimistic locking version.
               - column:
                   name: CREATED
                   type: TIMESTAMP WITH TIME ZONE
@@ -44,10 +38,6 @@ databaseChangeLog:
               - column:
                   name: MODIFIED
                   type: TIMESTAMP WITH TIME ZONE
-                  valueComputed: now()
-                constraints:
-                  - nullable: false
-                  - notNullConstraintName: OPERATIVES_MODIFIED_NN
               - column:
                   name: DELETED
                   type: TIMESTAMP WITH TIME ZONE
@@ -58,6 +48,12 @@ databaseChangeLog:
                 constraints:
                   - nullable: false
                   - notNullConstraintName: OPERATIVES_NAMESPACE_NN
+              - column:
+                  name: OWNER
+                  type: VARCHAR(100)
+                constraints:
+                  - nullable: false
+                  - notNullConstraintName: OPERATIVES_OWNER_NN
               - column:
                   name: NAME
                   type: VARCHAR(100)
@@ -104,7 +100,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: OPERATIVE
-                  type: BIGINT
+                  type: UUID
                   remarks: The Storm Knight for this entry
                 constraints:
                   - nullable: false
@@ -178,11 +174,141 @@ databaseChangeLog:
             constraintName: OPERATIVES_NAME_UK
             tableName: OPERATIVES
             columnNames: 'NAMESPACE,NAME'
-        - createSequence:
-            sequenceName: STROMKNIGHTS_SEQ
-            startValue: 100000
-            incrementBy: 1
-            maxValue: 999999
-            minValue: 100000
-            cacheSize: 10
-            dataType: BIGINT
+        - createIndex:
+            tableName: OPERATIVES
+            indexName: OPERATIVES_OWNER_IDX
+            unique: false
+            clustered: false
+            column:
+              name: OWNER
+              computed: false
+              descending: false
+  - changeSet:
+      id: 20240927-rlichti-001
+      author: rlichti
+      context: init
+      labels: 'v1.0.0,operatives'
+      dbms: postgresql
+      created: '1.0.0'
+      changes:
+        - createTable:
+            tableName: REVINFO
+            remarks: Envers revisions.
+            columns:
+            - column:
+                name: REV
+                type: INTEGER
+                constraints:
+                  nullable: false
+                  notNullConstraintName: REVINFO_REV_NN
+                  primaryKey: true
+                  primaryKeyName: REVINFO_PK
+                  unique: true
+                  uniqueConstraintName: REVINFO_UK
+            - column:
+                name: REVTSTMP
+                type: BIGINT
+        - createTable:
+            tableName: OPERATIVES_AUD
+            remarks: Envers audit table for OPERATIVES.
+            columns:
+              - column:
+                  name: REV
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+                    notNullConstraintName: OPERATIVES_AUD_REV_NN
+                    referencedTableName: REVINFO
+                    referencedColumnNames: REV
+                    foreignKeyName: OPERATIVES_AUD_REVINFO_FK
+              - column: 
+                  name: REVTYPE
+                  type: SMALLINT
+              - column:
+                  name: ID
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    notNullConstraintName: OPERATIVES_AUD_ID_NN
+              - column:
+                  name: OWNER
+                  type: VARCHAR(255)
+              - column:
+                  name: MONEY
+                  type: BIGINT
+              - column:
+                  name: XP
+                  type: BIGINT
+              - column:
+                  name: COSM
+                  type: VARCHAR(100)
+              - column:
+                  name: NAME
+                  type: VARCHAR(100)
+              - column:
+                  name: NAMESPACE
+                  type: VARCHAR(100)
+              - column:
+                  name: DESCRIPTION
+                  type: VARCHAR(5000)
+              - column:
+                  name: NOTES
+                  type: VARCHAR(5000)
+        - createTable:
+            tableName: OPERATIVES_HISTORY_AUD
+            remarks: Envers history table for OPERATIVES_HISTORY.
+            columns:
+              - column:
+                  name: REV
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+                    notNullConstraintName: OPERATIVES_HISTORY_AUD_REV_NN
+              - column: 
+                  name: REVTYPE
+                  type: SMALLINT
+                  constraints:
+                    nullable: false
+                    notNullConstraintName: OPERATIVES_HISTORY_AUD_REVTYPE_NN 
+              - column:
+                  name: OPERATIVE
+                  type: UUID
+                  remarks: The Storm Knight for this entry
+                  constraints:
+                    nullable: false
+                    notNullConstraintName: OPERATIVES_HISTORY_AUD_OPERATIVE_NN 
+              - column:
+                  name: CREATED
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: MODIFIED
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: DELETED
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: MISSION_NAME
+                  type: VARCHAR(100)
+              - column:
+                  name: MISSION_DATE
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: MISSION_UID
+                  type: UUID
+              - column:
+                  name: XP
+                  type: BIGINT
+                  defaultValueNumeric: 5
+              - column:
+                  name: PAYMENT
+                  type: BIGINT
+              - column:
+                  name: REPORT
+                  type: VARCHAR(5000)
+              - column:
+                  name: SUCCESS
+                  type: VARCHAR(100)
+        - addPrimaryKey:
+            tableName: OPERATIVES_HISTORY_AUD
+            columnNames: REV,REVTYPE,OPERATIVE
+            constraintName: OPERATIVES_HISTORY_AUD_PK

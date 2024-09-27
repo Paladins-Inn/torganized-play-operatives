@@ -23,7 +23,7 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: none
+            ddl-auto: validate
     
     liquibase:
         enabled: true

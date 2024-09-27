@@ -19,8 +19,12 @@ package de.paladinsinn.tp.dcis.operatives.persistence;
 
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.UUID;
+
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeHistoryEntry;
@@ -29,8 +33,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,13 +46,15 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * a single history entry for the storm knights HR file.
+ * a single history entry for the Operatives HR file.
  * 
  * @author klenkes74 {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0
  * @since 2024-08-24
  */
 @Embeddable
+@Audited
+@AuditTable("OPERATIVE_HISTORY")
 @Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor
@@ -62,12 +66,14 @@ import lombok.extern.slf4j.Slf4j;
 public class OperativeHistoryEntryJPA implements OperativeHistoryEntry {
         /** Data set creation timestamp. */
         @Nullable
+        @CreatedDate
         @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
         @ToString.Include
         private OffsetDateTime created;
     
         /** Last modification to this data set. */
         @Nullable
+        @LastModifiedDate
         @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
         private OffsetDateTime modified;
     
@@ -87,8 +93,7 @@ public class OperativeHistoryEntryJPA implements OperativeHistoryEntry {
 
         @NotNull
         @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false, insertable = true, updatable = true)
-        @Default
-        private UUID missionUid = UUID.randomUUID();
+        private UUID missionUid;
 
         @NotNull
         @Column(name = "XP", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
@@ -109,15 +114,4 @@ public class OperativeHistoryEntryJPA implements OperativeHistoryEntry {
         @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
         @Default
         private SuccessState success = SuccessState.NONE;
-
-        @PrePersist
-        public void prePersist() {
-            created = OffsetDateTime.now(ZoneOffset.UTC);
-            modified = created;
-        }
-
-        @PreUpdate
-        public void preUpdate() {
-            modified = OffsetDateTime.now(ZoneOffset.UTC);
-        }
     }

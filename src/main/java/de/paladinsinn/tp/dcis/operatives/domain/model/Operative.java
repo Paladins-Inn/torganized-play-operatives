@@ -17,6 +17,8 @@ import jakarta.annotation.Nullable;
 
 @JsonDeserialize(as = OperativeImpl.class)
 public interface Operative extends HasId<UUID>, HasName, HasNameSpace, HasTimestamps {
+    String getOwner();
+    
     Cosm getCosm();
 
     long getXp();
