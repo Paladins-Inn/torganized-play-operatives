@@ -43,12 +43,12 @@
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarUserMenu">
                     <div sec:authorize="isAuthenticated()">
-                        <a class="dropdown-item" th:href="@{~/players/dcis/{name}/settings(name=${#authentication.name})}" th:text="#{menu.player.settings}">Settings</a>
-                        <a class="dropdown-item" th:href="@{~/players/dcis/{name}/log(name=${#authentication.name})}" th:text="#{menu.player.log}">Activity Log</a>
+                        <a class="dropdown-item" th:href="@{~/users/dcis/{name}/settings(name=${#authentication.name})}" th:text="#{menu.player.settings}">Settings</a>
+                        <a class="dropdown-item" th:href="@{~/users/dcis/{name}/log(name=${#authentication.name})}" th:text="#{menu.player.log}">Activity Log</a>
                         <hr class="dropdown-divider" />
-                        <a class="dropdown-item" href="/players/logout" th:text="#{security.log-out-prompt}"></a>
+                        <a class="dropdown-item" href="/users/logout" th:text="#{security.log-out-prompt}"></a>
                     </div>
-                    <a sec:authorize="isAnonymous()" class="dropdown-item" href="/players/dcis/" th:text="#{security.log-in-prompt}"></a>
+                    <a sec:authorize="isAnonymous()" class="dropdown-item" href="/users/dcis/" th:text="#{security.log-in-prompt}"></a>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div sec:authorize="isAnonymous()">
-                            <div><a class="nav-link" href="/players/"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
+                            <div><a class="nav-link" href="/users/"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" href="/gaming/public/list"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
                             <div><a class="nav-link" href="/operatives/public/list"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Operatives</span></a></div>
                             <div><a class="nav-link" href="/threats/public/list"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.threats.library}">Threats</span></a></div>
@@ -68,7 +68,7 @@
 
                         <div sec:authorize="hasRole('PLAYER')">
                             <div class="sb-sidenav-menu-heading" th:text="#{roles.player}"></div>
-                            <div><a class="nav-link" th:href="@{~/players/dcis/{name}/dashboard(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
+                            <div><a class="nav-link" th:href="@{~/users/dcis/{name}/dashboard(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-fw"></i></span><span th:text="#{menu.player.dashboard}">Dashboard</span></a></div>
                             <div><a class="nav-link" th:href="@{~/gaming/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-tasks fa-fw"></i></span><span th:text="#{menu.player.games}">Games</span></a></div>
                             <div><a class="nav-link" th:href="@{~/operatives/{name}/list(name=${#authentication.name})}"><span class="sb-nav-link-icon"><i class="fas fa-user fa-fw"></i></span><span th:text="#{menu.player.operatives}">Operatives</span></a></div>
                             <div><a class="nav-link" th:href="@{~/codex/}"><span class="sb-nav-link-icon"><i class="fas fa-file-text fa-fw"></i></span><span th:text="#{menu.player.codex}">Operatives</span></a></div>
@@ -107,7 +107,7 @@
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                <!-- START dcis-players part -->
+                                <!-- START dcis-users part -->
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
                                     data-bs-target="#pagesCollapseAuth" aria-expanded="false"
                                     aria-controls="pagesCollapseAuth">Authentication<div
@@ -120,20 +120,7 @@
                                         <a class="nav-link" href="password.html">Forgot Password</a>
                                     </nav>
                                 </div>
-                                <!-- END dcis-players part -->
-
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
-                                    data-bs-target="#pagesCollapseError" aria-expanded="false"
-                                    aria-controls="pagesCollapseError">Error<div class="sb-sidenav-collapse-arrow"><i
-                                            class="fas fa-angle-down"></i></div></a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne"
-                                    data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="401.html">401 Page</a>
-                                        <a class="nav-link" href="404.html">404 Page</a>
-                                        <a class="nav-link" href="500.html">500 Page</a>
-                                    </nav>
-                                </div>
+                                <!-- END dcis-users part -->
                             </nav>
                         </div>
 
@@ -148,7 +135,7 @@
                         </a>
                     </div>
                 </div>
-                <!-- START dcis-players part -->
+                <!-- START dcis-users part -->
                 <div sec:authorize="isAuthenticated()" class="sb-sidenav-footer">
                     <div class="small" th:text="#{security.logged-in-as} + ':'"></div>
                     <span sec:authentication="name"></span><br/>
@@ -160,9 +147,9 @@
                     --><span sec:authorize="hasRole('ADMIN')" th:text="#{roles.admin} + '|'"></span>
                 </div>
                 <div sec:authorize="isAnonymous()" class="sb-sidenav-footer">
-                    <div><a href="/players/login" th:text="#{security.log-in-prompt}"></a></div>
+                    <div><a href="/users/login" th:text="#{security.log-in-prompt}"></a></div>
                 </div>
-                <!-- END dcis-players-part -->
+                <!-- END dcis-users-part -->
                 </nav>
         </div>
 
@@ -295,9 +282,9 @@
                     <div class="d-flex align-items-center justify-content-between small text-white">
                         <div>Copyright &copy; <span th:text="#{frame.copyright}"></span></div>
                         <div>
-                            <a href="/players/privacy-policy" th:text="#{frame.privacy_policy}"></a>
+                            <a href="/users/privacy-policy" th:text="#{frame.privacy_policy}"></a>
                             &middot;
-                            <a href="/players/terms-and-conditions" th:text="#{frame.t_and_a}"></a>
+                            <a href="/users/terms-and-conditions" th:text="#{frame.t_and_a}"></a>
                         </div>
                     </div>
                 </div>
