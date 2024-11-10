@@ -1,0 +1,37 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+registries:
+  torganized-play-commons:
+    type: maven-repository
+    url: https://maven.pkg.github.com/Paladins-Inn/torganized-play-commons
+    username: ${{ secrets.ARTIFACTSTORE_USER }}
+    password: ${{ secrets.ARTIFACTSTORE_PASSWORD }}
+  torganized-play-users:
+    type: maven-repository
+    url: https://maven.pkg.github.com/Paladins-Inn/torganized-play-users
+    username: ${{ secrets.ARTIFACTSTORE_USER }}
+    password: ${{ secrets.ARTIFACTSTORE_PASSWORD }}
+  torganized-play-operatives:
+    type: maven-repository
+    url: https://maven.pkg.github.com/Paladins-Inn/torganized-play-operatives
+    username: ${{ secrets.ARTIFACTSTORE_USER }}
+    password: ${{ secrets.ARTIFACTSTORE_PASSWORD }}
+  torganized-play-gaming:
+    type: maven-repository
+    url: https://maven.pkg.github.com/Paladins-Inn/torganized-play-gaming
+    username: ${{ secrets.ARTIFACTSTORE_USER }}
+    password: ${{ secrets.ARTIFACTSTORE_PASSWORD }}
+  torganized-play-threats:
+    type: maven-repository
+    url: https://maven.pkg.github.com/Paladins-Inn/torganized-play-threats
+    username: ${{ secrets.ARTIFACTSTORE_USER }}
+    password: ${{ secrets.ARTIFACTSTORE_PASSWORD }}
+updates:
+  - package-ecosystem: "maven" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
