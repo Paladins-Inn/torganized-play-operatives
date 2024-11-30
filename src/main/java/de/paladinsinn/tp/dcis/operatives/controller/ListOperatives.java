@@ -1,5 +1,6 @@
 package de.paladinsinn.tp.dcis.operatives.controller;
 
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,10 @@ import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 @RequiredArgsConstructor
-@Slf4j
+@XSlf4j
 @Controller
 @RequestMapping("/")
 public class ListOperatives {
@@ -30,12 +30,15 @@ public class ListOperatives {
         @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
+        log.entry(size, page, model);
         prepareListOfOperatives("public/list", size, page, model);
 
-        return "list-operatives";
+        return log.exit("list-operatives");
     }
 
     private void prepareListOfOperatives(final String url, final int size, final int page, Model model) {
+        log.entry(url, size, page, model);
+
         Pageable p = Pageable.ofSize(size).withPage(page);
 
         Page<OperativeJPA> knights = stormKnightRepository.findAll(p);
@@ -44,6 +47,7 @@ public class ListOperatives {
         model.addAttribute("url", url);
         model.addAttribute("operatives", knights);
         log.info("Listing operatives. knights={}", knights.getContent());
+        log.exit();
     }
 
     @GetMapping("orga/list")
@@ -53,9 +57,11 @@ public class ListOperatives {
         @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
+        log.entry(size, page, model);
+
         prepareListOfOperatives("orga/list", size, page, model);
 
-        return "list-operatives";
+        return log.exit("list-operatives");
     }
 
     @GetMapping("judge/list")
@@ -65,9 +71,11 @@ public class ListOperatives {
         @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
+        log.entry(size, page, model);
+
         prepareListOfOperatives("judge/list", size, page, model);
 
-        return "list-operatives";
+        return log.exit("list-operatives");
     }
 
     @GetMapping("{name}/list")
@@ -77,8 +85,10 @@ public class ListOperatives {
         @RequestParam(defaultValue = "0") final int page,
         Model model
     ) {
+        log.entry(name, size, page, model);
+
         prepareListOfOperatives(name + "/list", size, page, model);
 
-        return "list-operatives";
+        return log.exit("list-operatives");
     }
 }

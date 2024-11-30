@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Set;
 import java.util.UUID;
 
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -29,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RequiredArgsConstructor
-@Slf4j
+@XSlf4j
 @Controller
 @RequestMapping("/")
 public class ManageOperative {
@@ -44,6 +45,7 @@ public class ManageOperative {
         @RequestHeader(value = HttpHeaders.REFERER, required = false) String referrer,
         @NotNull Model model
     ) {
+        log.entry(principal, referrer, model);
 
         log.info("Showing input form for new storm knights. user={}", 
             principal.getName()
@@ -62,7 +64,8 @@ public class ManageOperative {
         model.addAttribute("errors", new Binding());
         model.addAttribute("referrer", referrer);
         model.addAttribute(DATAMODEL, knight);
-        return "edit-stormknight";
+
+        return log.exit("edit-stormknight");
     }
 
     @PostMapping("/")
@@ -73,6 +76,8 @@ public class ManageOperative {
         BindingResult binding,
         @NotNull Model model
     ) {
+        log.entry(principal, knight, binding, model);
+
         log.info("Saving storm knight data. user={}, knight={}", principal.getName(), knight);
 
         model.addAttribute("errors", binding);
@@ -99,16 +104,20 @@ public class ManageOperative {
 
         model.addAttribute(DATAMODEL, knight);
 
-        return "redirect:/" + principal.getName() + "/list";
+        return log.exit("redirect:/" + principal.getName() + "/list");
     }
 
     private boolean hasRole(Principal user, Set<String> roles) {
+        log.entry(user, roles);
+
         log.info("Checking roles. principal={}", user);
 
-        return roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r)));
+        return log.exit(roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r))));
     }
 
     private OperativeJPA protectKnightData(final OperativeJPA knight, final Principal user) {
+        log.entry(knight, user);
+
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
@@ -118,8 +127,9 @@ public class ManageOperative {
         OperativeJPA orig = stormKnightRepository.findByUid(knight.getUid());
         if (orig == null) return knight;
 
-        return orig.toBuilder()
+        return log.exit(orig.toBuilder()
                 .name(knight.getName())
-                .build();
+                .build()
+        );
     }
 }
