@@ -6,8 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.commons.api.resources.HasId;
-import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
+import de.kaiserpfalzedv.commons.jpa.AbstractRevisionedJPAEntity;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
@@ -19,28 +18,20 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 import lombok.Builder.Default;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 
 /**
  * The Storm Knights are the PCs of the Torganized Play.
@@ -58,47 +49,14 @@ import lombok.extern.slf4j.Slf4j;
     }
 )
 @Jacksonized
-@Builder(toBuilder = true, setterPrefix = "")
+@SuperBuilder(toBuilder = true, setterPrefix = "")
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
-@EqualsAndHashCode(of = {"uid"})
-@Slf4j
-public class OperativeJPA implements HasId, HasNameSpace, Operative {
-    /** The Database ID of the players account. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operatives_seq")
-    @SequenceGenerator(name = "operatives_seq", sequenceName = "OPERATIVES_ID_SEQ", allocationSize = 10)
-    @Column(name = "ID", columnDefinition = "BIGINT", unique = true, insertable = true, updatable = false)
-    @ToString.Include
-    private Long id;
-
-    /** The UID of the player. */
-    @NotNull
-    @Column(name = "UID", columnDefinition = "UUID", unique = true, nullable = false, insertable = true, updatable = false)
-    @Default
-    @ToString.Include
-    private UUID uid = UUID.randomUUID();
-
-    /** Data set creation timestamp. */
-    @Nullable
-    @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
-    @ToString.Include
-    private OffsetDateTime created;
-
-    /** Last modification to this data set. */
-    @Nullable
-    @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
-    @ToString.Include
-    private OffsetDateTime modified;
-
-    /** Deletion date of this data set. */
-    @Nullable
-    @Column(name = "DELETED", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
-    @ToString.Include
-    private OffsetDateTime deleted;
-
+@EqualsAndHashCode(callSuper = true)
+@XSlf4j
+public class OperativeJPA  extends AbstractRevisionedJPAEntity<UUID> implements Operative {
     /** The namespace this storm knight belongs to. */
     @NotNull
     @Column(name = "NAMESPACE", columnDefinition = "VARCHAR(100)", unique = false, nullable = false, insertable = true, updatable = true)
@@ -161,31 +119,40 @@ public class OperativeJPA implements HasId, HasNameSpace, Operative {
     }
 
     public void retire() {
+        log.entry(this);
+
         deleted = OffsetDateTime.now(Clock.systemUTC());
         log.info("Operative retired. operative={}, retirement={}", this, deleted);
+
+        log.exit();
     }
 
     
     @PrePersist
     public void prePersist() {
-        created = OffsetDateTime.now(Clock.systemUTC());
-        modified = created;
+        log.entry(this);
+        created = modified = OffsetDateTime.now(Clock.systemUTC());
 
-        if (uid == null) {
-            uid = UUID.randomUUID();
+        if (id == null) {
+            id = UUID.randomUUID();
         }
 
-        log.debug("Registering new operative. operative={}", this);
+        log.exit(this);
     }
 
     @PreUpdate
     public void preUpdate() {
+        log.entry(this);
+
         modified = OffsetDateTime.now(Clock.systemUTC());
         log.debug("Updating data for operative. operative={}", this);
+
+        log.exit();
     }
 
     @PreRemove
     public void preRemove() {
-        log.debug("Removing data of operative. operative={}", this);
+        log.entry(this);
+        log.exit();
     }
 }

@@ -21,13 +21,11 @@ package de.paladinsinn.tp.dcis.operatives.domain.model;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import de.kaiserpfalzedv.commons.api.resources.HasName;
-import de.kaiserpfalzedv.commons.api.resources.HasNameSpace;
-import de.kaiserpfalzedv.commons.api.resources.HasTimestamps;
-import de.kaiserpfalzedv.commons.api.resources.HasUid;
+import de.kaiserpfalzedv.commons.api.resources.*;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import jakarta.annotation.Nullable;
@@ -39,7 +37,7 @@ import jakarta.annotation.Nullable;
  * @since 2024-09-24
  */
 @JsonDeserialize(as = OperativeImpl.class)
-public interface Operative extends HasNameSpace, HasName, HasTimestamps, HasUid {
+public interface Operative extends HasId<UUID>, HasNameSpace, HasName, HasTimestamps {
     Cosm getCosm();
 
     long getXp();

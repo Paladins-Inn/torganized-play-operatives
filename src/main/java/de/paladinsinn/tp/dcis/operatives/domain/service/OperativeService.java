@@ -38,8 +38,9 @@ import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+@SuppressWarnings("unused")
 @Service
-@Builder(toBuilder = true, setterPrefix = "")
+@Builder(toBuilder = true)
 @RequiredArgsConstructor
 @ToString(callSuper = true, onlyExplicitlyIncluded = true)
 @XSlf4j
@@ -51,7 +52,7 @@ public class OperativeService {
     public Operative findByUid(final UUID uid) {
         log.entry(uid);
 
-        Operative result = toModel.apply(jpaRepository.findByUid(uid));
+        Operative result = toModel.apply(jpaRepository.findById(uid).orElse(null));
 
         log.debug("Loaded operative by uid. uid={}, operative={}", uid, result);
         return log.exit(result);
@@ -83,7 +84,7 @@ public class OperativeService {
         log.entry(operative);
 
         final OperativeJPA toSave = toJPA.apply(operative);
-        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getUid());
+        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getId());
         orig.ifPresent(o -> transferPersistenceId(toSave, o));
 
         Operative result = toModel.apply(jpaRepository.saveAndFlush(toSave));
@@ -98,7 +99,7 @@ public class OperativeService {
     private Optional<OperativeJPA> loadOperativeFromPersistence(final UUID uid) {
         log.entry(uid);
 
-        Optional<OperativeJPA> result = Optional.ofNullable(jpaRepository.findByUid(uid));
+        Optional<OperativeJPA> result = jpaRepository.findById(uid);
         log.trace("Loaded operative from persistence. uid={}, operative={}", uid, result);
 
         return log.exit(result);
@@ -108,7 +109,7 @@ public class OperativeService {
         log.entry(operative);
 
         OperativeJPA toSave = toJPA.apply(operative);
-        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getUid());
+        Optional<OperativeJPA> orig = loadOperativeFromPersistence(operative.getId());
         orig.ifPresent(o -> transferPersistenceId(toSave, o));
 
         toSave.retire();
@@ -120,10 +121,8 @@ public class OperativeService {
     public void delete(Operative operative) {
         log.entry(operative);
 
-        OperativeJPA toDelete = jpaRepository.findByUid(operative.getUid());
-        if (toDelete != null) {
-            jpaRepository.delete(toDelete);
-        }
+        Optional<OperativeJPA> toDelete = jpaRepository.findById(operative.getId());
+        toDelete.ifPresent(jpaRepository::delete);
 
         log.debug("Deleted operative. operative={}", operative);
     }

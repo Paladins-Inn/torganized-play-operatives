@@ -22,6 +22,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
+import de.kaiserpfalzedv.commons.jpa.AbstractJPAEntity;
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeHistoryEntry;
 import jakarta.annotation.Nullable;
@@ -32,15 +33,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import lombok.*;
 import lombok.Builder.Default;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 
 
 /**
@@ -53,71 +51,61 @@ import lombok.extern.slf4j.Slf4j;
 @Embeddable
 @Jacksonized
 @AllArgsConstructor
-@NoArgsConstructor
-@Builder(toBuilder = true, setterPrefix = "")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder(toBuilder = true, setterPrefix = "")
 @Data
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
-@EqualsAndHashCode(of = {"missionUid"})
-@Slf4j
-public class OperativeHistoryEntryJPA implements OperativeHistoryEntry {
-        /** Data set creation timestamp. */
-        @Nullable
-        @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = false)
-        @ToString.Include
-        private OffsetDateTime created;
-    
-        /** Last modification to this data set. */
-        @Nullable
-        @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE", unique = false, nullable = false, insertable = true, updatable = true)
-        private OffsetDateTime modified;
-    
-        /** Deletion date of this data set. */
-        @Nullable
-        @Column(name = "DELETED", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
-        @ToString.Include
-        private OffsetDateTime deleted;
+@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+@XSlf4j
+public class OperativeHistoryEntryJPA extends AbstractJPAEntity<UUID> implements OperativeHistoryEntry {
+  @NotNull
+  @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
+  private String missionName;
 
-        @NotNull
-        @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
-        private String missionName;
+  @NotNull
+  @Column(name = "MISSION_DATE", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
+  private OffsetDateTime missionDate;
 
-        @NotNull
-        @Column(name = "MISSION_DATE", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
-        private OffsetDateTime missionDate;
+  @NotNull
+  @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false, insertable = true, updatable = true)
+  @Default
+  private UUID missionUid = UUID.randomUUID();
 
-        @NotNull
-        @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false, insertable = true, updatable = true)
-        @Default
-        private UUID missionUid = UUID.randomUUID();
+  @NotNull
+  @Column(name = "XP", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
+  @Default
+  private long xp = 5;
 
-        @NotNull
-        @Column(name = "XP", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
-        @Default
-        private long xp = 5;
+  @NotNull
+  @Column(name = "PAYMENT", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
+  @Default
+  private long payment = 200;
 
-        @NotNull
-        @Column(name = "PAYMENT", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
-        @Default
-        private long payment = 200;
+  @NotNull
+  @Column(name = "REPORT", columnDefinition = "VARCHAR(5000)", nullable = false, insertable = true, updatable = true)
+  private String report;
 
-        @NotNull
-        @Column(name = "REPORT", columnDefinition = "VARCHAR(5000)", nullable = false, insertable = true, updatable = true)
-        private String report;
+  @NotNull
+  @Enumerated(EnumType.STRING)
+  @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
+  @Default
+  private SuccessState success = SuccessState.NONE;
 
-        @NotNull
-        @Enumerated(EnumType.STRING)
-        @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
-        @Default
-        private SuccessState success = SuccessState.NONE;
+  @PrePersist
+  public void prePersist() {
+    log.entry(this);
 
-        @PrePersist
-        public void prePersist() {
-            created = OffsetDateTime.now(ZoneOffset.UTC);
-            modified = created;
-        }
+    created = modified = OffsetDateTime.now(ZoneOffset.UTC);
 
-        @PreUpdate
-        public void preUpdate() {
-            modified = OffsetDateTime.now(ZoneOffset.UTC);
-        }
-    }
+    log.exit();
+  }
+
+  @PreUpdate
+  public void preUpdate() {
+    log.entry(this);
+
+    modified = OffsetDateTime.now(ZoneOffset.UTC);
+
+    log.exit();
+  }
+}

@@ -1,6 +1,7 @@
 package de.paladinsinn.tp.dcis.operatives.controller;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -56,7 +57,7 @@ public class ManageOperative {
         }
 
         Operative knight = OperativeJPA.builder()
-            .uid(UUID.randomUUID())
+            .id(UUID.randomUUID())
             .nameSpace(principal.getName())
             .build();
 
@@ -124,10 +125,12 @@ public class ManageOperative {
             return knight;
         }
 
-        OperativeJPA orig = stormKnightRepository.findByUid(knight.getUid());
-        if (orig == null) return knight;
+        Optional<OperativeJPA> orig = stormKnightRepository.findById(knight.getId());
+        if (! orig.isPresent()) {
+            return null;
+        }
 
-        return log.exit(orig.toBuilder()
+        return log.exit(orig.get().toBuilder()
                 .name(knight.getName())
                 .build()
         );

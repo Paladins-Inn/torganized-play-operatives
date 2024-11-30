@@ -15,19 +15,17 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.jackson.Jacksonized;
-import lombok.extern.slf4j.Slf4j;
 
 
 @Jacksonized
-@Builder(toBuilder = true, setterPrefix = "")
+@Builder(toBuilder = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@ToString(includeFieldNames = true, onlyExplicitlyIncluded = true)
-@EqualsAndHashCode(of = {"uid"})
-@Slf4j
+@ToString(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(of = {"id"})
 public class OperativeImpl implements Operative {
-    private UUID uid;
+    private UUID id;
     private OffsetDateTime created;
     private OffsetDateTime modified;
     private OffsetDateTime deleted;

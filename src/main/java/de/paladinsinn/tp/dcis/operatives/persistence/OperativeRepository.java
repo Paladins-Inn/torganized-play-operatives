@@ -33,8 +33,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @version 1.0.0
  * @since 2024-08-24
  */
-public interface OperativeRepository extends JpaRepository<OperativeJPA, Long> {
-    OperativeJPA findByUid(UUID uid);
+public interface OperativeRepository extends JpaRepository<OperativeJPA, UUID> {
     List<OperativeJPA> findByNameSpace(String owner);
     default List<OperativeJPA> findByOwner(String owner) {
         return findByNameSpace(owner);
