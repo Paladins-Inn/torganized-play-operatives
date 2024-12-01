@@ -7,7 +7,7 @@
     <parent>
         <artifactId>kp-commons-parent</artifactId>
         <groupId>de.kaiserpfalz-edv.commons</groupId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
         <relativePath/>
     </parent>
 
@@ -22,7 +22,7 @@
     </description>
 
     <properties>
-        <kp-commons.version>4.0.5</kp-commons.version>
+        <kp-commons.version>4.0.6</kp-commons.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -48,7 +48,7 @@
             <url>https://maven.pkg.github.com/Paladins-Inn/torganized-play-operatives</url>
         </repository>
         <repository>
-            <id>torganized-play-commons</id>
+            <id>gh-torganized-play-commons</id>
             <name>GitHub Packages for torganized-play-commons</name>
             <url>https://maven.pkg.github.com/Paladins-Inn/torganized-play-commons</url>
         </repository>
