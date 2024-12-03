@@ -1,0 +1,9 @@
+.github/
+.git/
+.gitignore
+/CODE_OF_CONDUCT.md
+/CONTRIBUTING.md
+/Dockerfile
+/KES\ Corporate\ Contributor\ License\ Agreement*
+/SECURITY.md
+/README.md
