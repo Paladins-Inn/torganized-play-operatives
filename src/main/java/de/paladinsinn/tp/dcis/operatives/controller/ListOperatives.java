@@ -1,6 +1,7 @@
 package de.paladinsinn.tp.dcis.operatives.controller;
 
 import lombok.extern.slf4j.XSlf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ import lombok.RequiredArgsConstructor;
 public class ListOperatives {
     private final OperativeRepository stormKnightRepository;
 
+    @Value("${server.servlet.contextPath}:/operatives")
+    private String contextPath;
+
     @GetMapping("public/list")
     @PermitAll
     public String publicList(
@@ -44,6 +48,7 @@ public class ListOperatives {
         Page<OperativeJPA> knights = stormKnightRepository.findAll(p);
         log.info("Storm knights list loaded. page={}, size={}, noOfOperatives={}", page, size, knights.getTotalElements());
 
+        model.addAttribute("contextPath", contextPath);
         model.addAttribute("url", url);
         model.addAttribute("operatives", knights);
         log.info("Listing operatives. knights={}", knights.getContent());

@@ -6,6 +6,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import lombok.extern.slf4j.XSlf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -39,6 +40,9 @@ public class ManageOperative {
 
     private final OperativeRepository stormKnightRepository;
 
+    @Value("${server.servlet.contextPath}:/operatives")
+    private String contextPath;
+
     @GetMapping("/")
     @RolesAllowed("PLAYER")
     public String createNewOperative(
@@ -61,6 +65,7 @@ public class ManageOperative {
             .nameSpace(principal.getName())
             .build();
 
+        model.addAttribute("contextPath", contextPath);
         model.addAttribute("cosms", Cosm.values());
         model.addAttribute("errors", new Binding());
         model.addAttribute("referrer", referrer);
@@ -85,6 +90,7 @@ public class ManageOperative {
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
             log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
 
+            model.addAttribute("contextPath", contextPath);
             model.addAttribute("cosms", Cosm.values());
             model.addAttribute("referrer", "/" + principal.getName() + "/list");
             model.addAttribute(DATAMODEL, knight);
@@ -122,12 +128,12 @@ public class ManageOperative {
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
-            return knight;
+            return log.exit(knight);
         }
 
         Optional<OperativeJPA> orig = stormKnightRepository.findById(knight.getId());
         if (! orig.isPresent()) {
-            return null;
+            return log.exit(null);
         }
 
         return log.exit(orig.get().toBuilder()

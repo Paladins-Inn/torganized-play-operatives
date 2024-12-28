@@ -18,6 +18,10 @@
 
 package de.paladinsinn.tp.dcis.operatives;
 
+import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
+import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
+import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
+import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -33,6 +37,9 @@ import jakarta.servlet.DispatcherType;
  * @since 2024-06-09
  */
 @SpringBootApplication
+@EnableEventBus
+@EnableRestConfiguration
+@EnableMessagingConfiguration
 public class Application extends SpringApplication {
     public static void main(String [] args) {
         SpringApplication.run(Application.class, args);

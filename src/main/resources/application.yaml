@@ -23,12 +23,12 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: none
+            ddl-auto: validate
     
     liquibase:
         enabled: true
-        show-summary-output: console
-        ui-service: console
+        show-summary-output: log
+        ui-service: logger
 
     security:
         user:
@@ -52,8 +52,8 @@ spring:
 kp:
     security:
         keycloak:
-            groupAuthorityMapper:
-                roleAttribute: groups
+            group-authority-mapper:
+                role-attribute: groups
 
 server:
     error:
@@ -76,16 +76,14 @@ management:
         health:
             probes:
                 enabled: true
-        httptrace:
-            enabled: true
         liquibase:
-            enabled: true
+            access: read_only
         scheduledtasks:
-            enabled: true
+            access: read_only
         metrics:
-            enabled: true
+            access: read_only
         configprops:
-            enabled: true
+            access: read_only
     endpoints:
         web:
             exposure:
@@ -106,7 +104,7 @@ logging:
         rest: WARN
         liquibase: INFO
         de:
-            paladinsinn: TRACE
+            paladinsinn: INFO
         org:
             springframework:
                 web:
