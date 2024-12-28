@@ -25,7 +25,6 @@ import java.util.UUID;
 import de.kaiserpfalzedv.commons.jpa.AbstractJPAEntity;
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeHistoryEntry;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -37,7 +36,6 @@ import lombok.*;
 import lombok.Builder.Default;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
-import lombok.extern.slf4j.Slf4j;
 import lombok.extern.slf4j.XSlf4j;
 
 
@@ -52,42 +50,42 @@ import lombok.extern.slf4j.XSlf4j;
 @Jacksonized
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@SuperBuilder(toBuilder = true, setterPrefix = "")
+@SuperBuilder(toBuilder = true)
 @Data
-@ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
+@ToString(onlyExplicitlyIncluded = true)
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @XSlf4j
 public class OperativeHistoryEntryJPA extends AbstractJPAEntity<UUID> implements OperativeHistoryEntry {
   @NotNull
-  @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
+  @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false)
   private String missionName;
 
   @NotNull
-  @Column(name = "MISSION_DATE", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = true, insertable = false, updatable = true)
+  @Column(name = "MISSION_DATE", columnDefinition = "TIMESTAMP WITH TIME ZONE", insertable = false)
   private OffsetDateTime missionDate;
 
   @NotNull
-  @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false, insertable = true, updatable = true)
+  @Column(name = "MISSION_UID", columnDefinition = "UUID", nullable = false)
   @Default
   private UUID missionUid = UUID.randomUUID();
 
   @NotNull
-  @Column(name = "XP", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
+  @Column(name = "XP", columnDefinition = "BIGINT", nullable = false)
   @Default
   private long xp = 5;
 
   @NotNull
-  @Column(name = "PAYMENT", columnDefinition = "BIGINT", nullable = false, insertable = true, updatable = true)
+  @Column(name = "PAYMENT", columnDefinition = "BIGINT", nullable = false)
   @Default
   private long payment = 200;
 
   @NotNull
-  @Column(name = "REPORT", columnDefinition = "VARCHAR(5000)", nullable = false, insertable = true, updatable = true)
+  @Column(name = "REPORT", columnDefinition = "VARCHAR(5000)", nullable = false)
   private String report;
 
   @NotNull
   @Enumerated(EnumType.STRING)
-  @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false, insertable = true, updatable = true)
+  @Column(name = "SUCCESS", columnDefinition = "VARCHAR(100)", nullable = false)
   @Default
   private SuccessState success = SuccessState.NONE;
 

@@ -23,7 +23,7 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: validate
+            ddl-auto: none
     
     liquibase:
         enabled: true
@@ -66,9 +66,9 @@ server:
 management:
     server:
         port: ${METRICS_PORT:8081}
-        contextPath: /
-    ssl:
-        enabled: false
+        base-path: /
+        ssl:
+            enabled: false
     tracing:
         sampling:
             probability: 1
