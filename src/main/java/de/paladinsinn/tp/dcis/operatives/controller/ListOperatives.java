@@ -1,5 +1,6 @@
 package de.paladinsinn.tp.dcis.operatives.controller;
 
+import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.paladinsinn.tp.dcis.operatives.persistence.OperativeJPA;
-import de.paladinsinn.tp.dcis.operatives.persistence.OperativeRepository;
 import jakarta.annotation.security.PermitAll;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;

@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 2024-08-09
  */
 @Configuration
-@EnableJpaRepositories(basePackages = "de.paladinsinn.tp.dcis.operatives.domain.service")
+@EnableJpaRepositories(basePackages = "de.paladinsinn.tp.dcis.operatives.persistence")
 @EnableJpaAuditing
 @EnableEnversRepositories
 @EnableTransactionManagement

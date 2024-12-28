@@ -1,4 +1,11 @@
 ---
+
+kp:
+    security:
+        keycloak:
+            group-authority-mapper:
+                role-attribute: groups
+
 spring:
     profiles:
         active: LOCAL
@@ -23,12 +30,24 @@ spring:
     jpa:
         show-sql: true
         hibernate:
-            ddl-auto: none
+            ddl-auto: validate
     
     liquibase:
         enabled: true
         show-summary-output: log
         ui-service: logger
+
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: changeme
+        password: changeme
+        stream:
+            host: ${spring.rabbitmq.host}
+            port: ${spring.rabbitmq.port}
+            virtual-host: /
+            username: ${spring.rabbitmq.username}
+            password: ${spring.rabbitmq.password}
 
     security:
         user:
@@ -49,11 +68,6 @@ spring:
                         issuer-uri: ${SSO_ISSUER}
                         user-name-attribute: ${SSO_USERNAME_ATTRIBUTE:preferred_username}
 
-kp:
-    security:
-        keycloak:
-            group-authority-mapper:
-                role-attribute: groups
 
 server:
     error:
@@ -62,16 +76,17 @@ server:
     port: ${HTTP_PORT:8080}
     servlet:
         contextPath: /operatives
+    forward-headers-strategy: framework
 
 management:
     server:
         port: ${METRICS_PORT:8081}
-        base-path: /
         ssl:
             enabled: false
+        base-path: /
     tracing:
         sampling:
-            probability: 1
+            probability: 0.5
     endpoint:
         health:
             probes:
@@ -87,7 +102,7 @@ management:
     endpoints:
         web:
             exposure:
-                include: health,info,env,prometheus,httptrace,*
+                include: health,info,env,prometheus,httptrace,liquibase,scheduledtasks,metrics,configprops
     health:
         livenessState:
             enabled: true
@@ -104,6 +119,7 @@ logging:
         rest: WARN
         liquibase: INFO
         de:
+            kaiserpfalzedv: INFO
             paladinsinn: INFO
         org:
             springframework:
