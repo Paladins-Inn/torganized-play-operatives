@@ -22,9 +22,9 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.UUID;
 
-import de.kaiserpfalzedv.commons.jpa.AbstractJPAEntity;
 import de.kaiserpfalzedv.rpg.torg.model.core.SuccessState;
 import de.paladinsinn.tp.dcis.operatives.domain.model.OperativeHistoryEntry;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;
@@ -53,9 +53,22 @@ import lombok.extern.slf4j.XSlf4j;
 @SuperBuilder(toBuilder = true)
 @Data
 @ToString(onlyExplicitlyIncluded = true)
-@EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @XSlf4j
-public class OperativeHistoryEntryJPA extends AbstractJPAEntity<UUID> implements OperativeHistoryEntry {
+public class OperativeHistoryEntryJPA implements OperativeHistoryEntry {
+
+  @NotNull
+  @Column(name = "CREATED", columnDefinition = "TIMESTAMP WITH TIME ZONE", nullable = false)
+  private OffsetDateTime created;
+
+  @Nullable
+  @Column(name = "MODIFIED", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+  private OffsetDateTime modified;
+
+  @Nullable
+  @Column(name = "DELETED", columnDefinition = "TIMESTAMP WITH TIME ZONE")
+  private OffsetDateTime deleted;
+
   @NotNull
   @Column(name = "MISSION_NAME", columnDefinition = "VARCHAR(100)", nullable = false)
   private String missionName;
