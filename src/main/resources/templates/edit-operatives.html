@@ -12,18 +12,18 @@
     <input type="hidden" th:field="*{nameSpace}"/>
 
 
-    <div class="col-3" th:if="*{uid} != null">
+    <div class="col-3" th:if="*{id} != null">
         <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('uid')}">
-                <input  type="text" class="form-control" id="uid" th:field="*{uid}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.uid.help}" aria-describedby="helpUid">
-                <label for="uid" th:text="#{form.edit-operative.uid.title}" readonly>Registry Number</label>
-                <div class="input-group has-validation" id="helpUid" th:text="#{form.edit-operative.uid.help}">Hilfe</div>
+            <div class="input-group has-validation" th:unless="${#fields.hasErrors('id')}">
+                <input  type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
+                <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+                <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe</div>
             </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('uid')}">
-                <input  type="text" class="form-control is-invalid" id="uid" th:field="*{uid}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.uid.help}" aria-describedby="validationUid">
-                <label for="uid" th:text="#{form.edit-operative.uid.title}" readonly>Registry Number</label>
-                <ul class="invalid-feedback" id="validationUid">
-                    <li th:each="err : ${#fields.errors('uid')}" th:text="${err}">error</li>
+            <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
+                <input  type="text" class="form-control is-invalid" id="id" th:field="*{id}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.id.help}" aria-describedby="validationId">
+                <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+                <ul class="invalid-feedback" id="validationId">
+                    <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
                 </ul>
             </div>
         </div>

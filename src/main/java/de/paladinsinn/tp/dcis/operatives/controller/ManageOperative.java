@@ -28,7 +28,6 @@ import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 
 @RequiredArgsConstructor
@@ -94,7 +93,7 @@ public class ManageOperative {
             model.addAttribute("cosms", Cosm.values());
             model.addAttribute("referrer", "/" + principal.getName() + "/list");
             model.addAttribute(DATAMODEL, knight);
-            return "edit-stormknight";
+            return "edit-operatives";
         }
 
         if (
