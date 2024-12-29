@@ -1,6 +1,8 @@
 package de.paladinsinn.tp.dcis.operatives.controller;
 
 import java.security.Principal;
+import java.time.Clock;
+import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -62,6 +64,8 @@ public class ManageOperative {
         Operative knight = OperativeJPA.builder()
             .id(UUID.randomUUID())
             .nameSpace(principal.getName())
+            .created(OffsetDateTime.now(Clock.systemUTC()))
+            .modified(OffsetDateTime.now(Clock.systemUTC()))
             .build();
 
         model.addAttribute("contextPath", contextPath);
@@ -85,7 +89,6 @@ public class ManageOperative {
 
         log.info("Saving operative data. user={}, knight={}", principal.getName(), knight);
 
-        model.addAttribute("errors", binding);
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
             log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
 
