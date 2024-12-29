@@ -21,15 +21,12 @@ package de.paladinsinn.tp.dcis.operatives;
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
 import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.web.filter.ForwardedHeaderFilter;
-
-import jakarta.servlet.DispatcherType;
 
 /**
  * @author Roland T. Lichti {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -40,7 +37,12 @@ import jakarta.servlet.DispatcherType;
 @EnableEventBus
 @EnableRestConfiguration
 @EnableMessagingConfiguration
+@AllArgsConstructor
 public class Application extends SpringApplication {
+    @Value("${spring.application.name:OPERATIVES}")
+    @Getter(onMethod = @__(@Bean))
+    private String applicationName;
+
     public static void main(String [] args) {
         SpringApplication.run(Application.class, args);
     }
