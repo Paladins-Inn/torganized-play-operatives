@@ -37,7 +37,6 @@ import org.springframework.context.annotation.Bean;
 @EnableEventBus
 @EnableRestConfiguration
 @EnableMessagingConfiguration
-@AllArgsConstructor
 public class Application extends SpringApplication {
     @Value("${spring.application.name:OPERATIVES}")
     @Getter(onMethod = @__(@Bean))
