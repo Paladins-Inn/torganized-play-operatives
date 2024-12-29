@@ -10,21 +10,21 @@
 <form class="row g-3 form-floating needs-validation" novalidate action="#" th:action="@{/}" th:object="${knight}" method="post">
     <input type="hidden" th:field="*{nameSpace}"/>
 
-    <input type="hidden" th:field="*{created}"/>
+    <input type="hidden" th:field="${#temporals.formatISO(knight.created)}"/>
     <div class="col-3" th:if="${#fields.hasErrors('created')}">
         <ul class="invalid-feedback" id="validationCreated">
             <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
         </ul>
     </div>
 
-    <input type="hidden" th:field="*{modified}"/>
+    <input type="hidden" th:field="${#temporals.formatISO(knight.modified)}"/>
     <div class="col-3" th:if="${#fields.hasErrors('modified')}">
         <ul class="invalid-feedback" id="validationModified">
             <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
         </ul>
     </div>
 
-    <input type="hidden" th:field="*{deleted}" th:if="*{deleted} != null"/>
+    <input type="hidden" th:field="${#temporals.formatISO(knight.deleted)}" th:if="*{deleted} != null"/>
     <div class="col-3" th:if="${#fields.hasErrors('deleted')}">
         <ul class="invalid-feedback" id="validationDeleted">
             <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
