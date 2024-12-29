@@ -15,8 +15,6 @@ databaseChangeLog:
     - dropColumn:
         tableName: OPERATIVES_HISTORY
         columnName: OPERATIVE
-    - dropSequence:
-        sequenceName: STROMNIGHTS_SEQ
 
     - addColumn:
         tableName: OPERATIVES
