@@ -8,8 +8,10 @@
 <h1 class="torg-header"  th:text="#{view.edit-operative.title}">Edit Storm Knight</h1>
 
 <form class="row g-3 form-floating needs-validation" novalidate action="#" th:action="@{/}" th:object="${knight}" method="post">
-    <input type="hidden" th:field="*{id}"/>
     <input type="hidden" th:field="*{nameSpace}"/>
+    <input type="hidden" th:field="*{created}"/>
+    <input type="hidden" th:field="*{modified}"/>
+    <input type="hidden" th:field="*{deleted}"/>
 
 
     <div class="col-3" th:if="*{id} != null">
