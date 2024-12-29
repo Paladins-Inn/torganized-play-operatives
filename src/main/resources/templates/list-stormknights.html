@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
 <head>
     <title th:text="#{view.list-operatives.title}">List of Storm Knights</title>
 </head>
@@ -42,9 +42,9 @@
             <td th:if="${stormknight.deleted == null && stormknight.noOfMissions == 0}" th:text="#{view.list-operatives.empty}">2024-08-14</td>
             <td th:unless="${stormknight.deleted == null}" th:text="#{view.list-operatives.retired}">2024-08-14</td>
             <td sec:authorize="hasAnyRole('ROLE_PLAYER','ROLE_ORGA','ROLE_JUDGE','ROLE_ADMIN')">
-                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="get"    class="btn btn-secondary" role="button"                                                    ><i class="fa-solid fa-eye fa-fw"></i><span th:text="#{list.action.view}">View</span></a>
-                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="put"    class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-pen fa-fw"></i><span th:text="#{list.action.edit}">Edit</span></a>
-                <a th:href="@{/{id}(id=${stormknight.uid})}" data-method="delete" class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-trash fa-fw"></i><span th:text="#{list.action.delete}">Retire</span></a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="get"    class="btn btn-secondary" role="button"                                                    ><i class="fa-solid fa-eye fa-fw"></i><span th:text="#{list.action.view}">View</span></a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="put"    class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-pen fa-fw"     ></i><span th:text="#{list.action.edit}">Edit</span></a>
+                <a th:href="@{/{id}(id=${stormknight.id})}" data-method="delete" class="btn btn-secondary" role="button" sec:authorize="hasAnyRole('PLAYER','ORGA','ADMIN')"><i class="fas fa-trash fa-fw"   ></i><span th:text="#{list.action.delete}">Retire</span></a>
             </td>
         </tr>
     </tbody>
