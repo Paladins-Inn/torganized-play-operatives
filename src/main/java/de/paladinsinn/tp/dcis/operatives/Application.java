@@ -18,18 +18,17 @@
 
 package de.paladinsinn.tp.dcis.operatives;
 
+import de.kaiserpfalzedv.commons.spring.templates.TemplateEngineProvider;
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
 import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
 import lombok.Getter;
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
-import org.thymeleaf.spring6.ISpringTemplateEngine;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ITemplateResolver;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author Roland T. Lichti {@literal <rlichti@kaiserpfalz-edv.de>}
@@ -40,6 +39,8 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @EnableEventBus
 @EnableRestConfiguration
 @EnableMessagingConfiguration
+@Import(TemplateEngineProvider.class)
+@XSlf4j
 public class Application extends SpringApplication {
     @Value("${spring.application.name:OPERATIVES}")
     @Getter(onMethod = @__(@Bean))
@@ -49,12 +50,4 @@ public class Application extends SpringApplication {
         SpringApplication.run(Application.class, args);
     }
 
-    // FIXME 2024-12-30 rlichti: Move this to kp-commons if it works.
-    @Bean
-    public ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        engine.addDialect(new Java8TimeDialect());
-        engine.setTemplateResolver(templateResolver);
-        return engine;
-    }
 }

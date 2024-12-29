@@ -121,8 +121,8 @@ logging:
     rest: WARN
     liquibase: INFO
     de:
-      kaiserpfalzedv: INFO
-      paladinsinn: INFO
+      kaiserpfalzedv: TRACE
+      paladinsinn: TRACE
     org:
       springframework:
         web:
