@@ -62,14 +62,25 @@ databaseChangeLog:
         constraintName: OPERATIVES_ID_UK
 
     - addColumn:
-          tableName: OPERATIVES_HISTORY
-          columns:
-              - column:
-                    name: ID
-                    type: UUID
-                    remarks: The Database internal ID
-                    valueComputed: gen_random_uuid()
-                constraints:
-                    - primaryKey: true
-                    - primaryKeyName: OPHISTORY_PK
+        tableName: OPERATIVES_HISTORY
+        columns:
+          - column:
+              name: ID
+              type: UUID
+              remarks: The Database internal ID
+              valueComputed: gen_random_uuid()
+            constraints:
+            - primaryKey: true
+            - primaryKeyName: OPHISTORY_PK
+          - column:
+              name: OPERATIVE
+              type: UUID
+              remarks: The Operative ID
 
+    - addForeignKeyConstraint:
+        baseTableName: OPERATIVES_HISTORY
+        baseColumnNames: OPERATIVE
+        constraintName: OPHISTORY_OPERATIVE_FK
+        referencedTableName: OPERATIVES
+        referencedColumnNames: ID
+        referencesUniqueColumn: true
