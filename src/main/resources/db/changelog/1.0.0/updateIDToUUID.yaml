@@ -1,0 +1,78 @@
+---
+databaseChangeLog:
+
+- changeSet:
+    id: OPERATIVES-change-id
+    author: rlichti
+    context: init
+    labels: 'v1.0.4,user'
+    dbms: postgresql
+    created: '1.0.4'
+    changes:    
+    - dropColumn:
+        tableName: OPERATIVES
+        columnName: ID
+    - dropColumn:
+        tableName: OPERATIVES_HISTORY
+        columnName: ID
+    - dropColumn:
+        tableName: OPERATIVES_HISTORY
+        columnName: OPERATIVE
+    - dropColumn:
+        tableName: OPERATIVE_HISTORY
+        columnName: UID
+    - dropSequence:
+        sequenceName: STROMNIGHTS_SEQ
+
+    - addColumn:
+        tableName: OPERATIVES
+        columns:
+        - column:
+            name: ID
+            type: UUID
+            remarks: The Database internal ID
+            valueComputed: gen_random_uuid()
+          constraints:
+          - primaryKey: true
+          - primaryKeyName: OPERATIVES_PK
+        - column:
+            name: VERSION
+            type: INT
+            defaultValueNumeric: 0
+          constraints:
+          - nullable: false
+          - notNullConstraintName: OPERATIVES_VERSION_NN
+        - column:
+            name: REV_ID
+            type: INT
+            defaultValueNumeric: 0
+          constraints:
+          - nullable: false
+          - notNullConstraintName: OPERATIVES_REV_ID_NN
+        - column:
+            name: REVISIONED
+            type: TIMESTAMP WITH TIME ZONE
+            valueComputed: now()
+          constraints:
+          - nullable: false
+          - notNullConstraintName: OPERATIVES_REVISIONED_NN
+
+    - addNotNullConstraint:
+        tableName: OPERATIVES
+        columnName: ID
+        defaultValueComputed: gen_random_uuid()
+        columnDataType: UUID
+        constraintName: OPERATIVES_ID_UK
+
+    - addUniqueConstraint:
+        tableName: OPERATIVES
+        columnNames: ID
+        constraintName: OPERATIVES_ID_UK
+
+    - addForeignKeyConstraint:
+        baseTableName: OPERATIVES_HISTORY
+        baseColumnNames: OPERATIVE
+        constraintName: OPHISTORY_OPERATIVE_FK
+        referencedTableName: OPERATIVES
+        referencedColumnNames: ID
+        referencesUniqueColumn: true
