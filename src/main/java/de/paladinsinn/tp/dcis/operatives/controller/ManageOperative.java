@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class ManageOperative {
     private static final String DATAMODEL = "knight";
 
-    private final OperativeRepository stormKnightRepository;
+    private final OperativeRepository operativesRepository;
 
     @Value("${server.servlet.contextPath}:/operatives")
     private String contextPath;
@@ -51,7 +51,7 @@ public class ManageOperative {
     ) {
         log.entry(principal, referrer, model);
 
-        log.info("Showing input form for new storm knights. user={}", 
+        log.info("Showing input form for new operatives. user={}",
             principal.getName()
         );
 
@@ -70,7 +70,7 @@ public class ManageOperative {
         model.addAttribute("referrer", referrer);
         model.addAttribute(DATAMODEL, knight);
 
-        return log.exit("edit-stormknight");
+        return log.exit("edit-operatives");
     }
 
     @PostMapping("/")
@@ -83,7 +83,7 @@ public class ManageOperative {
     ) {
         log.entry(principal, knight, binding, model);
 
-        log.info("Saving storm knight data. user={}, knight={}", principal.getName(), knight);
+        log.info("Saving operative data. user={}, knight={}", principal.getName(), knight);
 
         model.addAttribute("errors", binding);
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
@@ -100,12 +100,12 @@ public class ManageOperative {
             ! principal.getName().equals(knight.getNameSpace())
             && !hasRole(principal, Set.of("ROLE_ORGA","ROLE_ADMIN"))
         ) {
-            log.warn("The storm knight is not owned by the user. user={}, knight={}", principal, knight);
+            log.warn("The operative is not owned by the user. user={}, knight={}", principal, knight);
         } else {
             knight = protectKnightData(knight, principal);
-            knight = stormKnightRepository.save(knight);
+            knight = operativesRepository.save(knight);
 
-            log.info("Changed storm knight saved. knight={}", knight);
+            log.info("Changed operative saved. knight={}", knight);
         }
 
         model.addAttribute(DATAMODEL, knight);
@@ -130,8 +130,8 @@ public class ManageOperative {
             return log.exit(knight);
         }
 
-        Optional<OperativeJPA> orig = stormKnightRepository.findById(knight.getId());
-        if (! orig.isPresent()) {
+        Optional<OperativeJPA> orig = operativesRepository.findById(knight.getId());
+        if (orig.isEmpty()) {
             return log.exit(null);
         }
 

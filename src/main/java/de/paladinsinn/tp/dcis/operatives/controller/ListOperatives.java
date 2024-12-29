@@ -22,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequestMapping("/")
 public class ListOperatives {
-    private final OperativeRepository stormKnightRepository;
+    private final OperativeRepository operativesRepository;
 
     @Value("${server.servlet.contextPath}:/operatives")
     private String contextPath;
@@ -45,7 +45,7 @@ public class ListOperatives {
 
         Pageable p = Pageable.ofSize(size).withPage(page);
 
-        Page<OperativeJPA> knights = stormKnightRepository.findAll(p);
+        Page<OperativeJPA> knights = operativesRepository.findAll(p);
         log.info("Storm knights list loaded. page={}, size={}, noOfOperatives={}", page, size, knights.getTotalElements());
 
         model.addAttribute("contextPath", contextPath);

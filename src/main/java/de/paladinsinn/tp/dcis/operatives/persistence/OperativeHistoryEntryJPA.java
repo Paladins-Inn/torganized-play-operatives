@@ -40,7 +40,7 @@ import lombok.extern.slf4j.XSlf4j;
 
 
 /**
- * a single history entry for the storm knights HR file.
+ * a single history entry for the operatives HR file.
  * 
  * @author klenkes74 {@literal <rlichti@kaiserpfalz-edv.de>}
  * @version 1.0.0

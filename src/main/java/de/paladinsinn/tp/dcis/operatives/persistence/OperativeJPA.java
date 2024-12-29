@@ -57,21 +57,21 @@ import lombok.extern.slf4j.XSlf4j;
 @EqualsAndHashCode(callSuper = true)
 @XSlf4j
 public class OperativeJPA  extends AbstractRevisionedJPAEntity<UUID> implements Operative {
-    /** The namespace this storm knight belongs to. */
+    /** The namespace this operative belongs to. */
     @NotNull
     @Column(name = "NAMESPACE", columnDefinition = "VARCHAR(100)", nullable = false)
     @Size(min = 3, max = 100, message = "The length of the string must be between 3 and 100 characters long.") @Pattern(regexp = "^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$", message = "The string must match the pattern '^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$'")
     @ToString.Include
     private String nameSpace;
 
-    /** The name of the storm knights. Needs to be unique within the namespace. */
+    /** The name of the operatives. Needs to be unique within the namespace. */
     @NotNull
     @Column(name = "NAME", columnDefinition = "VARCHAR(100)", nullable = false)
     @Size(min = 3, max = 100, message = "The length of the string must be between 3 and 100 characters long.") @Pattern(regexp = "^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$", message = "The string must match the pattern '^[a-zA-Z][-a-zA-Z0-9]{1,61}(.[a-zA-Z][-a-zA-Z0-9]{1,61}){0,4}$'")
     @ToString.Include
     private String name;
 
-    /** The cosm this storm knight is from. */
+    /** The cosm this operative is from. */
     @NotNull
     @Column(name = "COSM", columnDefinition = "VARCHAR(100)", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -79,31 +79,31 @@ public class OperativeJPA  extends AbstractRevisionedJPAEntity<UUID> implements 
     @Default
     private Cosm cosm = Cosm.CORE_EARTH;
 
-    /** The XP this storm knight has accumulated. */
+    /** The XP this operative has accumulated. */
     @NotNull
     @Column(name = "XP", columnDefinition = "BIGINT", nullable = false)
     @ToString.Include
     @Default
     private long xp = 0;
 
-    /** The money this storm knight has accumulated. */
+    /** The money this operative has accumulated. */
     @NotNull
     @Column(name = "MONEY", columnDefinition = "BIGINT", nullable = false)
     @ToString.Include
     @Default
     private long money = 0;
 
-    /** Public description of this storm knight (accessible to everyone). */
+    /** Public description of this operative (accessible to everyone). */
     @Nullable
     @Column(name = "DESCRIPTION", columnDefinition = "VARCHAR(5000)")
     private String description;
 
-    /** Delphi Council internal notes relating to the storm knight (accessible by the player, GMs he plays with, orga, judges and admins). */
+    /** Delphi Council internal notes relating to the operative (accessible by the player, GMs he plays with, orga, judges and admins). */
     @Nullable
     @Column(name = "NOTES", columnDefinition = "VARCHAR(5000)")
     private String notes;
 
-    /** The personell file of the storm knight. */
+    /** The personell file of the operative. */
     @ElementCollection(targetClass = OperativeHistoryEntryJPA.class)
     @CollectionTable(
         name = "OPERATIVES_HISTORY", 

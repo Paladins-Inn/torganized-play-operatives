@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!--suppress HtmlRequiredLangAttribute -->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
 <head>
     <title th:text="#{view.list-operatives.title}">List of Storm Knights</title>
@@ -50,10 +51,10 @@
     </tbody>
     <tfoot>
         <tr th:if="${operatives.totalElements == 0}">
-            <td colspan="5" th:text="#{view.list-operatives.empty-list}">No storm knights registered.</td>
+            <td colspan="5" th:text="#{view.list-operatives.empty-list}">No operatives registered.</td>
         </tr>
         <tr th:if="${operatives.totalElements > 0}">
-            <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered storm knights</td>
+            <td colspan="4" th:text="#{view.list-operatives.total-number}">Total number of registered operatives</td>
             <td th:text="${operatives.totalElements}">1</td>
         </tr>
     </tfoot>

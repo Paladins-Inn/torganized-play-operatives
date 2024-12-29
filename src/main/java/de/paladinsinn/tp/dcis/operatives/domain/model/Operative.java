@@ -36,6 +36,7 @@ import jakarta.annotation.Nullable;
  * @author klenkes74
  * @since 2024-09-24
  */
+@SuppressWarnings("unused") // it's a library interface
 @JsonDeserialize(as = OperativeImpl.class)
 public interface Operative extends HasId<UUID>, HasNameSpace, HasName, HasTimestamps {
     Cosm getCosm();
@@ -54,7 +55,7 @@ public interface Operative extends HasId<UUID>, HasNameSpace, HasName, HasTimest
 
     Clearance getClearance();
 
-    /** The number of missions this storm knight has been on. */
+    /** The number of missions this operative has been on. */
     default int getNoOfMissions() {
         return getHistory().size();
     }
