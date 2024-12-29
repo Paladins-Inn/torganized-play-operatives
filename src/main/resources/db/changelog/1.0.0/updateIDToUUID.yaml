@@ -72,15 +72,27 @@ databaseChangeLog:
             constraints:
             - primaryKey: true
             - primaryKeyName: OPHISTORY_PK
+
+- changeSet:
+      id: OPERATIVES_HISTORY-add-operative
+      author: rlichti
+      context: init
+      labels: 'v1.0.4,user'
+      dbms: postgresql
+      created: '1.0.4'
+      changes:
+      - addColumn:
+          tableName: OPERATIVES_HISTORY
+          columns:
           - column:
               name: OPERATIVE
               type: UUID
               remarks: The Operative ID
 
-    - addForeignKeyConstraint:
-        baseTableName: OPERATIVES_HISTORY
-        baseColumnNames: OPERATIVE
-        constraintName: OPHISTORY_OPERATIVE_FK
-        referencedTableName: OPERATIVES
-        referencedColumnNames: ID
-        referencesUniqueColumn: true
+      - addForeignKeyConstraint:
+            baseTableName: OPERATIVES_HISTORY
+            baseColumnNames: OPERATIVE
+            constraintName: OPHISTORY_OPERATIVE_FK
+            referencedTableName: OPERATIVES
+            referencedColumnNames: ID
+            referencesUniqueColumn: true
