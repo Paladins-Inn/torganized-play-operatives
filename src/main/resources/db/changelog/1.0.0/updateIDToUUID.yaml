@@ -14,13 +14,7 @@ databaseChangeLog:
         columnName: ID
     - dropColumn:
         tableName: OPERATIVES_HISTORY
-        columnName: ID
-    - dropColumn:
-        tableName: OPERATIVES_HISTORY
         columnName: OPERATIVE
-    - dropColumn:
-        tableName: OPERATIVE_HISTORY
-        columnName: UID
     - dropSequence:
         sequenceName: STROMNIGHTS_SEQ
 
@@ -69,6 +63,18 @@ databaseChangeLog:
         columnNames: ID
         constraintName: OPERATIVES_ID_UK
 
+    - addColumn:
+          tableName: OPERATIVES_HISTORY
+          columns:
+              - column:
+                    name: ID
+                    type: UUID
+                    remarks: The Database internal ID
+                    valueComputed: gen_random_uuid()
+                constraints:
+                    - primaryKey: true
+                    - primaryKeyName: OPHISTORY_PK
+
     - addForeignKeyConstraint:
         baseTableName: OPERATIVES_HISTORY
         baseColumnNames: OPERATIVE
@@ -76,24 +82,3 @@ databaseChangeLog:
         referencedTableName: OPERATIVES
         referencedColumnNames: ID
         referencesUniqueColumn: true
-
-- changeSet:
-      id: OPERATIVES_HISTORY-add-id
-      author: rlichti
-      context: init
-      labels: 'v1.0.4,user'
-      dbms: postgresql
-      created: '1.0.4'
-      changes:
-
-      - addColumn:
-            tableName: OPERATIVES_HISTORY
-            columns:
-                - column:
-                      name: ID
-                      type: UUID
-                      remarks: The Database internal ID
-                      valueComputed: gen_random_uuid()
-                  constraints:
-                      - primaryKey: true
-                      - primaryKeyName: OPERATIVES_HISTORY_PK
