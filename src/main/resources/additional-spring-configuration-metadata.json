@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "keycloak.initialize-on-startup",
+    "type": "java.lang.Boolean",
+    "description": "Determines if the keycloak connection is created while starting the app."
+  },
+  {
+    "name": "keycloak.realm",
+    "type": "java.lang.String",
+    "description": "The realm to manage"
+  },
+  {
+    "name": "keycloak.url",
+    "type": "java.lang.String",
+    "description": "The server to manage"
+  },
+  {
+    "name": "keycloak.client-id",
+    "type": "java.lang.String",
+    "description": "The client id to be used to connect to the server"
+  },
+  {
+    "name": "keycloak.client-secret",
+    "type": "java.lang.String",
+    "description": "The client id to be used to connect to the server"
+  }
+]}

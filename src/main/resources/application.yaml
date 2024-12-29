@@ -1,128 +1,130 @@
 ---
+keycloak:
+  initializeOnStartup: true
+  realm: delphi-council
+  url: ${SSO_ISSUER}
+  client-id: ${SSO_CLIENT_ID}
+  client-secret: ${SSO_CLIENT_SECRET}
 
 kp:
-    security:
-        keycloak:
-            group-authority-mapper:
-                role-attribute: groups
+  security:
+    keycloak:
+      group-authority-mapper:
+        role-attribute: groups
 
 spring:
-    profiles:
-        active: LOCAL
-        
-    application:
-        name: dcis-operatives
-        admin:
-            enabled: true
-    main:
-        banner-mode: off
+  profiles:
+    active: LOCAL
+  application:
+    name: dcis-operatives
+    admin:
+      enabled: true
+  main:
+    banner-mode: off
 
-    datasource:
-        url: ${PGO_pgbouncer-jdbc-uri}
-        username: ${PGO_user:postgres}
-        password: ${PGO_password:postgres}
-        driver-class-name: org.postgresql.Driver
+  datasource:
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 5
 
-        hikari:
-            connection-timeout: 20000
-            maximum-pool-size: 5
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
 
-    jpa:
-        show-sql: true
-        hibernate:
-            ddl-auto: validate
-    
-    liquibase:
-        enabled: true
-        show-summary-output: log
-        ui-service: logger
+  liquibase:
+    enabled: true
+    show-summary-output: log
+    ui-service: logger
 
-    rabbitmq:
-        host: localhost
-        port: 5672
-        username: changeme
-        password: changeme
-        stream:
-            host: ${spring.rabbitmq.host}
-            port: ${spring.rabbitmq.port}
-            virtual-host: /
-            username: ${spring.rabbitmq.username}
-            password: ${spring.rabbitmq.password}
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: changeme
+    password: changeme
+    stream:
+      host: ${spring.rabbitmq.host}
+      port: ${spring.rabbitmq.port}
+      virtual-host: /
+      username: ${spring.rabbitmq.username}
+      password: ${spring.rabbitmq.password}
 
-    security:
-        user:
-            name: monitor
-            password: observing
-            roles: ACTUATOR
-        oauth2:
-            client:
-                registration:
-                    sso:
-                        provider: sso
-                        client-id: ${SSO_CLIENT_ID}
-                        client-secret: ${SSO_CLIENT_SECRET}
-                        scope: ${SSO_SCOPES}
-                        client-authentication-method: client_secret_post
-                provider:
-                    sso:
-                        issuer-uri: ${SSO_ISSUER}
-                        user-name-attribute: ${SSO_USERNAME_ATTRIBUTE:preferred_username}
+  security:
+    user:
+      name: monitor
+      password: observing
+      roles: ACTUATOR
+    oauth2:
+      client:
+        registration:
+          sso:
+            provider: sso
+            client-id: ${SSO_CLIENT_ID}
+            client-secret: ${SSO_CLIENT_SECRET}
+            scope: ${SSO_SCOPES}
+            client-authentication-method: client_secret_post
+        provider:
+          sso:
+            issuer-uri: ${SSO_ISSUER}
+            user-name-attribute: ${SSO_USERNAME_ATTRIBUTE:preferred_username}
 
 
 server:
-    error:
-        whitelabel:
-            enabled: false
-    port: ${HTTP_PORT:8080}
-    servlet:
-        contextPath: /operatives
-    forward-headers-strategy: framework
+  error:
+    whitelabel:
+      enabled: false
+  port: ${HTTP_PORT:8080}
+  servlet:
+    contextPath: /operatives
+  forward-headers-strategy: framework
 
 management:
-    server:
-        port: ${METRICS_PORT:8081}
-        ssl:
-            enabled: false
-        base-path: /
-    tracing:
-        sampling:
-            probability: 0.5
-    endpoint:
-        health:
-            probes:
-                enabled: true
-        liquibase:
-            access: read_only
-        scheduledtasks:
-            access: read_only
-        metrics:
-            access: read_only
-        configprops:
-            access: read_only
-    endpoints:
-        web:
-            exposure:
-                include: health,info,env,prometheus,httptrace,liquibase,scheduledtasks,metrics,configprops
+  server:
+    port: ${METRICS_PORT:8081}
+    ssl:
+      enabled: false
+    base-path: /
+  tracing:
+    sampling:
+      probability: 0.5
+  endpoint:
     health:
-        livenessState:
-            enabled: true
-        readinessState:
-            enabled: true
+      probes:
+        enabled: true
+    liquibase:
+      access: read_only
+    scheduledtasks:
+      access: read_only
+    metrics:
+      access: read_only
+    configprops:
+      access: read_only
+  endpoints:
+    access:
+      default: read_only
+    web:
+      exposure:
+        include: health,info,env,prometheus,httptrace,liquibase,scheduledtasks,metrics,configprops
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
 
 
 logging:
-    group:
-        rest: de.paladinsinn.tp.dcis.api,org.springframework.web,org.springframework.http
-    level:
-        web: WARN
-        security: WARN
-        rest: WARN
-        liquibase: INFO
-        de:
-            kaiserpfalzedv: INFO
-            paladinsinn: INFO
-        org:
-            springframework:
-                web:
-                    filter:
-                        CommonsRequestLoggingFilter: WARN
+  group:
+    rest: de.paladinsinn.tp.dcis.api,org.springframework.web,org.springframework.http
+  level:
+    web: WARN
+    security: WARN
+    rest: WARN
+    liquibase: INFO
+    de:
+      kaiserpfalzedv: INFO
+      paladinsinn: INFO
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: WARN
