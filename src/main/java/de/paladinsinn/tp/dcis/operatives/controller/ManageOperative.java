@@ -87,8 +87,6 @@ public class ManageOperative {
     ) {
         log.entry(principal, knight, binding, model);
 
-        log.info("Saving operative data. user={}, knight={}", principal.getName(), knight);
-
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
             log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
 
@@ -96,7 +94,7 @@ public class ManageOperative {
             model.addAttribute("cosms", Cosm.values());
             model.addAttribute("referrer", "/" + principal.getName() + "/list");
             model.addAttribute(DATAMODEL, knight);
-            return "edit-operatives";
+            return log.exit("edit-operatives");
         }
 
         if (
