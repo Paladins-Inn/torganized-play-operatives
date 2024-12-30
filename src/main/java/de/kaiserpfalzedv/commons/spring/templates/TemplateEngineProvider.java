@@ -23,29 +23,23 @@ import lombok.extern.slf4j.XSlf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
-import org.thymeleaf.spring6.ISpringTemplateEngine;
-import org.thymeleaf.spring6.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ITemplateResolver;
 
 
 /**
  * Creates a template engine for Thymeleaf with correct date and time handling.
  *
+ * <p>Should not be necessary anymore, but it isn't active by default.</p>
+ *
  * @author klenkes74
  * @since 30.12.24
  */
+// FIXME 2024-12-30 rlichti: Move this to kp-commons if it works.
 @Service
 @XSlf4j
 public class TemplateEngineProvider {
-
-  // FIXME 2024-12-30 rlichti: Move this to kp-commons if it works.
   @Bean
-  public ISpringTemplateEngine templateEngine(ITemplateResolver templateResolver) {
-    log.entry(templateResolver);
-
-    SpringTemplateEngine engine = new SpringTemplateEngine();
-    engine.addDialect(new Java8TimeDialect());
-    engine.setTemplateResolver(templateResolver);
-
-    return log.exit(engine);
-  }}
+  public Java8TimeDialect java8TimeDialect() {
+    log.entry();
+    return log.exit(new Java8TimeDialect());
+  }
+}
