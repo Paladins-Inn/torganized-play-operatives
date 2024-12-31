@@ -34,10 +34,8 @@ import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
  * @since 30.12.24
  */
 // FIXME 2024-12-30 rlichti: Move this to kp-commons if it works.
-@Service
 @XSlf4j
 public class TemplateEngineProvider {
-  @Bean
   public Java8TimeDialect java8TimeDialect() {
     log.entry();
     return log.exit(new Java8TimeDialect());
