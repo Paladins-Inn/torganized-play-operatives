@@ -1,176 +1,249 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}" th:with="lang=${#locale.language}" th:lang="${lang}">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/dcis.html}"
+      th:with="lang=${#locale.language}" th:lang="${lang}">
 <head>
     <title th:text="#{view.edit-operative.title}">Edit Storm Knight</title>
 </head>
-<body><section layout:fragment="content">
+<body>
+<section layout:fragment="content">
 
-<h1 class="torg-header"  th:text="#{view.edit-operative.title}">Edit Storm Knight</h1>
+    <h1 class="torg-header" th:text="#{view.edit-operative.title}">Edit Storm Knight</h1>
 
-<form class="row g-3 form-floating needs-validation" novalidate action="#" th:action="@{/}" th:object="${knight}" method="post">
-    <input type="hidden" th:field="*{nameSpace}"/>
+    <form class="row g-3 form-floating needs-validation" novalidate action="#" th:action="@{/}" th:object="${operative}"
+          method="post">
+        <input type="hidden" th:field="*{nameSpace}"/>
 
-    <div class="col-3" th:if="*{created} != null">
-        <div class="form-floating">
-            <input type="hidden" th:field="*{created}" th:value="${#temporals.formatISO(knight.created)}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
-                <ul class="invalid-feedback" id="validationId">
-                    <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="col-3" th:if="*{created} != null">
+                    <div class="form-floating has-validation">
+                        <input type="hidden" th:field="*{created}" th:value="${#temporals.formatISO(operative.created)}"/>
+                        <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
+                            <ul class="invalid-feedback" id="validationId">
+                                <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-3" th:if="*{modified} != null">
-        <div class="form-floating">
-            <input type="hidden" th:field="*{modified}" th:value="${#temporals.formatISO(knight.modified)}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('modified')}">
-                <ul class="invalid-feedback" id="validationId">
-                    <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="col-3" th:if="*{modified} != null">
+                    <div class="form-floating has-validation">
+                        <input type="hidden" th:field="*{modified}"
+                               th:value="${#temporals.formatISO(operative.modified)}"/>
+                        <div class="input-group has-validation" th:if="${#fields.hasErrors('modified')}">
+                            <ul class="invalid-feedback" id="validationId">
+                                <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-3" th:if="*{deleted} != null">
-        <div class="form-floating">
-            <input type="hidden" th:field="*{deleted}" th:value="${#temporals.formatISO(knight.deleted)}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('deleted')}">
-                <ul class="invalid-feedback" id="validationId">
-                    <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="col-3" th:if="*{deleted} != null">
+                    <div class="form-floating has-validation">
+                        <div class="input-group has-validation" th:unless="${#fields.hasErrors('id')}">
+                            <input type="hidden" th:field="*{deleted}" th:value="${#temporals.formatISO(operative.deleted)}"/>
+                        </div>
+                        <div class="input-group has-validation" th:if="${#fields.hasErrors('deleted')}">
+                            <input type="hidden" th:field="*{deleted}" th:value="${#temporals.formatISO(operative.deleted)}"/>
+                            <ul class="invalid-feedback" id="validationId">
+                                <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
 
-    <div class="col-3" th:if="*{id} != null">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('id')}">
-                <input  type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
-                <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
-                <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
-                <input  type="text" class="form-control is-invalid" id="id" th:field="*{id}" maxlength="36" size="36" disabled readonly required data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.id.help}" aria-describedby="validationId">
-                <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
-                <ul class="invalid-feedback" id="validationId">
-                    <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-3" th:if="*{id} != null">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('id')}">
+                    <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
+                           readonly required data-toggle="tooltip" data-placement="top"
+                           th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
+                    <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+                    <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
+                    <input type="text" class="form-control is-invalid" id="id" th:field="*{id}" maxlength="36" size="36"
+                           disabled readonly required data-toggle="tooltip" data-placement="top"
+                           th:title="#{form.edit-operative.id.help}" aria-describedby="validationId">
+                    <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+                    <ul class="invalid-feedback" id="validationId">
+                        <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-3">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('cosm')}">
-                <select class="form-select" id="cosm" name="cosm" required aria-describedby="helpCosm">
-                    <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}" th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}" th:selected="${c == knight.cosm}">cosm name</option>
-                </select>
-                <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
-                <div class="input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('cosm')}">
-                <select class="form-select is-invalid" id="cosm" name="cosm" required aria-describedby="validationCosm">
-                    <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}" th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}" th:selected="${c == knight.cosm}">cosm name</option>
-                </select>
-                <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
-                <ul class="invalid-feedback" id="validationCosm">
-                    <li th:each="err : ${#fields.errors('cosm')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-3">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('cosm')}">
+                    <select class="form-select" id="cosm" name="cosm" required aria-describedby="helpCosm">
+                        <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
+                                th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
+                                th:selected="${c == operative.cosm}">cosm name
+                        </option>
+                    </select>
+                    <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
+                    <div class="input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">
+                        Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('cosm')}">
+                    <select class="form-select is-invalid" id="cosm" name="cosm" required
+                            aria-describedby="validationCosm">
+                        <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
+                                th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
+                                th:selected="${c == operative.cosm}">cosm name
+                        </option>
+                    </select>
+                    <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
+                    <ul class="invalid-feedback" id="validationCosm">
+                        <li th:each="err : ${#fields.errors('cosm')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-3">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('xp')}">
-                <input type="text" class="form-control" id="xp" th:field="*{xp}" maxlength="4" size="4" th:placeholder="#{form.edit-operative.xp.placeholder}" data-toggle="tootltip" data-placement="top" th:title="#{form.edit-operative.xp.help}" aria-describedby="helpXp">
-                <label for="xp" th:text="#{form.edit-operative.xp.title}">XP</label>
-                <div class="input-group has-validation" id="helpXp" th:text="#{form.edit-operative.xp.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('xp')}">
-                <input type="text" class="form-control is-invalid" id="xp" th:field="*{xp}" maxlength="4" size="4" th:placeholder="#{form.edit-operative.xp.placeholder}" data-toggle="tootltip" data-placement="top" th:title="#{form.edit-operative.xp.help}" aria-describedby="validationXp">
-                <label for="xp" th:text="#{form.edit-operative.xp.title}">XP</label>
-                <ul class="invalid-feedback" id="validationXp">
-                    <li th:each="err : ${#fields.errors('xp')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-3">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('xp')}">
+                    <input type="text" class="form-control" id="xp" th:field="*{xp}" maxlength="4" size="4"
+                           th:placeholder="#{form.edit-operative.xp.placeholder}" data-toggle="tootltip"
+                           data-placement="top" th:title="#{form.edit-operative.xp.help}" aria-describedby="helpXp">
+                    <label for="xp" th:text="#{form.edit-operative.xp.title}">XP</label>
+                    <div class="input-group has-validation" id="helpXp" th:text="#{form.edit-operative.xp.help}">Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('xp')}">
+                    <input type="text" class="form-control is-invalid" id="xp" th:field="*{xp}" maxlength="4" size="4"
+                           th:placeholder="#{form.edit-operative.xp.placeholder}" data-toggle="tootltip"
+                           data-placement="top" th:title="#{form.edit-operative.xp.help}"
+                           aria-describedby="validationXp">
+                    <label for="xp" th:text="#{form.edit-operative.xp.title}">XP</label>
+                    <ul class="invalid-feedback" id="validationXp">
+                        <li th:each="err : ${#fields.errors('xp')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-3">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('money')}">        
-                <input type="text" class="form-control" id="money" th:field="*{money}" maxlength="10" size="10" th:placeholder="#{form.edit-operative.money.placeholder}" data-toggle="tootltip" data-placement="top" th:title="#{form.edit-operative.money.help}" aria-describedby="helpMoney">
-                <label for="money" th:text="#{form.edit-operative.money.title}">Money</label>
-                <div class="input-group has-validation" id="helpMoney" th:text="#{form.edit-operative.money.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('money')}">
-                <input type="text" class="form-control is-invalid" id="money" th:field="*{money}" maxlength="10" size="10" th:placeholder="#{form.edit-operative.money.placeholder}" data-toggle="tootltip" data-placement="top" th:title="#{form.edit-operative.money.help}" aria-describedby="validationMoney">
-                <label for="money" th:text="#{form.edit-operative.money.title}">Money</label>
-                <ul class="invalid-feedback">
-                    <li th:each="err : ${#fields.errors('money')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-3">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('money')}">
+                    <input type="text" class="form-control" id="money" th:field="*{money}" maxlength="10" size="10"
+                           th:placeholder="#{form.edit-operative.money.placeholder}" data-toggle="tootltip"
+                           data-placement="top" th:title="#{form.edit-operative.money.help}"
+                           aria-describedby="helpMoney">
+                    <label for="money" th:text="#{form.edit-operative.money.title}">Money</label>
+                    <div class="input-group has-validation" id="helpMoney" th:text="#{form.edit-operative.money.help}">
+                        Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('money')}">
+                    <input type="text" class="form-control is-invalid" id="money" th:field="*{money}" maxlength="10"
+                           size="10" th:placeholder="#{form.edit-operative.money.placeholder}" data-toggle="tootltip"
+                           data-placement="top" th:title="#{form.edit-operative.money.help}"
+                           aria-describedby="validationMoney">
+                    <label for="money" th:text="#{form.edit-operative.money.title}">Money</label>
+                    <ul class="invalid-feedback">
+                        <li th:each="err : ${#fields.errors('money')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-12">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('name')}">
-                <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="100" size="50" th:placeholder="#{form.edit-operative.name.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.name.help}" aria-describedby="helpName">
-                <label for="name" th:text="#{form.edit-operative.name.title}">Name</label>
-                <div class="input-group has-validation" id="helpName" th:text="#{form.edit-operative.name.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('name')}">
-                <input type="text" class="form-control is-invalid" id="name" th:field="*{name}" maxlength="100" size="50" th:placeholder="#{form.edit-operative.name.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.name.help}" aria-describedby="validationName">
-                <label for="name" th:text="#{form.edit-operative.name.title}">Name</label>
-                <ul class="invalid-feedback" id="validationName">
-                    <li th:each="err : ${#fields.errors('name')}" th:text="${err}">error</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-12">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('description')}">
-                <textarea class="form-control" id="description" th:field="*{description}" style="height: 5em" th:placeholder="#{form.edit-operative.description.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.description.help}" aria-describedby="helpDescription"></textarea>
-                <label for="description" th:text="#{form.edit-operative.description.title}">Beschreibung</label>
-                <div class="input-group has-validation" id="helpDescription" th:text="#{form.edit-operative.description.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('description')}">
-                <textarea class="form-control is-invalid" id="description" th:field="*{description}" style="height: 5em" th:placeholder="#{form.edit-operative.description.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.description.help}" aria-describedby="validationDescription"></textarea>
-                <label for="description" th:text="#{form.edit-operative.description.title}">Beschreibung</label>
-                <ul class="invalid-feedback" id="validationDescription">
-                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}">error</li>
-                </ul>
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('name')}">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="100" size="50"
+                           th:placeholder="#{form.edit-operative.name.placeholder}" data-toggle="tooltip"
+                           data-placement="top" th:title="#{form.edit-operative.name.help}" aria-describedby="helpName">
+                    <label for="name" th:text="#{form.edit-operative.name.title}">Name</label>
+                    <div class="input-group has-validation" id="helpName" th:text="#{form.edit-operative.name.help}">
+                        Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('name')}">
+                    <input type="text" class="form-control is-invalid" id="name" th:field="*{name}" maxlength="100"
+                           size="50" th:placeholder="#{form.edit-operative.name.placeholder}" data-toggle="tooltip"
+                           data-placement="top" th:title="#{form.edit-operative.name.help}"
+                           aria-describedby="validationName">
+                    <label for="name" th:text="#{form.edit-operative.name.title}">Name</label>
+                    <ul class="invalid-feedback" id="validationName">
+                        <li th:each="err : ${#fields.errors('name')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-12">
-        <div class="form-floating">
-            <div class="input-group has-validation" th:unless="${#fields.hasErrors('notes')}">
-                <textarea class="form-control" id="notes" th:field="*{notes}" style="height: 5em" th:placeholder="#{form.edit-operative.notes.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.notes.help}" aria-describedby="helpNotes"></textarea>
-                <label for="notes" th:text="#{form.edit-operative.notes.title}">Notizen</label>
-                <div class="input-group has-validation" id="helpNotes" th:text="#{form.edit-operative.notes.help}">Hilfe</div>
-            </div>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('notes')}">
-                <textarea class="form-control is-invalid" id="notes" th:field="*{notes}" style="height: 5em" th:placeholder="#{form.edit-operative.notes.placeholder}" data-toggle="tooltip" data-placement="top" th:title="#{form.edit-operative.notes.help}" aria-describedby="validationNotes"></textarea>
-                <label for="notes" th:text="#{form.edit-operative.notes.title}">Notizen</label>
-                <ul class="invalid-feedback" id="validationNotes">
-                    <li th:each="err : ${#fields.errors('notes')}" th:text="${err}">error</li>
-                </ul>
+
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('description')}">
+                    <textarea class="form-control" id="description" th:field="*{description}" style="height: 5em"
+                              th:placeholder="#{form.edit-operative.description.placeholder}" data-toggle="tooltip"
+                              data-placement="top" th:title="#{form.edit-operative.description.help}"
+                              aria-describedby="helpDescription"></textarea>
+                    <label for="description" th:text="#{form.edit-operative.description.title}">Beschreibung</label>
+                    <div class="input-group has-validation" id="helpDescription"
+                         th:text="#{form.edit-operative.description.help}">Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('description')}">
+                    <textarea class="form-control is-invalid" id="description" th:field="*{description}"
+                              style="height: 5em" th:placeholder="#{form.edit-operative.description.placeholder}"
+                              data-toggle="tooltip" data-placement="top"
+                              th:title="#{form.edit-operative.description.help}"
+                              aria-describedby="validationDescription"></textarea>
+                    <label for="description" th:text="#{form.edit-operative.description.title}">Beschreibung</label>
+                    <ul class="invalid-feedback" id="validationDescription">
+                        <li th:each="err : ${#fields.errors('description')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <button type="submit"       class="btn btn-primary col-6" th:text="#{form.submit.title}">Submit</button>
-    <a th:href="@{${referrer}}" class="btn btn-primary col-6" th:text="#{form.cancel.title}">Cancel</a>
-</form>
+        <div class="col-12">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('notes')}">
+                    <textarea class="form-control" id="notes" th:field="*{notes}" style="height: 5em"
+                              th:placeholder="#{form.edit-operative.notes.placeholder}" data-toggle="tooltip"
+                              data-placement="top" th:title="#{form.edit-operative.notes.help}"
+                              aria-describedby="helpNotes"></textarea>
+                    <label for="notes" th:text="#{form.edit-operative.notes.title}">Notizen</label>
+                    <div class="input-group has-validation" id="helpNotes" th:text="#{form.edit-operative.notes.help}">
+                        Hilfe
+                    </div>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('notes')}">
+                    <textarea class="form-control is-invalid" id="notes" th:field="*{notes}" style="height: 5em"
+                              th:placeholder="#{form.edit-operative.notes.placeholder}" data-toggle="tooltip"
+                              data-placement="top" th:title="#{form.edit-operative.notes.help}"
+                              aria-describedby="validationNotes"></textarea>
+                    <label for="notes" th:text="#{form.edit-operative.notes.title}">Notizen</label>
+                    <ul class="invalid-feedback" id="validationNotes">
+                        <li th:each="err : ${#fields.errors('notes')}" th:text="${err}">error</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-</section></body>
+        <button type="submit" class="btn btn-primary col-6" th:text="#{form.submit.title}">Submit</button>
+        <a th:href="@{${referrer}}" class="btn btn-primary col-6" th:text="#{form.cancel.title}">Cancel</a>
+    </form>
+
+</section>
+</body>
 </html>
