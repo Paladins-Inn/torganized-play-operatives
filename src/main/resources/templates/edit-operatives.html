@@ -17,7 +17,7 @@
         </ul>
     </div>
 
-    <input type="hidden" th:field="*{modified}" th:value=${#temporals.formatISO(knight.modified)}"/>
+    <input type="hidden" th:field="*{modified}" th:value="${#temporals.formatISO(knight.modified)}"/>
     <div class="col-3" th:if="${#fields.hasErrors('modified')}">
         <ul class="invalid-feedback" id="validationModified">
             <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
