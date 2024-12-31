@@ -61,7 +61,7 @@ public class ManageOperative {
             referrer = "/" + principal.getName() + "/list";
         }
 
-        Operative knight = OperativeJPA.builder()
+        Operative operative = OperativeJPA.builder()
             .id(UUID.randomUUID())
             .nameSpace(principal.getName())
             .created(OffsetDateTime.now(Clock.systemUTC()))
@@ -72,7 +72,7 @@ public class ManageOperative {
         model.addAttribute("cosms", Cosm.values());
         model.addAttribute("errors", new Binding());
         model.addAttribute("referrer", referrer);
-        model.addAttribute(DATAMODEL, knight);
+        model.addAttribute(DATAMODEL, operative);
 
         return log.exit("edit-operatives");
     }
@@ -81,35 +81,35 @@ public class ManageOperative {
     @RolesAllowed("PLAYER")
     public String saveOperative(
         @NotNull Principal principal,
-        @Valid @NotNull @ModelAttribute(DATAMODEL) OperativeJPA knight,
+        @Valid @NotNull @ModelAttribute(DATAMODEL) OperativeJPA operative,
         BindingResult binding,
         @NotNull Model model
     ) {
-        log.entry(principal, knight, binding, model);
+        log.entry(principal, operative, binding, model);
 
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
-            log.warn("Data is invalid. knight={}, errors={}", knight, binding.getAllErrors());
+            log.warn("Data is invalid. operative={}, errors={}", operative, binding.getAllErrors());
 
             model.addAttribute("contextPath", contextPath);
             model.addAttribute("cosms", Cosm.values());
             model.addAttribute("referrer", "/" + principal.getName() + "/list");
-            model.addAttribute(DATAMODEL, knight);
+            model.addAttribute(DATAMODEL, operative);
             return log.exit("edit-operatives");
         }
 
         if (
-            ! principal.getName().equals(knight.getNameSpace())
+            ! principal.getName().equals(operative.getNameSpace())
             && !hasRole(principal, Set.of("ROLE_ORGA","ROLE_ADMIN"))
         ) {
-            log.warn("The operative is not owned by the user. user={}, knight={}", principal, knight);
+            log.warn("The operative is not owned by the user. user={}, operative={}", principal, operative);
         } else {
-            knight = protectKnightData(knight, principal);
-            knight = operativesRepository.save(knight);
+            operative = protectKnightData(operative, principal);
+            operative = operativesRepository.save(operative);
 
-            log.info("Changed operative saved. knight={}", knight);
+            log.info("Changed operative saved. operative={}", operative);
         }
 
-        model.addAttribute(DATAMODEL, knight);
+        model.addAttribute(DATAMODEL, operative);
 
         return log.exit("redirect:/" + principal.getName() + "/list");
     }
@@ -122,22 +122,22 @@ public class ManageOperative {
         return log.exit(roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r))));
     }
 
-    private OperativeJPA protectKnightData(final OperativeJPA knight, final Principal user) {
-        log.entry(knight, user);
+    private OperativeJPA protectKnightData(final OperativeJPA operative, final Principal user) {
+        log.entry(operative, user);
 
         if (hasRole(user, Set.of("ROLE_ORGA", "ROLE_ADMIN"))) {
             log.debug("Admins and orga may change anything.");
 
-            return log.exit(knight);
+            return log.exit(operative);
         }
 
-        Optional<OperativeJPA> orig = operativesRepository.findById(knight.getId());
+        Optional<OperativeJPA> orig = operativesRepository.findById(operative.getId());
         if (orig.isEmpty()) {
             return log.exit(null);
         }
 
         return log.exit(orig.get().toBuilder()
-                .name(knight.getName())
+                .name(operative.getName())
                 .build()
         );
     }
