@@ -1,3 +1,21 @@
+/*
+ * Copyright (c) 2024. Kaiserpfalz EDV-Service, Roland T. Lichti
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or  (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program.
+ * If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package de.paladinsinn.tp.dcis.operatives.controller;
 
 import java.security.Principal;
@@ -31,13 +49,19 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 
-
+/**
+ * Manages the operatives for the different roles using the DCIS.
+ *
+ * @author klenkes74 {@literal <rlichti@kaiserpfalz-edv.de>}
+ * @since 1.1.0-SNAPSHOT
+ * @version 1.1.0-SNAPSHOT
+ */
 @RequiredArgsConstructor
 @XSlf4j
 @Controller
 @RequestMapping("/")
 public class ManageOperative {
-    private static final String DATAMODEL = "knight";
+    private static final String DATAMODEL = "operative";
 
     private final OperativeRepository operativesRepository;
 
