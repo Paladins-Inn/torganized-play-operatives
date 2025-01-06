@@ -17,6 +17,8 @@
  */
 package de.paladinsinn.tp.dcis.operatives.configuration;
 
+import jakarta.inject.Inject;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -35,6 +37,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaAuditing
 @EnableEnversRepositories
 @EnableTransactionManagement
+@RequiredArgsConstructor(onConstructor_ = @__(@Inject))
 public class DataConfiguration {
-    
 }
