@@ -21,6 +21,7 @@ package de.paladinsinn.tp.dcis.operatives;
 import de.kaiserpfalzedv.commons.spring.templates.TemplateEngineProvider;
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
+import de.paladinsinn.tp.dcis.commons.messaging.MessagingConfiguration;
 import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
@@ -39,7 +40,10 @@ import org.springframework.context.annotation.Import;
 @EnableEventBus
 @EnableRestConfiguration
 @EnableMessagingConfiguration
-@Import(TemplateEngineProvider.class)
+@Import({
+    TemplateEngineProvider.class,
+    MessagingConfiguration.class
+})
 @XSlf4j
 public class Application extends SpringApplication {
     @Value("${spring.application.name:OPERATIVES}")
