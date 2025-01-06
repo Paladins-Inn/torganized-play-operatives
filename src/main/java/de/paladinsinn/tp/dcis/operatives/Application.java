@@ -22,10 +22,8 @@ import de.kaiserpfalzedv.commons.spring.templates.TemplateEngineProvider;
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
 import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
-import de.paladinsinn.tp.dcis.commons.rest.UserLoginReportingFilter;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,11 +45,6 @@ public class Application extends SpringApplication {
     @Value("${spring.application.name:OPERATIVES}")
     @Getter(onMethod = @__(@Bean))
     private String applicationName;
-    
-    @SuppressWarnings({"unused", "SpringJavaAutowiredFieldsWarningInspection"}) // needs to be initialized for getting the events.
-    @Autowired
-    private UserLoginReportingFilter userLoginReportingFilter;
-    
     
     public static void main(String [] args) {
         SpringApplication.run(Application.class, args);
