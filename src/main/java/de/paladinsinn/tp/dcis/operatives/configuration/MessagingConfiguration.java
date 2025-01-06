@@ -19,12 +19,13 @@
 package de.paladinsinn.tp.dcis.operatives.configuration;
 
 
-import de.paladinsinn.tp.dcis.commons.rest.UserLoginReportingFilter;
+import de.paladinsinn.tp.dcis.commons.services.UserLogEntryClient;
 import jakarta.annotation.PostConstruct;
 import lombok.*;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 
 /**
@@ -32,14 +33,15 @@ import org.springframework.context.annotation.Configuration;
  * @since 2025-01-06
  */
 @Configuration
+@Import(UserLogEntryClient.class)
 @RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 @XSlf4j
 public class MessagingConfiguration {
-    private final UserLoginReportingFilter userLoginReportingFilter;
+    private final UserLogEntryClient userLogEntryClient;
     
     @PostConstruct
     public void init() {
-        log.entry(userLoginReportingFilter);
+        log.entry(userLogEntryClient);
         log.exit();
     }
 }
