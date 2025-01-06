@@ -13,8 +13,6 @@ kp:
         role-attribute: groups
 
 spring:
-  profiles:
-    active: LOCAL
   application:
     name: dcis-operatives
     admin:
