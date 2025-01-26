@@ -7,7 +7,7 @@
     <parent>
         <artifactId>kp-commons-parent</artifactId>
         <groupId>de.kaiserpfalz-edv.commons</groupId>
-        <version>4.0.9</version>
+        <version>4.0.10</version>
         <relativePath/>
     </parent>
 
@@ -22,7 +22,7 @@
     </description>
 
     <properties>
-        <kp-commons.version>4.0.9</kp-commons.version>
+        <kp-commons.version>4.0.10</kp-commons.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 

@@ -29,6 +29,7 @@ import de.kaiserpfalzedv.commons.api.resources.*;
 import de.kaiserpfalzedv.rpg.torg.model.actors.Clearance;
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import jakarta.annotation.Nullable;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * Operative - The Storm Knights or Stormers involved in the game.
@@ -60,6 +61,7 @@ public interface Operative extends HasId<UUID>, HasNameSpace, HasName, HasTimest
         return getHistory().size();
     }
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     default Optional<OffsetDateTime> getLastMissionDate() {
         return Optional.ofNullable(getHistory().isEmpty() ? null : getHistory().get(getHistory().size()-1).getMissionDate());
     }
