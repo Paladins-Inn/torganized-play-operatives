@@ -18,7 +18,6 @@
 
 package de.paladinsinn.tp.dcis.operatives;
 
-import de.kaiserpfalzedv.commons.spring.templates.TemplateEngineProvider;
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.messaging.EnableMessagingConfiguration;
 import de.paladinsinn.tp.dcis.commons.messaging.MessagingConfiguration;
@@ -41,7 +40,6 @@ import org.springframework.context.annotation.Import;
 @EnableRestConfiguration
 @EnableMessagingConfiguration
 @Import({
-    TemplateEngineProvider.class,
     MessagingConfiguration.class
 })
 @XSlf4j
