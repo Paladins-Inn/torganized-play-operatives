@@ -62,6 +62,22 @@
             </div>
         </div>
 
+        <div class="col-12" th:if="*{lastMissionDate} != null">
+            <div class="form-floating">
+                <div class="input-group has-validation" th:unless="${#fields.hasErrors('lastMissionDate')}">
+                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
+                </div>
+                <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
+                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
+                    <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
+                        <ul class="invalid-feedback" id="validationId">
+                            <li th:each="err : ${#fields.errors('lastMissionDaten')}" th:text="${err}">error</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="col-3" th:if="*{id} != null">
             <div class="form-floating">
