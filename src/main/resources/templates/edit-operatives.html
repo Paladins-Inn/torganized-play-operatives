@@ -60,7 +60,7 @@
         <div class="col-12" th:if="*{lastMissionDate.orElse(null)} != null">
             <div class="form-floating">
                 <div class="input-group has-validation" th:unless="${#fields.hasErrors('lastMissionDate')}">
-                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}/>
+                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
                 </div>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
                     <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
