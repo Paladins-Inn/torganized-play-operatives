@@ -15,17 +15,12 @@
         <input type="hidden" th:field="*{nameSpace}"/>
 
         <div class="col-12">
-            <div class="form-floating">
-                <div class="input-group has-validation" th:unless="${#fields.hasErrors('created')}">
-                    <input type="hidden" id="created" th:field="*{created}"/>
-                </div>
+            <div class="form-floating input-group has-validation">
+                <input type="hidden" id="created" th:field="*{created}"/>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
-                    <input type="hidden" id="created" th:field="*{created}"/>
-                    <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
-                        <ul class="invalid-feedback" id="validationCreated">
-                            <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
-                        </ul>
-                    </div>
+                    <ul class="invalid-feedback" id="validationCreated">
+                        <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -37,58 +32,43 @@
                     <ul class="invalid-feedback" id="validationModified">
                         <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
                     </ul>
-                 /div>
+                </div>
             </div>
         </div>
 
         <div class="col-12" th:if="*{deleted} != null">
-            <div class="form-floating">
-                <div class="input-group has-validation" th:unless="${#fields.hasErrors('deleted')}">
-                    <input type="hidden" id="deleted" th:field="*{deleted}"/>
-                </div>
+            <div class="form-floating input-group has-validation">
+                <input type="hidden" id="deleted" th:field="*{deleted}"/>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('deleted')}">
-                    <input type="hidden" id="deleted" th:field="*{deleted}"/>
-                    <div class="input-group has-validation" th:if="${#fields.hasErrors('deleted')}">
-                        <ul class="invalid-feedback" id="validationId">
-                            <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
-                        </ul>
-                    </div>
+                    <ul class="invalid-feedback" id="validationDeleted">
+                        <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="col-12" th:if="*{lastMissionDate.orElse(null)} != null">
-            <div class="form-floating">
-                <div class="input-group has-validation" th:unless="${#fields.hasErrors('lastMissionDate')}">
-                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
-                </div>
+            <div class="form-floating input-group has-validation">
+                <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
-                    <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
-                    <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
-                        <ul class="invalid-feedback" id="validationId">
-                            <li th:each="err : ${#fields.errors('lastMissionDaten')}" th:text="${err}">error</li>
-                        </ul>
-                    </div>
+                    <ul class="invalid-feedback" id="validationLastMissionDate">
+                        <li th:each="err : ${#fields.errors('lastMissionDaten')}" th:text="${err}">error</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
 
         <div class="col-3" th:if="*{id} != null">
-            <div class="form-floating">
-                <div class="input-group has-validation" th:unless="${#fields.hasErrors('id')}">
-                    <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
-                           readonly required data-toggle="tooltip" data-placement="top"
-                           th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
-                    <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
-                    <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe
-                    </div>
+            <div class="form-floating input-group has-validation">
+                <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
+                       readonly required data-toggle="tooltip" data-placement="top"
+                       th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
+                <br/><label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+                <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">
+                    Hilfe
                 </div>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
-                    <input type="text" class="form-control is-invalid" id="id" th:field="*{id}" maxlength="36" size="36"
-                           disabled readonly required data-toggle="tooltip" data-placement="top"
-                           th:title="#{form.edit-operative.id.help}" aria-describedby="validationId">
-                    <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
                     <ul class="invalid-feedback" id="validationId">
                         <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
                     </ul>
@@ -98,27 +78,17 @@
 
         <div class="col-3">
             <div class="form-floating">
-                <div class="input-group has-validation" th:unless="${#fields.hasErrors('cosm')}">
-                    <select class="form-select" id="cosm" name="cosm" required aria-describedby="helpCosm">
-                        <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
-                                th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
-                                th:selected="${c == operative.cosm}">cosm name
-                        </option>
-                    </select>
-                    <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
-                    <div class="input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">
-                        Hilfe
-                    </div>
+                <select class="form-select" id="cosm" name="cosm" required aria-describedby="helpCosm">
+                    <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
+                            th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
+                            th:selected="${c == operative.cosm}">cosm name
+                    </option>
+                </select>
+                <br/><label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
+                <div class="input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">
+                    Hilfe
                 </div>
                 <div class="input-group has-validation" th:if="${#fields.hasErrors('cosm')}">
-                    <select class="form-select is-invalid" id="cosm" name="cosm" required
-                            aria-describedby="validationCosm">
-                        <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
-                                th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
-                                th:selected="${c == operative.cosm}">cosm name
-                        </option>
-                    </select>
-                    <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
                     <ul class="invalid-feedback" id="validationCosm">
                         <li th:each="err : ${#fields.errors('cosm')}" th:text="${err}">error</li>
                     </ul>
