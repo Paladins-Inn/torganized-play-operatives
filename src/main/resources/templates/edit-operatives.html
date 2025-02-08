@@ -18,51 +18,17 @@
 
         <input type="hidden" th:field="*{nameSpace}"/>
 
-        <div class="col-12 form-floating input-group has-validation">
-            <input type="hidden" id="created" th:field="*{created}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
-                <ul class="invalid-feedback" id="validationCreated">
-                    <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-12 form-floating input-group has-validation">
-            <input type="hidden" id="modified" th:field="*{modified}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('modified')}">
-                <ul class="invalid-feedback" id="validationModified">
-                    <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-12 form-floating input-group has-validation" th:if="*{deleted} != null">
-            <input type="hidden" id="deleted" th:field="*{deleted}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('deleted')}">
-                <ul class="invalid-feedback" id="validationDeleted">
-                    <li th:each="err : ${#fields.errors('deleted')}" th:text="${err}">error</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="col-12 form-floating input-group has-validation" th:if="*{lastMissionDate.orElse(null)} != null">
-            <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}"/>
-            <div class="input-group has-validation" th:if="${#fields.hasErrors('lastMissionDate')}">
-                <ul class="invalid-feedback" id="validationLastMissionDate">
-                    <li th:each="err : ${#fields.errors('lastMissionDaten')}" th:text="${err}">error</li>
-                </ul>
-            </div>
-        </div>
-
+        <input type="hidden" id="created" th:field="*{created}"/>
+        <input type="hidden" id="modified" th:field="*{modified}"/>
+        <input type="hidden" id="deleted" th:field="*{deleted}"/>
+        <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}" th:if="*{id} != null"/>
 
         <div class="col-3 form-floating input-group has-validation" th:if="*{id} != null">
             <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
                    readonly required data-toggle="tooltip" data-placement="top"
                    th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
             <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
-            <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">
-                Hilfe
-            </div>
+            <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe</div>
             <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
                 <ul class="invalid-feedback" id="validationId">
                     <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
