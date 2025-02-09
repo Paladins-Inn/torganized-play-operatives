@@ -16,13 +16,25 @@
           th:action="@{/}"
           th:object="${operative}"
           method="post">
-
         <input type="hidden" th:field="*{nameSpace}"/>
-
         <input type="hidden" id="created" th:field="*{created}"/>
         <input type="hidden" id="modified" th:field="*{modified}"/>
-        <input type="hidden" id="deleted" th:field="*{deleted}"/>
+        <input type="hidden" id="deleted" th:field="*{deleted}" th:if="${operative.deleted != null}"/>
         <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}" th:if="${operative.lastMissionDate.orElse(null)?.lastMissionDate != null}"/>
+
+        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+            <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
+                   readonly required data-toggle="tooltip" data-placement="top"
+                   th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
+            <label for="id" th:text="#{form.edit-operative.id.title}" readonly>Registry Number</label>
+            <div class="input-group has-validation" id="helpId" th:text="#{form.edit-operative.id.help}">Hilfe</div>
+            <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
+                <ul class="invalid-feedback" id="validationId">
+                    <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
+                </ul>
+            </div>
+        </div>
+
 
 
         <button type="submit" class="btn btn-primary col-2" th:text="#{form.submit.title}">Submit</button>
