@@ -22,7 +22,7 @@
         <input type="hidden" id="created" th:field="*{created}"/>
         <input type="hidden" id="modified" th:field="*{modified}"/>
         <input type="hidden" id="deleted" th:field="*{deleted}"/>
-        <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}" th:if="${operative.id != null}"/>
+        <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}" th:if="${operative.lastMissionDate.orElse(null)?.lastMissionDate != null}"/>
 
 
         <button type="submit" class="btn btn-primary col-2" th:text="#{form.submit.title}">Submit</button>
