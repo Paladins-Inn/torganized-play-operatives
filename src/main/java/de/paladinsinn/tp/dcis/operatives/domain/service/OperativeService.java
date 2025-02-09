@@ -49,13 +49,13 @@ public class OperativeService {
     private final OperativeToImpl toModel;
     private final OperativeToJpa toJPA;
 
-    public Operative findByUid(final UUID uid) {
+    public Optional<Operative> findById(final UUID uid) {
         log.entry(uid);
 
         Operative result = toModel.apply(jpaRepository.findById(uid).orElse(null));
 
         log.debug("Loaded operative by uid. uid={}, operative={}", uid, result);
-        return log.exit(result);
+        return log.exit(Optional.ofNullable(result));
     }
 
     @SuppressWarnings("java:S1452") // I want to return the interface but the framework will use the implementation.

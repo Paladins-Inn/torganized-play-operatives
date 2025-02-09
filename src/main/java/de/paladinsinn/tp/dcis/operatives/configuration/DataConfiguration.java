@@ -17,6 +17,7 @@
  */
 package de.paladinsinn.tp.dcis.operatives.configuration;
 
+import de.paladinsinn.tp.dcis.commons.formatter.EnableKaiserpfalzCommonsSpringFormatters;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaAuditing
 @EnableEnversRepositories
 @EnableTransactionManagement
+@EnableKaiserpfalzCommonsSpringFormatters
 @RequiredArgsConstructor(onConstructor_ = @__(@Inject))
 public class DataConfiguration {
 }

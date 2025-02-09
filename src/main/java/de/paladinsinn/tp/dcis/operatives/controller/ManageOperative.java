@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+import de.paladinsinn.tp.dcis.operatives.domain.service.OperativeService;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -33,11 +34,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import de.kaiserpfalzedv.rpg.torg.model.core.Cosm;
 import de.paladinsinn.tp.dcis.operatives.domain.model.Operative;
@@ -64,6 +61,7 @@ public class ManageOperative {
     private static final String DATAMODEL = "operative";
 
     private final OperativeRepository operativesRepository;
+    private final OperativeService operativeService;
 
     @Value("${server.servlet.contextPath}:/operatives")
     private String contextPath;
@@ -80,27 +78,60 @@ public class ManageOperative {
         log.info("Showing input form for new operatives. user={}",
             principal.getName()
         );
-
-        if (referrer == null) {
-            referrer = "/" + principal.getName() + "/list";
-        }
-
+        
         Operative operative = OperativeJPA.builder()
             .id(UUID.randomUUID())
             .nameSpace(principal.getName())
             .created(OffsetDateTime.now(Clock.systemUTC()))
             .modified(OffsetDateTime.now(Clock.systemUTC()))
             .build();
-
-        model.addAttribute("contextPath", contextPath);
-        model.addAttribute("cosms", Cosm.values());
-        model.addAttribute("errors", new Binding());
-        model.addAttribute("referrer", referrer);
-        model.addAttribute(DATAMODEL, operative);
-
+        
+        fillOperatorModelForTemplating(principal, referrer, model, operative);
+        
         return log.exit("edit-operatives");
     }
-
+    
+    private void fillOperatorModelForTemplating(final Principal principal, final String referrer, final Model model, final Operative operative) {
+        model.addAttribute("contextPath", contextPath);
+        model.addAttribute("referrer", sanitizeReferrerIfNull(principal, referrer));
+        model.addAttribute("cosms", Cosm.values());
+        model.addAttribute("errors", new Binding());
+        model.addAttribute(DATAMODEL, operative);
+    }
+    
+    
+    private static String sanitizeReferrerIfNull(final Principal principal, String referrer) {
+        if (referrer == null) {
+            referrer = "/" + principal.getName() + "/list";
+        }
+        return referrer;
+    }
+    
+    
+    @GetMapping("/{id}")
+    @RolesAllowed("PLAYER")
+    public String editOperative(
+        @NotNull @PathVariable UUID id,
+        @NotNull Principal principal,
+        @RequestHeader(value = HttpHeaders.REFERER, required = false) String referrer,
+        @NotNull Model model
+    ) {
+        log.entry(id, principal, referrer, model);
+        
+        Optional<Operative> operative = operativeService.findById(id);
+        
+        if (operative.isEmpty()) {
+            log.info("There is no operative with this id. Creating a new one instead. id={}", id);
+            
+            return log.exit(createNewOperative(principal, referrer, model));
+        }
+        
+        fillOperatorModelForTemplating(principal, referrer, model, operative.get());
+        
+        return log.exit("edit-operatives");
+    }
+    
+    
     @PostMapping("/")
     @RolesAllowed("PLAYER")
     public String saveOperative(
@@ -113,11 +144,9 @@ public class ManageOperative {
 
         if (binding.hasErrors() && binding.getAllErrors().size() > 1) {
             log.warn("Data is invalid. operative={}, errors={}", operative, binding.getAllErrors());
-
-            model.addAttribute("contextPath", contextPath);
-            model.addAttribute("cosms", Cosm.values());
-            model.addAttribute("referrer", "/" + principal.getName() + "/list");
-            model.addAttribute(DATAMODEL, operative);
+            
+            fillOperatorModelForTemplating(principal, null, model, operative);
+            
             return log.exit("edit-operatives");
         }
 
@@ -138,14 +167,6 @@ public class ManageOperative {
         return log.exit("redirect:/" + principal.getName() + "/list");
     }
 
-    private boolean hasRole(Principal user, Set<String> roles) {
-        log.entry(user, roles);
-
-        log.info("Checking roles. principal={}", user);
-
-        return log.exit(roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r))));
-    }
-
     private OperativeJPA protectKnightData(final OperativeJPA operative, final Principal user) {
         log.entry(operative, user);
 
@@ -164,5 +185,13 @@ public class ManageOperative {
                 .name(operative.getName())
                 .build()
         );
+    }
+    
+    private boolean hasRole(Principal user, Set<String> roles) {
+        log.entry(user, roles);
+        
+        log.info("Checking roles. principal={}", user);
+        
+        return log.exit(roles.stream().anyMatch(r -> ((OAuth2AuthenticationToken)user).getAuthorities().contains(new SimpleGrantedAuthority(r))));
     }
 }
