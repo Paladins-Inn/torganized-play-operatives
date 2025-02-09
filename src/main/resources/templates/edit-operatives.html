@@ -132,7 +132,10 @@
             </div>
         </div>
 
-        <div class="col-3 form-floating input-group has-validation">
+        <div class="col-3 form-floating input-group has-validation" th:unless="${operative.lastMissionDate.orElse(null)?.lastMissionDate != null}" th:text="#{form.edit-operative.lastMissionDate.no-mission-yet}">
+            No Mission yet.
+        </div>
+        <div class="col-3 form-floating input-group has-validation" th:if="${operative.lastMissionDate.orElse(null)?.lastMissionDate != null}">
             <input type="text" class="form-control" id="lastMissionDate" th:field="${operative.lastMissionDate.orElse(null)?.lastMissionDate}" maxlength="10" size="10"
                    disabled readonly
                    th:placeholder="#{form.edit-operative.lastMissionDate.placeholder}" data-toggle="tootltip"
@@ -148,7 +151,6 @@
                 </ul>
             </div>
         </div>
-
 
         <div class="col-12 form-floating input-group has-validation">
             <textarea class="form-control" id="notes" th:field="*{notes}" style="height: 5em"
