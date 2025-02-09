@@ -16,9 +16,8 @@
           th:action="@{/}"
           th:object="${operative}"
           method="post">
+
         <input type="hidden" th:field="*{nameSpace}"/>
-        <input type="hidden" id="created" th:field="*{created}"/>
-        <input type="hidden" id="modified" th:field="*{modified}"/>
         <input type="hidden" id="deleted" th:field="*{deleted}" th:if="${operative.deleted != null}"/>
         <input type="hidden" id="lastMissionDate" th:field="*{lastMissionDate}" th:if="${operative.lastMissionDate.orElse(null)?.lastMissionDate != null}"/>
 
@@ -31,6 +30,30 @@
             <div class="input-group has-validation" th:if="${#fields.hasErrors('id')}">
                 <ul class="invalid-feedback" id="validationId">
                     <li th:each="err : ${#fields.errors('id')}" th:text="${err}">error</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+            <input type="text" class="form-control" id="created" th:field="*{created}" maxlength="36" size="36" disabled
+                   readonly required data-toggle="tooltip" data-placement="top"
+                   th:title="#{form.generic.created.help}" aria-describedby="helpCreated">
+            <label for="created" th:text="#{form.generic.created.title}" readonly>Registry Number</label>
+            <div class="input-group has-validation" id="helpCreated" th:text="#{form.generic.created.help}">Hilfe</div>
+            <div class="input-group has-validation" th:if="${#fields.hasErrors('created')}">
+                <ul class="invalid-feedback" id="validationCreated">
+                    <li th:each="err : ${#fields.errors('created')}" th:text="${err}">error</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+            <input type="text" class="form-control" id="modified" th:field="*{modified}" maxlength="36" size="36" disabled
+                   readonly required data-toggle="tooltip" data-placement="top"
+                   th:title="#{form.generic.modified.help}" aria-describedby="helpModified">
+            <label for="modified" th:text="#{form.generic.modified.title}" readonly>Registry Number</label>
+            <div class="input-group has-validation" id="helpModified" th:text="#{form.generic.modified.help}">Hilfe</div>
+            <div class="input-group has-validation" th:if="${#fields.hasErrors('modified')}">
+                <ul class="invalid-feedback" id="validationModified">
+                    <li th:each="err : ${#fields.errors('modified')}" th:text="${err}">error</li>
                 </ul>
             </div>
         </div>
@@ -128,7 +151,7 @@
 
 
         <button type="submit" class="btn btn-primary col-2" th:text="#{form.submit.title}">Submit</button>
-        <a th:href="@{${referrer}}" class="btn btn-primary col-2" th:text="#{form.cancel.title}">Cancel</a>
+        <a th:href="@{${referrer}}" class="btn btn-secondary col-2" th:text="#{form.cancel.title}">Cancel</a>
     </form>
 
 </section></body>
