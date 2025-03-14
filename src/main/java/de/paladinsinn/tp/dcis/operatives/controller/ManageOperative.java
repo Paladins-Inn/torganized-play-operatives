@@ -120,7 +120,7 @@ public class ManageOperative {
         
         Optional<Operative> operative = operativeService.findById(id);
         
-        if (operative.isEmpty()) {
+        if (operative.isEmpty() || operative.get().getDeleted() == null) {
             log.info("There is no operative with this id. Creating a new one instead. id={}", id);
             
             return log.exit(createNewOperative(principal, referrer, model));
