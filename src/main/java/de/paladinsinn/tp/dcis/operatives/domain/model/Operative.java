@@ -62,6 +62,6 @@ public interface Operative extends HasId<UUID>, HasNameSpace, HasName, HasTimest
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     default OffsetDateTime getLastMissionDate() {
-        return getHistory().isEmpty() ? null : getHistory().get(getHistory().size()-1).getMissionDate();
+        return (getHistory() == null || getHistory().isEmpty()) ? null : getHistory().get(getHistory().size()-1).getMissionDate();
     }
 }
