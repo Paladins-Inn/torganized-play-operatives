@@ -10,7 +10,7 @@
 
     <h1 class="torg-header" th:text="#{view.edit-operative.title}">Edit Storm Knight</h1>
 
-    <form class="row g-3 form-floating needs-validation"
+    <form class="row g-3 col-12 form-floating needs-validation"
           novalidate
           action="#"
           th:action="@{/}"
@@ -20,7 +20,7 @@
         <input type="hidden" th:field="*{nameSpace}"/>
         <input type="hidden" id="deleted" th:field="*{deleted}" th:if="${operative.deleted != null}"/>
 
-        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+        <div class="col-4 form-floating input-group has-validation" th:if="${operative.id != null}">
             <input type="text" class="form-control" id="id" th:field="*{id}" maxlength="36" size="36" disabled
                    readonly required data-toggle="tooltip" data-placement="top"
                    th:title="#{form.edit-operative.id.help}" aria-describedby="helpId">
@@ -32,7 +32,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+        <div class="col-4 form-floating input-group has-validation" th:if="${operative.id != null}">
             <input type="text" class="form-control" id="created" th:field="*{created}" maxlength="36" size="36" disabled
                    readonly required data-toggle="tooltip" data-placement="top"
                    th:title="#{form.generic.created.help}" aria-describedby="helpCreated">
@@ -44,7 +44,7 @@
                 </ul>
             </div>
         </div>
-        <div class="col-3 form-floating input-group has-validation" th:if="${operative.id != null}">
+        <div class="col-4 form-floating input-group has-validation" th:if="${operative.id != null}">
             <input type="text" class="form-control" id="modified" th:field="*{modified}" maxlength="36" size="36" disabled
                    readonly required data-toggle="tooltip" data-placement="top"
                    th:title="#{form.generic.modified.help}" aria-describedby="helpModified">
@@ -57,7 +57,7 @@
             </div>
         </div>
 
-        <div class="col-9 form-floating input-group has-validation">
+        <div class="col-12 form-floating input-group has-validation">
             <input type="text" class="form-control" id="name" th:field="*{name}" maxlength="100" size="50"
                    th:placeholder="#{form.edit-operative.name.placeholder}" data-toggle="tooltip"
                    data-placement="top" th:title="#{form.edit-operative.name.help}" aria-describedby="helpName">
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="col-3 form-floating input-group has-validation">
+        <div class="col-4 form-floating input-group has-validation">
             <select class="form-select" id="cosm" name="cosm" required aria-describedby="helpCosm">
                 <option th:each="c : ${T(de.kaiserpfalzedv.rpg.torg.model.core.Cosm).values()}"
                         th:value="${c.name}" th:text="#{${'torg.cosm.' + c.name}}"
@@ -78,10 +78,10 @@
                 </option>
             </select>
             <label for="cosm" th:text="#{form.edit-operative.cosm.title}">Cosm</label>
-            <div class="col-3 input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">
+            <div class="col-4 input-group has-validation" id="helpCosm" th:text="#{form.edit-operative.cosm.help}">
                 Hilfe
             </div>
-            <div class="col-3 input-group has-validation" th:if="${#fields.hasErrors('cosm')}">
+            <div class="col-4 input-group has-validation" th:if="${#fields.hasErrors('cosm')}">
                 <ul class="invalid-feedback" id="validationCosm">
                     <li th:each="err : ${#fields.errors('cosm')}" th:text="${err}">error</li>
                 </ul>
@@ -103,7 +103,7 @@
             </div>
         </div>
 
-        <div class="col-3 form-floating input-group has-validation">
+        <div class="col-4 form-floating input-group has-validation">
             <input type="text" class="form-control" id="xp" th:field="*{xp}" maxlength="4" size="4"
                    th:placeholder="#{form.edit-operative.xp.placeholder}" data-toggle="tootltip"
                    data-placement="top" th:title="#{form.edit-operative.xp.help}" aria-describedby="helpXp">
@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div class="col-3 form-floating input-group has-validation">
+        <div class="col-4 form-floating input-group has-validation">
             <input type="text" class="form-control" id="money" th:field="*{money}" maxlength="10" size="10"
                    th:placeholder="#{form.edit-operative.money.placeholder}" data-toggle="tootltip"
                    data-placement="top" th:title="#{form.edit-operative.money.help}"
@@ -132,7 +132,7 @@
             </div>
         </div>
 
-        <div class="col-3 form-floating input-group has-validation">
+        <div class="col-4 form-floating input-group has-validation">
             <input type="text" class="form-control" id="lastMissionDate" th:field="*{lastMissionDate}" maxlength="10" size="10"
                    disabled readonly
                    th:placeholder="#{form.edit-operative.lastMissionDate.placeholder}" data-toggle="tootltip"
@@ -166,8 +166,8 @@
         </div>
 
 
-        <button type="submit" class="btn btn-primary col-2" th:text="#{form.submit.title}">Submit</button>
-        <a th:href="@{${referrer}}" class="btn btn-secondary col-2" th:text="#{form.cancel.title}">Cancel</a>
+        <button type="submit" class="btn btn-primary col-6" th:text="#{form.submit.title}">Submit</button>
+        <a th:href="@{${referrer}}" class="btn btn-secondary col-6" th:text="#{form.cancel.title}">Cancel</a>
     </form>
 
 </section></body>
