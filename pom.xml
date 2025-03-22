@@ -31,7 +31,7 @@
 
     <scm>
         <url>https://github.com/Paladins-Inn/torganized-play-operatives</url>
-        <connection>scm:git:git://github.com/Paladins-Inn/torganized-play-oepratives.git</connection>
+        <connection>scm:git:git://github.com/Paladins-Inn/torganized-play-operatives.git</connection>
         <developerConnection>scm:git:git@github.com:Paladins-Inn/torganized-play-operatives.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
