@@ -19,7 +19,7 @@
 package de.paladinsinn.tp.dcis.operatives.configuration;
 
 
-import de.paladinsinn.tp.dcis.commons.services.UserLogEntryClient;
+import de.paladinsinn.tp.dcis.users.domain.services.UserLogEntrySender;
 import jakarta.annotation.PostConstruct;
 import lombok.*;
 import lombok.extern.slf4j.XSlf4j;
@@ -33,15 +33,15 @@ import org.springframework.context.annotation.Import;
  * @since 2025-01-06
  */
 @Configuration
-@Import(UserLogEntryClient.class)
+@Import(UserLogEntrySender.class)
 @RequiredArgsConstructor(onConstructor_ = @__(@Autowired))
 @XSlf4j
 public class MessagingConfiguration {
-    private final UserLogEntryClient userLogEntryClient;
+    private final UserLogEntrySender userLogEntrySender;
     
     @PostConstruct
     public void init() {
-        log.entry(userLogEntryClient);
+        log.entry(userLogEntrySender);
         log.exit();
     }
 }
