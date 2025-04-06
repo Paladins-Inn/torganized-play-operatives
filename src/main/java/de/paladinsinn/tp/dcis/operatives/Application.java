@@ -20,7 +20,7 @@ package de.paladinsinn.tp.dcis.operatives;
 
 import de.paladinsinn.tp.dcis.commons.events.EnableEventBus;
 import de.paladinsinn.tp.dcis.commons.rest.EnableRestConfiguration;
-import de.paladinsinn.tp.dcis.users.domain.services.EnableUserLogEntryClient;
+import de.paladinsinn.tp.dcis.domain.users.services.EnableUserLogEntryClient;
 import lombok.Getter;
 import lombok.extern.slf4j.XSlf4j;
 import org.springframework.beans.factory.annotation.Value;
