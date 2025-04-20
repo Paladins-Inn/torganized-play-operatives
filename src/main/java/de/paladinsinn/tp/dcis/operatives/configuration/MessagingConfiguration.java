@@ -19,7 +19,7 @@
 package de.paladinsinn.tp.dcis.operatives.configuration;
 
 
-import de.paladinsinn.tp.dcis.domain.users.services.UserLogEntrySender;
+import de.paladinsinn.tp.dcis.users.client.services.UserLogEntrySender;
 import jakarta.annotation.PostConstruct;
 import lombok.*;
 import lombok.extern.slf4j.XSlf4j;
